@@ -9,27 +9,27 @@ import Scroll from './svgs/scroll'
 
 const features = [
   {
-    text: 'Blazing fast',
+    text: 'Rust',
     icon: Lightning,
   },
   {
-    text: 'JAMstack based',
+    text: 'JAMstack',
     icon: Jamstack,
   },
   {
-    text: 'Always available',
+    text: 'React Native',
     icon: Wifi,
   },
   {
-    text: 'Customizable',
+    text: 'GraphQL',
     icon: Edit,
   },
   {
-    text: 'Incremental SSG',
+    text: '终身学习',
     icon: Plus,
   },
   {
-    text: 'MIT Licensed',
+    text: '开源爱好',
     icon: Scroll,
   },
   {
@@ -37,7 +37,7 @@ const features = [
     icon: Notion,
   },
   {
-    text: 'Great scores',
+    text: '100',
     icon: Lighthouse,
   },
 ]

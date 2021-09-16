@@ -5,30 +5,20 @@ import sharedStyles from '../styles/shared.module.css'
 import contactStyles from '../styles/contact.module.css'
 
 import GitHub from '../components/svgs/github'
-import Twitter from '../components/svgs/twitter'
+// import Twitter from '../components/svgs/twitter'
 import Envelope from '../components/svgs/envelope'
-import LinkedIn from '../components/svgs/linkedin'
+// import LinkedIn from '../components/svgs/linkedin'
 
 const contacts = [
   {
-    Comp: Twitter,
-    alt: 'twitter icon',
-    link: 'https://twitter.com/_ijjk',
-  },
-  {
     Comp: GitHub,
     alt: 'github icon',
-    link: 'https://github.com/ijjk',
-  },
-  {
-    Comp: LinkedIn,
-    alt: 'linkedin icon',
-    link: 'https://www.linkedin.com/in/jj-kasper-0b5392166/',
+    link: 'https://github.com/goooice',
   },
   {
     Comp: Envelope,
     alt: 'envelope icon',
-    link: 'mailto:jj@jjsweb.site?subject=Notion Blog',
+    link: 'mailto:devel0per1991@outlook.com?subject=Hi GoooIce',
   },
 ]
 
@@ -43,10 +33,7 @@ export default function Contact() {
 
         <h1 style={{ marginTop: 0 }}>Contact</h1>
 
-        <div className={contactStyles.name}>
-          JJ Kasper - Next.js Engineer @{' '}
-          <ExtLink href="https://vercel.com">Vercel</ExtLink>
-        </div>
+        <div className={contactStyles.name}>王雪 - @环璟科技 & 多陪陪</div>
 
         <div className={contactStyles.links}>
           {contacts.map(({ Comp, link, alt }) => {
