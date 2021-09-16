@@ -20,6 +20,11 @@ export default function Index() {
         <Features />
 
         <div className="explanation">
+          <p>贾宝玉第一次见到林黛玉说的第一句话是:</p>
+
+          <p>
+            “这个妹妹好像在哪儿见过似的”。有点熟悉，也有点意外，这就是喜欢了。
+          </p>
           <p>呲溜 ლ(′◉❥◉｀ლ)</p>
         </div>
       </div>

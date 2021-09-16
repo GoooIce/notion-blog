@@ -33,12 +33,12 @@ const features = [
     icon: Scroll,
   },
   {
-    text: 'Edit via Notion',
-    icon: Notion,
+    text: '半程马拉松',
+    icon: Lighthouse,
   },
   {
-    text: '100',
-    icon: Lighthouse,
+    text: 'Edit via Notion',
+    icon: Notion,
   },
 ]
 
