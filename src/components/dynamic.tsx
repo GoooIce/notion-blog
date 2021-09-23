@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic'
+// import CollectionView from './collection_view'
 import ExtLink from './ext-link'
 
 export default {
@@ -13,4 +14,5 @@ export default {
   Code: dynamic(() => import('./code')),
   Counter: dynamic(() => import('./counter')),
   Equation: dynamic(() => import('./equation')),
+  CollectionView: dynamic(() => import('./collection_view')),
 }

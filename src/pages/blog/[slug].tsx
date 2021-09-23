@@ -465,6 +465,26 @@ const RenderPost = ({ post, redirect, preview }) => {
               }
               break
             }
+            case 'toggle': {
+              // if (properties && properties.title) {
+              //   toRender.push(
+              //     <div className="text">
+              //       {textBlock(properties.title, false, id)}
+              //     </div>
+              //   )
+              // }
+              break
+            }
+            case 'collection_view': {
+              // console.log('collection_view')
+              // console.log(properties)
+              // console.log(value)
+              // toRender.push(
+              //   <components.CollectionView key={id} collection_id={value.collection_id} view_ids={value.view_ids}>
+              //   </components.CollectionView>
+              // )
+              break
+            }
             default:
               if (
                 process.env.NODE_ENV !== 'production' &&

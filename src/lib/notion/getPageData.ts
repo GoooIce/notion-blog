@@ -13,9 +13,11 @@ export default async function getPageData(pageId: string) {
     while (data.cursor.stack.length !== 0 && chunkNumber < maximumChunckNumer) {
       chunkNumber = chunkNumber + 1
       data = await loadPageChunk({ pageId, chunkNumber, cursor: data.cursor })
+      console.log(data)
       blocks = Object.assign(blocks, data.recordMap.block)
     }
     const blockArray = values(blocks)
+    // TODO: query collection view and return in array
     if (blockArray[0] && blockArray[0].value.content) {
       // remove table blocks
       blockArray.splice(0, 3)
