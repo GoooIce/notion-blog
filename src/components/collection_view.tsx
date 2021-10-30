@@ -1,4 +1,4 @@
-import queryCollection from '../lib/notion/queryCollection'
+// import queryCollection from '../lib/notion/queryCollection'
 
 const CollectionView = ({ collection_id, view_ids }) => {
   return (

@@ -2,7 +2,7 @@ export const getBlogLink = (slug: string) => {
   return `/blog/${slug}`
 }
 
-export const getDateStr = date => {
+export const getDateStr = (date) => {
   return new Date(date).toLocaleString('en-US', {
     month: 'long',
     day: '2-digit',
@@ -11,10 +11,10 @@ export const getDateStr = date => {
 }
 
 export const postIsPublished = (post: any) => {
-  return post.Published === 'Yes'
+  return post.published === 'Yes'
 }
 
-export const normalizeSlug = slug => {
+export const normalizeSlug = (slug) => {
   if (typeof slug !== 'string') return slug
 
   let startingSlash = slug.startsWith('/')

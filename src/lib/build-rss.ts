@@ -3,9 +3,10 @@ import { writeFile } from './fs-helpers'
 import { renderToStaticMarkup } from 'react-dom/server'
 
 import { textBlock } from './notion/renderers'
-import getBlogIndex from './notion/getBlogIndex'
-import getNotionUsers from './notion/getNotionUsers'
-import { postIsPublished, getBlogLink } from './blog-helpers'
+
+import { getPostsInfos } from './notion/client'
+import { getBlogLink } from './blog-helpers'
+
 import { loadEnvConfig } from '@next/env'
 import serverConstants from './notion/server-constants'
 
@@ -17,7 +18,7 @@ process.env.USE_CACHE = 'true'
 const NOW = new Date().toJSON()
 
 function mapToAuthor(author) {
-  return `<author><name>${author.full_name}</name></author>`
+  return `<author><name>${author.name}</name></author>`
 }
 
 function decode(string) {
@@ -30,6 +31,8 @@ function decode(string) {
 }
 
 function mapToEntry(post) {
+  post.link = getBlogLink(post.slug)
+
   return `
     <entry>
       <id>${post.link}</id>
@@ -38,13 +41,7 @@ function mapToEntry(post) {
       <updated>${new Date(post.date).toJSON()}</updated>
       <content type="xhtml">
         <div xmlns="http://www.w3.org/1999/xhtml">
-          ${renderToStaticMarkup(
-            post.preview
-              ? (post.preview || []).map((block, idx) =>
-                  textBlock(block, false, post.title + idx)
-                )
-              : post.content
-          )}
+          ${renderToStaticMarkup(post.preview)}
           <p class="more">
             <a href="${post.link}">Read more</a>
           </p>
@@ -79,31 +76,7 @@ async function main() {
     process.env.BLOG_INDEX_ID
   )
 
-  const postsTable = await getBlogIndex(true)
-  const neededAuthors = new Set<string>()
-
-  const blogPosts = Object.keys(postsTable)
-    .map((slug) => {
-      const post = postsTable[slug]
-      if (!postIsPublished(post)) return
-
-      post.authors = post.Authors || []
-
-      for (const author of post.authors) {
-        neededAuthors.add(author)
-      }
-      return post
-    })
-    .filter(Boolean)
-
-  const { users } = await getNotionUsers([...neededAuthors])
-
-  blogPosts.forEach((post) => {
-    post.authors = post.authors.map((id) => users[id])
-    post.link = getBlogLink(post.Slug)
-    post.title = post.Page
-    post.date = post.Date
-  })
+  const blogPosts = await getPostsInfos()
 
   const outputPath = './public/atom'
   await writeFile(resolve(outputPath), createRSS(blogPosts))

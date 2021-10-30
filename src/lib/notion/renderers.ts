@@ -35,7 +35,7 @@ export function textBlock(text = [], noPTag = false, mainKey) {
   for (const textItem of text) {
     key++
     if (textItem.length === 1) {
-      children.push(textItem)
+      children.push(textItem.plain_text)
       continue
     }
     children.push(applyTags(textItem[1], textItem[0], noPTag, key))

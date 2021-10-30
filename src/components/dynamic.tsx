@@ -14,5 +14,5 @@ export default {
   Code: dynamic(() => import('./code')),
   Counter: dynamic(() => import('./counter')),
   Equation: dynamic(() => import('./equation')),
-  CollectionView: dynamic(() => import('./collection_view')),
+  // CollectionView: dynamic(() => import('./collection_view')),
 }
