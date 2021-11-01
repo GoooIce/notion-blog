@@ -1,6 +1,7 @@
 import { BLOG_INDEX_ID, NOTION_TOKEN } from './server-constants'
 
 import { Client } from '@notionhq/client'
+import { fetch } from '../qiniu'
 // import { getPage } from '@notionhq/client/build/src/api-endpoints';
 
 const nonPreviewTypes = new Set(['editor', 'page', 'collection_view'])
@@ -101,18 +102,6 @@ export async function getPostsInfos(preview: boolean = true): Promise<any[]> {
   return posts
 }
 
-// export async function getPostsInfos(): Promise<string[]> {
-//   const results = (await getPosts()).results
-
-//   const posts: any = []
-//   results.forEach(async (page) => {
-//     const post = await getPageInfo(page.id)
-//     posts.push(post)
-//   })
-
-//   return posts
-// }
-
 export async function getPageInfo(pageId: string) {
   if (typeof pageId != 'string') {
     for (const [key, value] of Object.entries(pageId)) {
@@ -134,10 +123,48 @@ export async function getPageInfo(pageId: string) {
 
 export async function getPageData(pageId: string) {
   const page_info = await getPageInfo(pageId)
-  const page_blocks = (await client.blocks.children.list({ block_id: pageId }))
+  let page_blocks = (await client.blocks.children.list({ block_id: pageId }))
     .results
 
-  // const icon = page_response.icon?.emoji?
+  // type: "text";
+  //               text: {
+  //                   content: string;
+  //                   link: {
+  //                       url: TextRequest;
+  //                   } | null;
+  //               };
+  //               annotations: {
+  //                   bold: boolean;
+  //                   italic: boolean;
+  //                   strikethrough: boolean;
+  //                   underline: boolean;
+  //                   code: boolean;
+  //                   color: "default" | "gray" | "brown" | "orange" | "yellow" | "green" | "blue" | "purple" | "pink" | "red" | "gray_background" | "brown_background" | "orange_background" | "yellow_background" | "green_background" | "blue_background" | "purple_background" | "pink_background" | "red_background";
+  //               };
+  //               plain_text: string;
+  //               href: string | null;
+
+  // page_blocks.map(async (s) => {
+  //   if (s.type === 'image') {
+  //     s.image.caption.push({
+  //       type: 'text',
+  //       text: {
+  //         content: await fetch(s[s.type][s[s.type].type].url, s.id),
+  //         link: null,
+  //       },
+  //       annotations: {
+  //         bold: false,
+  //         italic: false,
+  //         strikethrough: false,
+  //         underline: false,
+  //         code: false,
+  //         color: 'default',
+  //       },
+  //       plain_text: '',
+  //       href: null,
+  //     })
+  //   }
+  // })
 
   return {
     ...page_info,

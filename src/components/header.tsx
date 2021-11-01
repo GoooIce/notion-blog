@@ -11,7 +11,7 @@ const navItems: { label: string; page?: string; link?: string }[] = [
   { label: 'Source Code', link: 'https://github.com/goooice/notion-blog' },
 ]
 
-const ogImageUrl = 'https://notion-blog.now.sh/og-image.png'
+const ogImageUrl = 'https://miantu.net/goooice-and-notion.png'
 
 const Header = ({ titlePre = '' }) => {
   const { pathname } = useRouter()

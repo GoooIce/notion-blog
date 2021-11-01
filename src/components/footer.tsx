@@ -4,7 +4,7 @@ export default function Footer() {
   return (
     <>
       <footer>
-        © 王雪
+        Powered by <a href="https://notion.io">Notion</a> ©王雪
         <span> 2021</span>
       </footer>
     </>

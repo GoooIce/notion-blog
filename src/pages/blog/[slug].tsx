@@ -219,6 +219,10 @@ const RenderPost = ({ post, redirect, preview }) => {
             case 'image':
             case 'video':
             case 'embed': {
+              // 1.获取notion返回的授权s3地址
+              // 2.七牛云下载资源返回cdn的url
+              // 3.展示
+              toRender.push(<img src={properties.file.url} />)
               break
             }
             case 'heading_1':
@@ -245,31 +249,32 @@ const RenderPost = ({ post, redirect, preview }) => {
               )
               break
             case 'code': {
-              // if (properties.title) {
-              //   const content = properties.title[0][0]
-              //   const language = properties.language[0][0]
+              if (properties.text) {
+                // const content = properties.text.map(content => content.text.content)
+                const content = properties.text[0].text.content
+                const language = properties.language
 
-              //   if (language === 'LiveScript') {
-              //     // this requires the DOM for now
-              //     toRender.push(
-              //       <ReactJSXParser
-              //         key={id}
-              //         jsx={content}
-              //         components={components}
-              //         componentsOnly={false}
-              //         renderInpost={false}
-              //         allowUnknownElements={true}
-              //         blacklistedTags={['script', 'style']}
-              //       />
-              //     )
-              //   } else {
-              //     toRender.push(
-              //       <components.Code key={id} language={language || ''}>
-              //         {content}
-              //       </components.Code>
-              //     )
-              //   }
-              // }
+                if (language === 'LiveScript') {
+                  // this requires the DOM for now
+                  toRender.push(
+                    <ReactJSXParser
+                      key={id}
+                      jsx={content}
+                      components={components}
+                      componentsOnly={false}
+                      renderInpost={false}
+                      allowUnknownElements={true}
+                      blacklistedTags={['script', 'style']}
+                    />
+                  )
+                } else {
+                  toRender.push(
+                    <components.Code key={id} language={language || ''}>
+                      {content}
+                    </components.Code>
+                  )
+                }
+              }
               break
             }
             case 'quote': {
