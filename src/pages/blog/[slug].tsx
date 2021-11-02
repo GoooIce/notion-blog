@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import fetch from 'node-fetch'
+// import fetch from 'node-fetch'
 import { useRouter } from 'next/router'
 import Header from '../../components/header'
 import Heading from '../../components/heading'
@@ -8,6 +8,7 @@ import ReactJSXParser from '@zeit/react-jsx-parser'
 import blogStyles from '../../styles/blog.module.css'
 import { textBlock } from '../../lib/notion/renderers'
 import { getPageData, getPostsInfos } from '../../lib/notion/client'
+// import { getUrl } from '../../lib/qiniu'
 import React, { CSSProperties, useEffect } from 'react'
 // import getBlogIndex from '../../lib/notion/getBlogIndex'
 // import getNotionUsers from '../../lib/notion/getNotionUsers'
@@ -222,7 +223,18 @@ const RenderPost = ({ post, redirect, preview }) => {
               // 1.获取notion返回的授权s3地址
               // 2.七牛云下载资源返回cdn的url
               // 3.展示
-              toRender.push(<img src={properties.file.url} />)
+              const isImage = type === 'image'
+              const Comp = isImage ? 'img' : 'video'
+              toRender.push(
+                <Comp
+                  src={'http://models.miantu.net/' + id}
+                  loop={!isImage}
+                  muted={!isImage}
+                  alt={`An ${isImage ? 'image' : 'video'} from Notion`}
+                  controls={!isImage}
+                  autoPlay={!isImage}
+                />
+              )
               break
             }
             case 'heading_1':

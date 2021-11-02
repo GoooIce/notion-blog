@@ -8,7 +8,7 @@ const config = new qiniu.conf.Config()
 const bucketManager = new qiniu.rs.BucketManager(mac, config)
 const publicBucketDomain = 'http://models.miantu.net'
 
-export async function fetch(url: string, id: string): Promise<string> {
+export async function fetchToS3(url: string, id: string): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     bucketManager.fetch(url, 'miantu', id, function (err, respBody, respInfo) {
       if (err) {
@@ -25,4 +25,8 @@ export async function fetch(url: string, id: string): Promise<string> {
       }
     })
   })
+}
+
+export function getUrl(id: string): string {
+  return bucketManager.publicDownloadUrl(publicBucketDomain, id)
 }

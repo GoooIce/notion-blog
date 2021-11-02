@@ -1,7 +1,7 @@
 import { BLOG_INDEX_ID, NOTION_TOKEN } from './server-constants'
 
 import { Client } from '@notionhq/client'
-import { fetch } from '../qiniu'
+import { fetchToS3 } from '../qiniu'
 // import { getPage } from '@notionhq/client/build/src/api-endpoints';
 
 const nonPreviewTypes = new Set(['editor', 'page', 'collection_view'])
@@ -144,27 +144,11 @@ export async function getPageData(pageId: string) {
   //               plain_text: string;
   //               href: string | null;
 
-  // page_blocks.map(async (s) => {
-  //   if (s.type === 'image') {
-  //     s.image.caption.push({
-  //       type: 'text',
-  //       text: {
-  //         content: await fetch(s[s.type][s[s.type].type].url, s.id),
-  //         link: null,
-  //       },
-  //       annotations: {
-  //         bold: false,
-  //         italic: false,
-  //         strikethrough: false,
-  //         underline: false,
-  //         code: false,
-  //         color: 'default',
-  //       },
-  //       plain_text: '',
-  //       href: null,
-  //     })
-  //   }
-  // })
+  page_blocks.map(async (s) => {
+    if (s.type === 'image') {
+      await fetchToS3(s[s.type][s[s.type].type].url, s.id)
+    }
+  })
 
   return {
     ...page_info,
