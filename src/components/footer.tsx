@@ -9,7 +9,13 @@ export default function Footer() {
           Notion
         </a>{' '}
         ©王雪
-        <span> 2021 冀ICP备15007337号</span>
+        <span>
+          {' '}
+          2021{' '}
+          <a href="https://beian.miit.gov.cn/" rel="nofollow">
+            冀ICP备15007337号
+          </a>
+        </span>
       </footer>
     </>
   )

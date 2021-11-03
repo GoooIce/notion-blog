@@ -1,7 +1,7 @@
 import { BLOG_INDEX_ID, NOTION_TOKEN } from './server-constants'
 
 import { Client } from '@notionhq/client'
-import { fetchToS3 } from '../qiniu'
+// import { fetchToS3 } from '../qiniu'
 // import { getPage } from '@notionhq/client/build/src/api-endpoints';
 
 const nonPreviewTypes = new Set(['editor', 'page', 'collection_view'])
@@ -11,18 +11,12 @@ export const client = new Client({ auth: NOTION_TOKEN })
 //     database_id: BLOG_INDEX_ID,
 //   });
 
-export async function getNotionUsers(ids: string[]) {
-  const results = (
-    await client.users.list({ start_cursor: '', page_size: 100 })
-  ).results
+export async function getNotionAssetUrl(id: string): Promise<string> {
+  const result = await client.blocks.retrieve({
+    block_id: id,
+  })
 
-  const users: any = {}
-
-  for (const user of results) {
-    users[user.id] = { full_name: user.name }
-  }
-
-  return { users }
+  return result[result.type]['file'].url
 }
 
 export async function getPosts() {
@@ -144,11 +138,11 @@ export async function getPageData(pageId: string) {
   //               plain_text: string;
   //               href: string | null;
 
-  page_blocks.map(async (s) => {
-    if (s.type === 'image') {
-      await fetchToS3(s[s.type][s[s.type].type].url, s.id)
-    }
-  })
+  // page_blocks.map(async (s) => {
+  //   if (s.type === 'image') {
+  //     await fetchToS3(s[s.type][s[s.type].type].url, s.id)
+  //   }
+  // })
 
   return {
     ...page_info,

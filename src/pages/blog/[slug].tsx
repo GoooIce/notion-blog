@@ -218,8 +218,7 @@ const RenderPost = ({ post, redirect, preview }) => {
               break
             }
             case 'image':
-            case 'video':
-            case 'embed': {
+            case 'video': {
               // 1.获取notion返回的授权s3地址
               // 2.七牛云下载资源返回cdn的url
               // 3.展示
@@ -227,7 +226,8 @@ const RenderPost = ({ post, redirect, preview }) => {
               const Comp = isImage ? 'img' : 'video'
               toRender.push(
                 <Comp
-                  src={'http://models.miantu.net/' + id}
+                  key={id}
+                  src={`/api/asset?id=${id}`}
                   loop={!isImage}
                   muted={!isImage}
                   alt={`An ${isImage ? 'image' : 'video'} from Notion`}
@@ -237,6 +237,8 @@ const RenderPost = ({ post, redirect, preview }) => {
               )
               break
             }
+            case 'embed':
+              break
             case 'heading_1':
               renderHeading('h1')
               break
