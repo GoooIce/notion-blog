@@ -4,8 +4,12 @@ export default function Footer() {
   return (
     <>
       <footer>
-        Powered by <a href="https://notion.io">Notion</a> ©王雪
-        <span> 2021</span>
+        Powered by{' '}
+        <a href="https://notion.io" rel="nofollow">
+          Notion
+        </a>{' '}
+        ©王雪
+        <span> 2021 冀ICP备15007337号</span>
       </footer>
     </>
   )
