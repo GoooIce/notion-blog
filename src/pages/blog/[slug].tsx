@@ -1,4 +1,5 @@
 import Link from 'next/link'
+// import Image from 'next/image'
 // import fetch from 'node-fetch'
 import { useRouter } from 'next/router'
 import Header from '../../components/header'
@@ -219,9 +220,6 @@ const RenderPost = ({ post, redirect, preview }) => {
             }
             case 'image':
             case 'video': {
-              // 1.获取notion返回的授权s3地址
-              // 2.七牛云下载资源返回cdn的url
-              // 3.展示
               const isImage = type === 'image'
               const Comp = isImage ? 'img' : 'video'
               toRender.push(

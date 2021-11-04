@@ -45,6 +45,10 @@ module.exports = {
   // future: {
   //   webpack5: true,
   // },
+  // images: {
+  // loader: 'sharp',
+  // domains: ['amazonaws.com'],
+  // },
   webpack(cfg, { dev, isServer }) {
     // only compile build-rss in production server build
     if (dev || !isServer) return cfg
