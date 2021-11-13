@@ -1,4 +1,12 @@
-.layout img {
+.layout {
+  position: relative;
+}
+
+.layout section {
+  text-align: center;
+}
+
+.layout span img {
   margin: auto;
   max-width: 98%;
   display: block;
