@@ -8,6 +8,9 @@
     "format": "prettier --write \"**/*.{js,jsx,json,ts,tsx,md,mdx,css,html,yml,yaml,scss,sass}\" --ignore-path .gitignore",
     "lint-staged": "lint-staged"
   },
+  "pre-commit": [
+    "lint-staged"
+  ],
   "dependencies": {
     "@notionhq/client": "^0.4.4",
     "@zeit/react-jsx-parser": "2.0.0",
