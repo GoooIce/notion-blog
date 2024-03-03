@@ -48,7 +48,7 @@ const Index = ({ posts = [], preview }) => {
               <h3>
                 <span className={blogStyles.titleContainer}>
                   <Link href="/blog/[slug]" as={getBlogLink(post.slug)}>
-                    <a>{post.title}</a>
+                    {post.title}
                   </Link>
                 </span>
               </h3>

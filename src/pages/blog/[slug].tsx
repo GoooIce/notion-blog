@@ -111,7 +111,7 @@ const RenderPost = ({ post, redirect, preview }) => {
           <div className={blogStyles.previewAlert}>
             <b>Note:</b>
             {` `}Viewing in preview mode{' '}
-            <Link href={`/api/clear-preview?slug=${post.Slug}`}>
+            <Link href={`/api/clear-preview?slug=${post.Slug}`} legacyBehavior>
               <button className={blogStyles.escapePreview}>Exit Preview</button>
             </Link>
           </div>
