@@ -11,7 +11,7 @@ export default function Footer() {
         ©王雪
         <span>
           {' '}
-          2021{' '}
+          2021-2024{' '}
           <a href="https://beian.miit.gov.cn/" rel="nofollow">
             冀ICP备15007337号
           </a>
