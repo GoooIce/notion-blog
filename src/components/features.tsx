@@ -13,15 +13,15 @@ const features = [
     icon: Lightning,
   },
   {
-    text: 'JAMstack',
+    text: 'DDD',
     icon: Jamstack,
   },
   {
-    text: 'React Native',
+    text: '蒸达人',
     icon: Wifi,
   },
   {
-    text: 'GraphQL',
+    text: 'DeepLearning',
     icon: Edit,
   },
   {
