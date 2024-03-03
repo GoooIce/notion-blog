@@ -8,15 +8,14 @@
     "format": "prettier --write \"**/*.{js,jsx,json,ts,tsx,md,mdx,css,html,yml,yaml,scss,sass}\" --ignore-path .gitignore",
     "lint-staged": "lint-staged"
   },
-  "pre-commit": "lint-staged",
   "dependencies": {
     "@notionhq/client": "^0.4.4",
     "@zeit/react-jsx-parser": "2.0.0",
     "async-sema": "3.1.0",
     "github-slugger": "1.2.1",
     "katex": "0.12.0",
-    "next": "12",
-    "prismjs": "1.17.1",
+    "next": "^14.1.1",
+    "prismjs": "^1.29.0",
     "qiniu": "^7.4.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
