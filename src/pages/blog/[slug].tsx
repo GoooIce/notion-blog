@@ -1,19 +1,19 @@
-import Link from 'next/link'
+import Link from 'next/link';
 // import Image from 'next/image'
 // import fetch from 'node-fetch'
-import { useRouter } from 'next/router'
-import Header from '../../components/header'
-import Heading from '../../components/heading'
-import components from '../../components/dynamic'
-import ReactJSXParser from 'react-jsx-parser'
-import blogStyles from '../../styles/blog.module.css'
-import { textBlock } from '../../lib/notion/renderers'
-import { getPageData, getPostsInfos } from '../../lib/notion/client'
+import { useRouter } from 'next/router';
+import Header from '../../components/header';
+import Heading from '../../components/heading';
+import components from '../../components/dynamic';
+import ReactJSXParser from 'react-jsx-parser';
+import blogStyles from '../../styles/blog.module.css';
+import { textBlock } from '../../lib/notion/renderers';
+import { getPageData, getPostsInfos } from '../../lib/notion/client';
 // import { getUrl } from '../../lib/qiniu'
-import React, { CSSProperties, useEffect } from 'react'
+import React, { CSSProperties, useEffect } from 'react';
 // import getBlogIndex from '../../lib/notion/getBlogIndex'
 // import getNotionUsers from '../../lib/notion/getNotionUsers'
-import { getBlogLink, getDateStr } from '../../lib/blog-helpers'
+import { getBlogLink, getDateStr } from '../../lib/blog-helpers';
 
 // Get the data for each blog post
 export async function getStaticProps({ params: { slug }, preview }) {
@@ -21,25 +21,25 @@ export async function getStaticProps({ params: { slug }, preview }) {
   // const postsTable = await getBlogIndex()
   if (typeof slug != 'string') {
     for (const [key, value] of Object.entries(slug)) {
-      console.log(`${key}: ${value}`)
+      console.log(`${key}: ${value}`);
     }
   }
-  const post_id = slug.split('-').pop()
+  const post_id = slug.split('-').pop();
   // console.log(post_id, '---', slug, '===========')
-  const post = await getPageData(post_id)
+  const post = await getPageData(post_id);
   // const post = []
 
   // if we can't find the post or if it is unpublished and
   // viewed without preview mode then we just redirect to /blog
   if (!post) {
-    console.log(`Failed to find post for slug: ${slug}`)
+    console.log(`Failed to find post for slug: ${slug}`);
     return {
       props: {
         redirect: '/blog',
         preview: false,
       },
       unstable_revalidate: 5,
-    }
+    };
   }
 
   return {
@@ -48,47 +48,47 @@ export async function getStaticProps({ params: { slug }, preview }) {
       preview: preview || false,
     },
     revalidate: 10,
-  }
+  };
 }
 
 // Return our list of blog posts to prerender
 export async function getStaticPaths() {
-  const postsTable = await getPostsInfos(false)
+  const postsTable = await getPostsInfos(false);
   // we fallback for any unpublished posts to save build time
   // for actually published ones
   // postsTable.map((post) => console.log(post.slug))
   return {
     paths: postsTable.map((post) => getBlogLink(post.slug)),
     fallback: true,
-  }
+  };
 }
 
-const listTypes = new Set(['bulleted_list', 'numbered_list'])
+const listTypes = new Set(['bulleted_list', 'numbered_list']);
 
 const RenderPost = ({ post, redirect, preview }) => {
-  const router = useRouter()
+  const router = useRouter();
 
-  let listTagName: string | null = null
-  let listLastId: string | null = null
+  let listTagName: string | null = null;
+  let listLastId: string | null = null;
   let listMap: {
     [id: string]: {
-      key: string
-      isNested?: boolean
-      nested: string[]
-      children: React.ReactFragment
-    }
-  } = {}
+      key: string;
+      isNested?: boolean;
+      nested: string[];
+      children: React.ReactNode;
+    };
+  } = {};
 
   useEffect(() => {
     if (redirect && !post) {
-      router.replace(redirect)
+      router.replace(redirect);
     }
-  }, [redirect, post])
+  }, [redirect, post]);
 
   // If the page is not yet generated, this will be displayed
   // initially until getStaticProps() finishes running
   if (router.isFallback) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   // if you don't have a post at this point, and are not
@@ -97,10 +97,11 @@ const RenderPost = ({ post, redirect, preview }) => {
     return (
       <div className={blogStyles.post}>
         <p>
-          Woops! didn't find that post, redirecting you back to the blog index
+          Woops! didn&apos;t find that post, redirecting you back to the blog
+          index
         </p>
       </div>
-    )
+    );
   }
 
   return (
@@ -131,22 +132,22 @@ const RenderPost = ({ post, redirect, preview }) => {
         )}
 
         {(post.page_blocks || []).map((block, blockIdx) => {
-          const id = block.id
-          const type = block.type
-          const properties = block[type]
+          const id = block.id;
+          const type = block.type;
+          const properties = block[type];
 
-          let toRender = []
+          let toRender: React.ReactNode[] = [];
 
           const renderHeading = (Type: string | React.ComponentType) => {
             toRender.push(
               <Heading key={id}>
                 <Type key={id}>{textBlock(properties.text, true, id)}</Type>
               </Heading>
-            )
-          }
+            );
+          };
 
           const renderBookmark = ({ link, title, description, format }) => {
-            const { bookmark_icon: icon, bookmark_cover: cover } = format
+            const { bookmark_icon: icon, bookmark_cover: cover } = format;
             toRender.push(
               <div className={blogStyles.bookmark}>
                 <div>
@@ -193,35 +194,35 @@ const RenderPost = ({ post, redirect, preview }) => {
                   </div>
                 </div>
               </div>
-            )
-          }
+            );
+          };
 
           switch (type) {
             case 'page':
             case 'divider':
-              break
+              break;
             case 'text': {
               if (properties) {
-                toRender.push(textBlock(properties.text, false, id))
+                toRender.push(textBlock(properties.text, false, id));
               }
-              break
+              break;
             }
             case 'paragraph': {
-              if (properties) {
+              if (properties && properties.rich_text) {
                 toRender.push(
                   <p>
-                    {properties.text.length
-                      ? properties.text[0].plain_text
+                    {properties.rich_text.length
+                      ? properties.rich_text[0].plain_text
                       : ''}
                   </p>
-                )
+                );
               }
-              break
+              break;
             }
             case 'image':
             case 'video': {
-              const isImage = type === 'image'
-              const Comp = isImage ? 'img' : 'video'
+              const isImage = type === 'image';
+              const Comp = isImage ? 'img' : 'video';
               toRender.push(
                 <Comp
                   key={id}
@@ -232,20 +233,20 @@ const RenderPost = ({ post, redirect, preview }) => {
                   controls={!isImage}
                   autoPlay={!isImage}
                 />
-              )
-              break
+              );
+              break;
             }
             case 'embed':
-              break
+              break;
             case 'heading_1':
-              renderHeading('h1')
-              break
+              renderHeading('h1');
+              break;
             case 'heading_2':
-              renderHeading('h2')
-              break
+              renderHeading('h2');
+              break;
             case 'heading_3':
-              renderHeading('h3')
-              break
+              renderHeading('h3');
+              break;
             case 'bookmark':
               // const { link, title, description } = properties
               // const { format = {} } = value
@@ -258,13 +259,13 @@ const RenderPost = ({ post, redirect, preview }) => {
                     .map((caption) => caption.plain_text)
                     .join('\n')}
                 </p>
-              )
-              break
+              );
+              break;
             case 'code': {
               if (properties.text) {
                 // const content = properties.text.map(content => content.text.content)
-                const content = properties.text[0].text.content
-                const language = properties.language
+                const content = properties.text[0].text.content;
+                const language = properties.language;
 
                 if (language === 'LiveScript') {
                   // this requires the DOM for now
@@ -278,16 +279,16 @@ const RenderPost = ({ post, redirect, preview }) => {
                       allowUnknownElements={true}
                       blacklistedTags={['script', 'style']}
                     />
-                  )
+                  );
                 } else {
                   toRender.push(
                     <components.Code key={id} language={language || ''}>
                       {content}
                     </components.Code>
-                  )
+                  );
                 }
               }
-              break
+              break;
             }
             case 'quote': {
               // if (properties.title) {
@@ -299,7 +300,7 @@ const RenderPost = ({ post, redirect, preview }) => {
               //     )
               //   )
               // }
-              break
+              break;
             }
             case 'callout': {
               // toRender.push(
@@ -312,7 +313,7 @@ const RenderPost = ({ post, redirect, preview }) => {
               //     </div>
               //   </div>
               // )
-              break
+              break;
             }
             // case 'tweet': {
             //   if (properties.html) {
@@ -334,7 +335,7 @@ const RenderPost = ({ post, redirect, preview }) => {
               //     </components.Equation>
               //   )
               // }
-              break
+              break;
             }
             case 'toggle': {
               // if (properties && properties.title) {
@@ -344,7 +345,7 @@ const RenderPost = ({ post, redirect, preview }) => {
               //     </div>
               //   )
               // }
-              break
+              break;
             }
             case 'collection_view': {
               // console.log('collection_view')
@@ -354,22 +355,22 @@ const RenderPost = ({ post, redirect, preview }) => {
               //   <components.CollectionView key={id} collection_id={value.collection_id} view_ids={value.view_ids}>
               //   </components.CollectionView>
               // )
-              break
+              break;
             }
             default:
               if (
                 process.env.NODE_ENV !== 'production' &&
                 !listTypes.has(type)
               ) {
-                console.log('unknown type', type)
+                console.log('unknown type', type);
               }
-              break
+              break;
           }
-          return toRender
+          return toRender;
         })}
       </div>
     </>
-  )
-}
+  );
+};
 
-export default RenderPost
+export default RenderPost;

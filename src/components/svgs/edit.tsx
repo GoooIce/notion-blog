@@ -19,6 +19,6 @@ const Edit = (props) => (
     <path d="M9 8h6" />
     <path d="M17 16h6" />
   </svg>
-)
+);
 
-export default Edit
+export default Edit;

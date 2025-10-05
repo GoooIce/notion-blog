@@ -1,22 +1,22 @@
-import Link from 'next/link'
-import Header from '../../components/header'
+import Link from 'next/link';
+import Header from '../../components/header';
 
-import blogStyles from '../../styles/blog.module.css'
-import sharedStyles from '../../styles/shared.module.css'
+import blogStyles from '../../styles/blog.module.css';
+import sharedStyles from '../../styles/shared.module.css';
 
 import {
   getBlogLink,
   getDateStr,
   postIsPublished,
-} from '../../lib/blog-helpers'
+} from '../../lib/blog-helpers';
 // import { textBlock } from '../../lib/notion/renderers'
-import { getPostsInfos } from '../../lib/notion/client'
+import { getPostsInfos } from '../../lib/notion/client';
 
 export async function getStaticProps({ preview }) {
   // const postsTable = await getBlogIndex()
 
   // const authorsToGet: Set<string> = new Set()
-  const posts: any[] = await getPostsInfos(preview)
+  const posts: any[] = await getPostsInfos(preview);
   // const { users } = await getNotionUsers([...authorsToGet])
 
   // posts.map((post) => {
@@ -29,7 +29,7 @@ export async function getStaticProps({ preview }) {
       posts,
     },
     revalidate: 10,
-  }
+  };
 }
 
 const Index = ({ posts = [], preview }) => {
@@ -60,11 +60,11 @@ const Index = ({ posts = [], preview }) => {
                 {post.preview}
               </p>
             </div>
-          )
+          );
         })}
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Index
+export default Index;

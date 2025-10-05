@@ -1,25 +1,25 @@
-import Link from 'next/link'
-import Head from 'next/head'
-import ExtLink from './ext-link'
-import { useRouter } from 'next/router'
-import styles from '../styles/header.module.css'
+import Link from 'next/link';
+import Head from 'next/head';
+import ExtLink from './ext-link';
+import { useRouter } from 'next/router';
+import styles from '../styles/header.module.css';
 
 const navItems: { label: string; page?: string; link?: string }[] = [
   { label: 'Home', page: '/' },
   { label: 'Blog', page: '/blog' },
   { label: 'Contact', page: '/contact' },
   { label: 'Source Code', link: 'https://github.com/goooice/notion-blog' },
-]
+];
 
-const ogImageUrl = 'https://miantu.net/goooice-and-notion.png'
+const ogImageUrl = 'https://miantu.net/goooice-and-notion.png';
 
 const Header = ({ titlePre = '' }) => {
-  const { pathname } = useRouter()
+  const { pathname } = useRouter();
 
   return (
     <header className={styles.header}>
       <Head>
-        <title>{titlePre ? `${titlePre} |` : ''} My Notion Blog</title>
+        <title>{`${titlePre ? `${titlePre} | ` : ''}My Notion Blog`}</title>
         <meta
           name="description"
           content="GoooIce(王雪)的Blog，分享一些记录。"
@@ -47,7 +47,7 @@ const Header = ({ titlePre = '' }) => {
         ))}
       </ul>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

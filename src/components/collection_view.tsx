@@ -7,7 +7,7 @@ const CollectionView = ({ collection_id, view_ids }) => {
     //   __html: render(children, displayMode),
     // }}
     // />
-  )
-}
+  );
+};
 
-export default CollectionView
+export default CollectionView;

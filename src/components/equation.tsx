@@ -1,18 +1,20 @@
-import { renderToString, ParseError } from 'katex'
+import { renderToString, ParseError } from 'katex';
 
 function render(expression: string, displayMode: boolean): string {
-  let result: string
+  let result: string = '';
   try {
-    result = renderToString(expression, { displayMode: displayMode })
+    result = renderToString(expression, { displayMode: displayMode });
   } catch (e) {
     if (e instanceof ParseError) {
-      result = e.message
+      result = e.message;
+    } else {
+      result = 'Error rendering equation';
     }
     if (process.env.NODE_ENV !== 'production') {
-      console.error(e)
+      console.error(e);
     }
   }
-  return result
+  return result;
 }
 
 const Equation = ({ children, displayMode = true }) => {
@@ -22,7 +24,7 @@ const Equation = ({ children, displayMode = true }) => {
         __html: render(children, displayMode),
       }}
     />
-  )
-}
+  );
+};
 
-export default Equation
+export default Equation;

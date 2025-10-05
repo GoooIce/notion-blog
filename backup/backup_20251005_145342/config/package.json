@@ -1,0 +1,57 @@
+{
+  "name": "notion-blog",
+  "version": "0.2.3",
+  "scripts": {
+    "dev": "next dev",
+    "start": "next start",
+    "build": "next build && node .next/server/build-rss.js",
+    "format": "prettier --write \"**/*.{js,jsx,json,ts,tsx,md,mdx,css,html,yml,yaml,scss,sass}\" --ignore-path .gitignore",
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
+    "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
+    "lint-staged": "lint-staged",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
+    "prepare": "husky install"
+  },
+  "pre-commit": [
+    "lint-staged"
+  ],
+  "dependencies": {
+    "@notionhq/client": "^0.4.4",
+    "async-sema": "3.1.0",
+    "github-slugger": "1.2.1",
+    "katex": "0.12.0",
+    "next": "^14.1.1",
+    "prismjs": "^1.29.0",
+    "qiniu": "^7.4.0",
+    "react": "^18",
+    "react-dom": "^18",
+    "react-jsx-parser": "github:EliteByte/react-jsx-parser#develop",
+    "ts-node": "^10.3.0",
+    "uuid": "8.1.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@types/katex": "0.11.0",
+    "@types/node": "^22.18.8",
+    "@types/prismjs": "^1.26.5",
+    "@types/react": "18",
+    "@vitejs/plugin-react": "^5.0.4",
+    "@vitest/ui": "^3.2.4",
+    "eslint": "^9.37.0",
+    "eslint-config-next": "^15.5.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "husky": "9.1.7",
+    "jsdom": "^27.0.0",
+    "lint-staged": "16.2.3",
+    "pre-commit": "1.2.2",
+    "prettier": "^3.6.2",
+    "shell-quote": "^1.8.1",
+    "typescript": "^5.9.3",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.2.4"
+  }
+}

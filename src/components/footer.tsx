@@ -1,4 +1,4 @@
-import ExtLink from './ext-link'
+import ExtLink from './ext-link';
 
 export default function Footer() {
   return (
@@ -18,5 +18,5 @@ export default function Footer() {
         </span>
       </footer>
     </>
-  )
+  );
 }

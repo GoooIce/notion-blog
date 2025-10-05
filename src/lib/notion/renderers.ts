@@ -1,5 +1,5 @@
-import React from 'react'
-import components from '../../components/dynamic'
+import React from 'react';
+import components from '../../components/dynamic';
 
 // function applyTags(tags = [], children, noPTag = false, key) {
 //   let child = children
@@ -28,25 +28,25 @@ import components from '../../components/dynamic'
 //   return child
 // }
 
-function richText(richText: {}, key): React.ReactFragment {
-  let color = 'color_default'
+function richText(richText: {}, key): React.ReactNode {
+  let color = 'color_default';
 
   if (richText['annotations']?.color) {
-    color = `color_${richText['annotations'].color}`
+    color = `color_${richText['annotations'].color}`;
   }
 
   let child = React.createElement(
     'span',
     { className: color, key: `${key}-span` },
     richText[richText['type']].content
-  )
+  );
 
   if (richText['annotations']?.bold) {
     child = React.createElement(
       'strong',
       { className: '', key: `${key}-strong` },
       child
-    )
+    );
   }
 
   if (richText['annotations']?.italic) {
@@ -54,7 +54,7 @@ function richText(richText: {}, key): React.ReactFragment {
       'i',
       { className: '', key: `${key}-italic` },
       child
-    )
+    );
   }
 
   if (richText['annotations']?.strikethrough) {
@@ -62,7 +62,7 @@ function richText(richText: {}, key): React.ReactFragment {
       's',
       { className: '', key: `${key}-strikethrough` },
       child
-    )
+    );
   }
 
   if (richText['annotations']?.underline) {
@@ -70,7 +70,7 @@ function richText(richText: {}, key): React.ReactFragment {
       'em',
       { className: '', key: `${key}-underline` },
       child
-    )
+    );
   }
 
   if (richText['annotations']?.code) {
@@ -78,24 +78,24 @@ function richText(richText: {}, key): React.ReactFragment {
       'code',
       { className: '', key: `${key}-code` },
       child
-    )
+    );
   }
 
-  return child
+  return child;
 }
 
 export function textBlock(text = [], noPTag = false, mainKey) {
-  const children = []
-  let key = 0
+  const children: React.ReactNode[] = [];
+  let key = 0;
 
   for (const textItem of text) {
-    key++
-    children.push(richText(textItem, key))
+    key++;
+    children.push(richText(textItem, key));
   }
   return React.createElement(
     noPTag ? React.Fragment : components.p,
     { key: mainKey },
     ...children,
     noPTag
-  )
+  );
 }

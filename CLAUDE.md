@@ -76,12 +76,14 @@ Required environment variables (create `.env` file):
 ### Notion Integration (`src/lib/notion/`)
 
 **Core Architecture:**
+
 - `client.ts`: Main Notion API client with `getPostsInfos()` and `getPageData()` functions
 - `server-constants.js`: Environment variable handling and 32-char to UUID ID normalization
 - `renderers.ts`: Text rendering utilities for Notion rich text content with formatting
 - `utils.ts`: Shared utilities for API handling and error management
 
 **API Flow:**
+
 1. `getPostsInfos()` fetches metadata for all published posts from the Notion database
 2. `getPageData()` retrieves full content including blocks for individual posts
 3. Rich text is processed through renderers to handle formatting, links, and mentions

@@ -20,6 +20,6 @@ const Zeit = (props) => (
       fillRule="evenodd"
     />
   </svg>
-)
+);
 
-export default Zeit
+export default Zeit;

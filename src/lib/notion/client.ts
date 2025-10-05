@@ -22,16 +22,18 @@ export async function getPosts() {
     const searchResult = await client.search({
       filter: {
         property: 'object',
-        value: 'page'
+        value: 'page',
       },
-      page_size: 100 // Adjust based on needs
+      page_size: 100, // Adjust based on needs
     });
 
     // Filter for pages that have the Published property set to true
     const publishedPages = searchResult.results.filter((page: any) => {
-      return page.properties &&
-             page.properties.Published &&
-             page.properties.Published.checkbox === true;
+      return (
+        page.properties &&
+        page.properties.Published &&
+        page.properties.Published.checkbox === true
+      );
     });
 
     // Convert to the expected format
@@ -39,9 +41,8 @@ export async function getPosts() {
       object: 'list',
       results: publishedPages,
       next_cursor: null,
-      has_more: false
+      has_more: false,
     };
-
   } catch (error) {
     console.error('Failed to fetch posts using search API:', error);
     throw error;
@@ -59,7 +60,7 @@ export async function getPostPreview(pageId: string) {
   let dividerIndex = 0;
 
   for (let i = 0; i < blocks.length; i++) {
-    if (blocks[i].type === 'divider') {
+    if ((blocks[i] as any).type === 'divider') {
       dividerIndex = i;
       break;
     }
@@ -67,9 +68,20 @@ export async function getPostPreview(pageId: string) {
 
   const content = blocks.splice(0, dividerIndex);
   const content_str = content
-    .map((block, idx) =>
-      block[block.type].text.map((text) => text.plain_text).join('\n')
-    )
+    .map((block, idx) => {
+      const blockData = block as any;
+      const blockType = blockData.type;
+      const blockContent = blockData[blockType];
+
+      // Handle different text structures in the new SDK
+      if (blockContent?.text) {
+        return blockContent.text.map((text: any) => text.plain_text || '').join('\n');
+      } else if (blockContent?.rich_text) {
+        return blockContent.rich_text.map((text: any) => text.plain_text || '').join('\n');
+      } else {
+        return '';
+      }
+    })
     .join('\n');
 
   return content_str;
@@ -133,11 +145,22 @@ export async function getPageData(pageId: string) {
 // Helper functions to extract data from different property structures
 function getSlugFromPost(post: any, properties: any): string {
   if (properties.Slug?.multi_select) {
-    return properties.Slug.multi_select.map((s: any) => s.name).join('-') + '-' + post.id.split('-').join('');
+    return (
+      properties.Slug.multi_select.map((s: any) => s.name).join('-') +
+      '-' +
+      post.id.split('-').join('')
+    );
   }
   // Fallback: create slug from title if no Slug property
   const title = getTitleFromPost(properties);
-  return title.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]/g, '') + '-' + post.id.split('-').join('');
+  return (
+    title
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^\w\-]/g, '') +
+    '-' +
+    post.id.split('-').join('')
+  );
 }
 
 function getDateFromPost(properties: any): string {
@@ -150,7 +173,9 @@ function getDateFromPost(properties: any): string {
 
 function getAuthorFromPost(properties: any): string {
   if (properties.Authors?.people) {
-    return properties.Authors.people.map((s: any) => s.name || 'Unknown').join(', ');
+    return properties.Authors.people
+      .map((s: any) => s.name || 'Unknown')
+      .join(', ');
   }
   return 'Unknown';
 }

@@ -1,6 +1,6 @@
-import dynamic from 'next/dynamic'
+import dynamic from 'next/dynamic';
 // import CollectionView from './collection_view'
-import ExtLink from './ext-link'
+import ExtLink from './ext-link';
 
 export default {
   // default tags
@@ -15,4 +15,4 @@ export default {
   Counter: dynamic(() => import('./counter')),
   Equation: dynamic(() => import('./equation')),
   // CollectionView: dynamic(() => import('./collection_view')),
-}
+};
