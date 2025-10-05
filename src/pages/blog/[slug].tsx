@@ -57,8 +57,12 @@ export async function getStaticPaths() {
   // we fallback for any unpublished posts to save build time
   // for actually published ones
   // postsTable.map((post) => console.log(post.slug))
+
+  // Only generate static paths for the first 3 posts to avoid build timeouts
+  const limitedPosts = postsTable.slice(0, 3);
+
   return {
-    paths: postsTable.map((post) => getBlogLink(post.slug)),
+    paths: limitedPosts.map((post) => getBlogLink(post.slug)),
     fallback: true,
   };
 }
