@@ -1,151 +1,166 @@
-import { BLOG_INDEX_ID, NOTION_TOKEN } from './server-constants'
+import { BLOG_INDEX_ID, NOTION_TOKEN } from './server-constants';
 
-import { Client } from '@notionhq/client'
-// import { fetchToS3 } from '../qiniu'
-// import { getPage } from '@notionhq/client/build/src/api-endpoints';
+import { Client } from '@notionhq/client';
 
-const nonPreviewTypes = new Set(['editor', 'page', 'collection_view'])
+const nonPreviewTypes = new Set(['editor', 'page', 'collection_view']);
 
-export const client = new Client({ auth: NOTION_TOKEN })
-// const blog_db = client.databases.query({
-//     database_id: BLOG_INDEX_ID,
-//   });
+export const client = new Client({ auth: NOTION_TOKEN });
 
 export async function getNotionAssetUrl(id: string): Promise<string> {
   const result = await client.blocks.retrieve({
     block_id: id,
-  })
+  });
 
-  return result[result.type]['file'].url
+  // Type assertion for compatibility with new SDK
+  const block = result as any;
+  return block[block.type]?.file?.url || '';
 }
 
 export async function getPosts() {
-  const response = await client.databases.query({
-    filter: {
-      property: 'Published',
-      checkbox: {
-        equals: true,
+  try {
+    // Use search API to find all published pages
+    const searchResult = await client.search({
+      filter: {
+        property: 'object',
+        value: 'page'
       },
-    },
-    database_id: BLOG_INDEX_ID,
-  })
+      page_size: 100 // Adjust based on needs
+    });
 
-  return response
+    // Filter for pages that have the Published property set to true
+    const publishedPages = searchResult.results.filter((page: any) => {
+      return page.properties &&
+             page.properties.Published &&
+             page.properties.Published.checkbox === true;
+    });
+
+    // Convert to the expected format
+    return {
+      object: 'list',
+      results: publishedPages,
+      next_cursor: null,
+      has_more: false
+    };
+
+  } catch (error) {
+    console.error('Failed to fetch posts using search API:', error);
+    throw error;
+  }
 }
 
 export async function getPostPreview(pageId: string) {
   if (typeof pageId != 'string') {
     for (const [key, value] of Object.entries(pageId)) {
-      console.log(`${key}: ${value}`)
+      console.log(`${key}: ${value}`);
     }
   }
-  let blocks = (await client.blocks.children.list({ block_id: pageId })).results
-  let dividerIndex = 0
+  let blocks = (await client.blocks.children.list({ block_id: pageId }))
+    .results;
+  let dividerIndex = 0;
 
   for (let i = 0; i < blocks.length; i++) {
     if (blocks[i].type === 'divider') {
-      dividerIndex = i
-      break
+      dividerIndex = i;
+      break;
     }
   }
 
-  // blocks = blocks
-  //   .splice(0, dividerIndex)
-  //   .filter(({ value: { type } }: any) => !nonPreviewTypes.has(type))
-
-  const content = blocks.splice(0, dividerIndex)
-  // content.map(block => block[block.type].text[0]["plain_text"]).join('\n')
+  const content = blocks.splice(0, dividerIndex);
   const content_str = content
     .map((block, idx) =>
       block[block.type].text.map((text) => text.plain_text).join('\n')
     )
-    .join('\n')
+    .join('\n');
 
-  // return `${content[0][content["type"]]}`;
-  return content_str
+  return content_str;
 }
 
 export async function getPostsInfos(preview: boolean = true): Promise<any[]> {
-  const results = (await getPosts()).results
-  const posts: any = []
+  const results = (await getPosts()).results;
+  const posts: any = [];
 
-  let preview_content = ''
+  let preview_content = '';
 
   for (const post of results) {
     if (preview) {
-      preview_content = await getPostPreview(post.id)
+      preview_content = await getPostPreview(post.id);
     }
+
+    // Handle different property structures that might exist
+    const properties = (post as any).properties || {};
 
     posts.push({
       id: post.id,
-      slug:
-        post.properties['Slug']['multi_select'].map((s) => s.name).join('-') +
-        '-' +
-        post.id.split('-').join(''),
-      date: post.properties['Date']['date']['start'],
-      author: post.properties['Authors']['people']
-        .map((s) => s.name)
-        .join(', '),
-      title: post.properties['Page']['title'][0]['plain_text'],
+      slug: getSlugFromPost(post, properties),
+      date: getDateFromPost(properties),
+      author: getAuthorFromPost(properties),
+      title: getTitleFromPost(properties),
       preview: preview_content,
-    })
-
-    // postData.push(await getPageData(post.id))
+    });
   }
 
-  return posts
+  return posts;
 }
 
 export async function getPageInfo(pageId: string) {
   if (typeof pageId != 'string') {
     for (const [key, value] of Object.entries(pageId)) {
-      console.log(`${key}: ${value}`)
+      console.log(`${key}: ${value}`);
     }
   }
-  const post = await client.pages.retrieve({ page_id: pageId })
+  const post = await client.pages.retrieve({ page_id: pageId });
+  const properties = (post as any).properties || {};
 
   return {
-    slug:
-      post.properties['Slug']['multi_select'].map((s) => s.name).join('-') +
-      '-' +
-      post.id.split('-').join(''),
-    date: post.properties['Date']['date']['start'],
-    author: post.properties['Authors']['people'].map((s) => s.name).join(', '),
-    title: post.properties['Page']['title'][0]['plain_text'],
-  }
+    slug: getSlugFromPost(post, properties),
+    date: getDateFromPost(properties),
+    author: getAuthorFromPost(properties),
+    title: getTitleFromPost(properties),
+  };
 }
 
 export async function getPageData(pageId: string) {
-  const page_info = await getPageInfo(pageId)
+  const page_info = await getPageInfo(pageId);
   let page_blocks = (await client.blocks.children.list({ block_id: pageId }))
-    .results
-
-  // type: "text";
-  //               text: {
-  //                   content: string;
-  //                   link: {
-  //                       url: TextRequest;
-  //                   } | null;
-  //               };
-  //               annotations: {
-  //                   bold: boolean;
-  //                   italic: boolean;
-  //                   strikethrough: boolean;
-  //                   underline: boolean;
-  //                   code: boolean;
-  //                   color: "default" | "gray" | "brown" | "orange" | "yellow" | "green" | "blue" | "purple" | "pink" | "red" | "gray_background" | "brown_background" | "orange_background" | "yellow_background" | "green_background" | "blue_background" | "purple_background" | "pink_background" | "red_background";
-  //               };
-  //               plain_text: string;
-  //               href: string | null;
-
-  // page_blocks.map(async (s) => {
-  //   if (s.type === 'image') {
-  //     await fetchToS3(s[s.type][s[s.type].type].url, s.id)
-  //   }
-  // })
+    .results;
 
   return {
     ...page_info,
     page_blocks,
+  };
+}
+
+// Helper functions to extract data from different property structures
+function getSlugFromPost(post: any, properties: any): string {
+  if (properties.Slug?.multi_select) {
+    return properties.Slug.multi_select.map((s: any) => s.name).join('-') + '-' + post.id.split('-').join('');
   }
+  // Fallback: create slug from title if no Slug property
+  const title = getTitleFromPost(properties);
+  return title.toLowerCase().replace(/\s+/g, '-').replace(/[^\w\-]/g, '') + '-' + post.id.split('-').join('');
+}
+
+function getDateFromPost(properties: any): string {
+  if (properties.Date?.date?.start) {
+    return properties.Date.date.start;
+  }
+  // Fallback: use created time
+  return new Date().toISOString();
+}
+
+function getAuthorFromPost(properties: any): string {
+  if (properties.Authors?.people) {
+    return properties.Authors.people.map((s: any) => s.name || 'Unknown').join(', ');
+  }
+  return 'Unknown';
+}
+
+function getTitleFromPost(properties: any): string {
+  if (properties.Page?.title?.[0]?.plain_text) {
+    return properties.Page.title[0].plain_text;
+  }
+  if (properties.title?.[0]?.plain_text) {
+    return properties.title[0].plain_text;
+  }
+  return 'Untitled';
 }
