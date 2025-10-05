@@ -370,7 +370,11 @@ const RenderPost = ({ post, redirect, preview }) => {
               }
               break;
           }
-          return toRender;
+          return (
+            <React.Fragment key={blockIdx}>
+              {toRender}
+            </React.Fragment>
+          );
         })}
       </div>
     </>
