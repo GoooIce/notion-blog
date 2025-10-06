@@ -55,7 +55,7 @@ module.exports = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  webpack(cfg, { dev, isServer }) {
+    webpack(cfg, { dev, isServer }) {
     // Add Node.js polyfills for client-side builds
     if (!isServer) {
       cfg.resolve.fallback = {

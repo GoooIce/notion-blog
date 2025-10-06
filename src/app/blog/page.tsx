@@ -1,38 +1,23 @@
 import Link from 'next/link';
 import Header from '../../components/header';
-
 import blogStyles from '../../styles/blog.module.css';
 import sharedStyles from '../../styles/shared.module.css';
-
 import {
   getBlogLink,
   getDateStr,
   postIsPublished,
 } from '../../lib/blog-helpers';
-// import { textBlock } from '../../lib/notion/renderers'
 import { getPostsInfos } from '../../lib/notion/client';
+import { Metadata } from 'next';
 
-export async function getStaticProps({ preview }) {
-  // const postsTable = await getBlogIndex()
+export const metadata: Metadata = {
+  title: 'Blog',
+  description: '技术博客文章列表',
+};
 
-  // const authorsToGet: Set<string> = new Set()
-  const posts: any[] = await getPostsInfos(preview);
-  // const { users } = await getNotionUsers([...authorsToGet])
+export default async function BlogIndex() {
+  const posts: any[] = await getPostsInfos(false);
 
-  // posts.map((post) => {
-  //   post.Authors = post.Authors.map((id) => users[id].full_name)
-  // })
-
-  return {
-    props: {
-      preview: false,
-      posts,
-    },
-    revalidate: 10,
-  };
-}
-
-const Index = ({ posts = [], preview }) => {
   return (
     <>
       <Header titlePre="Blog" />
@@ -47,7 +32,7 @@ const Index = ({ posts = [], preview }) => {
             <div className={blogStyles.postPreview} key={post.slug}>
               <h3>
                 <span className={blogStyles.titleContainer}>
-                  <Link href="/blog/[slug]" as={getBlogLink(post.slug)}>
+                  <Link href={`/blog/${post.slug}`}>
                     {post.title}
                   </Link>
                 </span>
@@ -65,6 +50,6 @@ const Index = ({ posts = [], preview }) => {
       </div>
     </>
   );
-};
+}
 
-export default Index;
+export const revalidate = 3600; // Revalidate every hour

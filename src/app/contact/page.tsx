@@ -1,13 +1,15 @@
-import Header from '../components/header';
-import ExtLink from '../components/ext-link';
+import Header from '../../components/header';
+import ExtLink from '../../components/ext-link';
+import sharedStyles from '../../styles/shared.module.css';
+import contactStyles from '../../styles/contact.module.css';
+import GitHub from '../../components/svgs/github';
+import Envelope from '../../components/svgs/envelope';
+import { Metadata } from 'next';
 
-import sharedStyles from '../styles/shared.module.css';
-import contactStyles from '../styles/contact.module.css';
-
-import GitHub from '../components/svgs/github';
-// import Twitter from '../components/svgs/twitter'
-import Envelope from '../components/svgs/envelope';
-// import LinkedIn from '../components/svgs/linkedin'
+export const metadata: Metadata = {
+  title: 'Contact',
+  description: '联系方式 - 联系王雪',
+};
 
 const contacts = [
   {

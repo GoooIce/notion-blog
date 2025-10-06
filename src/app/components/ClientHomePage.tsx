@@ -1,36 +1,22 @@
-import Header from '../components/header';
-import ExtLink from '../components/ext-link';
-import Features from '../components/features';
-import SmoothScroll from '../components/smooth-scroll';
+'use client';
+
+import Header from '../../components/header';
+import ExtLink from '../../components/ext-link';
+import Features from '../../components/features';
+import SmoothScroll from '../../components/smooth-scroll';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
-import { useParallax, useRevealOnScroll, useStaggeredReveal } from '../hooks/useParallax';
-import sharedStyles from '../styles/shared.module.css';
-import styles from '../styles/home.module.css';
+import { useState } from 'react';
+import { useParallax, useRevealOnScroll, useStaggeredReveal } from '../../hooks/useParallax';
+import sharedStyles from '../../styles/shared.module.css';
+import styles from '../../styles/home.module.css';
 
-export default function Index() {
-  const [recentPosts, setRecentPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
+interface ClientHomePageProps {
+  recentPosts: any[];
+}
 
-  useEffect(() => {
-    // Fetch recent posts for preview
-    const fetchRecentPosts = async () => {
-      try {
-        const response = await fetch('/api/blog');
-        if (response.ok) {
-          const data = await response.json();
-          setRecentPosts(data.posts?.slice(0, 3) || []);
-        }
-      } catch (error) {
-        console.error('Failed to fetch recent posts:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRecentPosts();
-  }, []);
+export default function ClientHomePage({ recentPosts }: ClientHomePageProps) {
+  const [loading, setLoading] = useState(false); // No longer loading since data is server-fetched
 
   // Parallax refs
   const heroBackgroundRef = useParallax({ speed: 0.3 });

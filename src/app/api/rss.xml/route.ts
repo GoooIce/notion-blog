@@ -1,12 +1,8 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import { getPostsInfos } from '../../lib/notion/client';
+import { NextResponse } from 'next/server';
+import { getPostsInfos } from '../../../lib/notion/client';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export async function GET() {
   try {
-    // Set headers for RSS content
-    res.setHeader('Content-Type', 'application/rss+xml; charset=utf-8');
-    res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate=1800');
-
     // Fetch blog posts
     const blogPosts = await getPostsInfos();
 
@@ -18,10 +14,19 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Generate RSS XML
     const rss = generateRSS(sortedPosts);
 
-    res.status(200).send(rss);
+    return new NextResponse(rss, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/rss+xml; charset=utf-8',
+        'Cache-Control': 's-maxage=3600, stale-while-revalidate=1800',
+      },
+    });
   } catch (error) {
     console.error('RSS generation error:', error);
-    res.status(500).json({ error: 'Failed to generate RSS feed' });
+    return NextResponse.json(
+      { error: 'Failed to generate RSS feed' },
+      { status: 500 }
+    );
   }
 }
 

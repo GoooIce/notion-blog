@@ -1,7 +1,8 @@
+'use client';
+
 import Link from 'next/link';
-import Head from 'next/head';
 import ExtLink from './ext-link';
-import { useRouter } from 'next/router';
+import { usePathname } from 'next/navigation';
 import styles from '../styles/header.module.css';
 
 const navItems: { label: string; page?: string; link?: string }[] = [
@@ -11,41 +12,43 @@ const navItems: { label: string; page?: string; link?: string }[] = [
   { label: 'Source Code', link: 'https://github.com/goooice/notion-blog' },
 ];
 
-const ogImageUrl = 'https://miantu.net/goooice-and-notion.png';
-
 const Header = ({ titlePre = '' }) => {
-  const { pathname } = useRouter();
+  const pathname = usePathname();
 
   return (
     <header className={styles.header}>
-      <Head>
-        <title>{`${titlePre ? `${titlePre} | ` : ''}My Notion Blog`}</title>
-        <meta
-          name="description"
-          content="GoooIce(王雪)的Blog，分享一些记录。"
-        />
-        <meta name="og:title" content="GoooIce's Blog" />
-        <meta property="og:image" content={ogImageUrl} />
-        <meta name="twitter:site" content="@GoooIce" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content={ogImageUrl} />
-      </Head>
-      <ul>
-        {navItems.map(({ label, page, link }) => (
-          <li key={label}>
-            {page ? (
-              <Link
-                href={page}
-                className={pathname === page ? 'active' : undefined}
-              >
-                {label}
-              </Link>
-            ) : (
-              <ExtLink href={link}>{label}</ExtLink>
-            )}
-          </li>
-        ))}
-      </ul>
+      <div className={styles.navContainer}>
+        <Link href="/">
+          <div className={styles.logoWrapper}>
+            <img
+              src="/goooice-and-notion.png"
+              alt="GoooIce + Notion"
+              className={styles.logo}
+              height={30}
+            />
+          </div>
+        </Link>
+
+        <nav>
+          <ul className={styles.nav}>
+            {navItems.map((item) => {
+              const isActive = item.page && pathname === item.page;
+
+              return (
+                <li key={item.label}>
+                  {item.page ? (
+                    <Link href={item.page} className={isActive ? styles.active : ''}>
+                      {item.label}
+                    </Link>
+                  ) : (
+                    <ExtLink href={item.link}>{item.label}</ExtLink>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+      </div>
     </header>
   );
 };
