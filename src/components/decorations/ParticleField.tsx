@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import p5 from 'p5';
 
 interface ParticleFieldProps {
@@ -34,9 +34,15 @@ const ParticleField: React.FC<ParticleFieldProps> = ({
   const sketchRef = useRef<HTMLDivElement>(null);
   const p5InstanceRef = useRef<p5 | null>(null);
   const particlesRef = useRef<Particle[]>([]);
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    if (!sketchRef.current) return;
+    // 确保只在客户端运行
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isClient || !sketchRef.current) return;
 
     const sketch = (p: p5) => {
       let canvas: p5.Renderer;
@@ -185,7 +191,11 @@ const ParticleField: React.FC<ParticleFieldProps> = ({
         p5InstanceRef.current = null;
       }
     };
-  }, [count, colors, speed, size, interactive]);
+  }, [isClient, count, colors, speed, size, interactive]);
+
+  if (!isClient) {
+    return <div className={`absolute inset-0 ${className}`} />;
+  }
 
   return (
     <div
