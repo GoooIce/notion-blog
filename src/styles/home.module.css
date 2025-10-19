@@ -8,7 +8,7 @@
 .hero {
   padding: 4rem 1rem 6rem;
   text-align: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--gradient-primary);
   color: white;
   position: relative;
   overflow: hidden;
@@ -24,8 +24,10 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-              radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(255, 107, 157, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(192, 107, 255, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 40% 60%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
   pointer-events: none;
   z-index: 1;
 }
@@ -61,6 +63,17 @@
   margin-bottom: 1rem;
   line-height: 1.2;
   animation: fadeInUp 1s ease-out 0.2s both;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  color: white;
+}
+
+/* Ensure gradient text has good contrast */
+.heroTitle.artistic-text-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
 }
 
 .highlight {
@@ -124,6 +137,16 @@
   margin-bottom: 3rem;
   color: #333;
   position: relative;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Ensure section titles are readable */
+.sectionTitle.artistic-text-gradient {
+  background: linear-gradient(135deg, #333 0%, #555 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
 }
 
 .sectionTitle::after {
@@ -177,18 +200,43 @@
 
 .postCard {
   background: white;
-  border-radius: 12px;
+  border-radius: var(--radius-large);
   padding: 2rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    0 0 20px rgba(255, 107, 157, 0.1);
+  transition: 
+    transform var(--animation-normal) var(--ease-smooth),
+    box-shadow var(--animation-normal) var(--ease-smooth);
   text-decoration: none;
   color: inherit;
   border: 1px solid #e2e8f0;
+  position: relative;
+  overflow: hidden;
+}
+
+.postCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--gradient-primary);
+  opacity: 0;
+  transition: opacity var(--animation-normal) var(--ease-smooth);
+  z-index: -1;
+}
+
+.postCard:hover::before {
+  opacity: 0.05;
 }
 
 .postCard:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.15),
+    0 0 30px rgba(255, 107, 157, 0.3);
 }
 
 .postContent {
@@ -203,6 +251,25 @@
   margin-bottom: 0.5rem;
   color: #333;
   line-height: 1.4;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.postTitle a {
+  color: #333;
+  text-decoration: none;
+  transition: color var(--animation-normal) var(--ease-smooth);
+}
+
+.postTitle a:hover {
+  color: var(--primary-pink);
+}
+
+.postPreview {
+  color: #4b5563;
+  line-height: 1.6;
+  flex-grow: 1;
+  margin: 0;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .postDate {
@@ -241,7 +308,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--gradient-secondary);
   z-index: 1;
 }
 
@@ -410,6 +477,23 @@
   .primaryButton, .secondaryButton {
     width: 100%;
     max-width: 300px;
+  }
+  
+  /* Disable complex decorations on mobile */
+  .floating-shapes,
+  .particle-field,
+  .morphing-blob,
+  .wave-background {
+    display: none;
+  }
+  
+  /* Simplify artistic effects */
+  .artistic-hover-lift:hover {
+    transform: translateY(-2px);
+  }
+  
+  .artistic-glow {
+    box-shadow: none;
   }
 }
 
