@@ -1,16 +1,16 @@
-import { getPostsInfos } from '../../lib/notion/client';
+import CircuitBlogPage from './components/CircuitBlogPage';
+import { getPostsInfos } from '@/lib/notion/client';
 import { Metadata } from 'next';
-import BlogListClient from './BlogListClient';
 
 export const metadata: Metadata = {
   title: 'Blog',
   description: '技术博客文章列表',
 };
 
-export default async function BlogIndex() {
-  const posts: any[] = await getPostsInfos(false);
+export default async function BlogPage() {
+  const posts = await getPostsInfos(false);
 
-  return <BlogListClient posts={posts} />;
+  return <CircuitBlogPage posts={posts} />;
 }
 
-export const revalidate = 3600; // Revalidate every hour
+export const revalidate = 3600;

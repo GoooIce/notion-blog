@@ -1,5 +1,9 @@
-import '../styles/global.css';
+import '../styles/circuit-theme.css';
+import '../styles/circuit-animations.css';
 import 'katex/dist/katex.css';
+import CircuitBackground from '../components/circuit/CircuitBackground';
+import CurrentCanvas from '../components/circuit/CurrentCanvas';
+import TerminalNav from '../components/circuit/TerminalNav';
 import Footer from '../components/footer';
 import { Metadata } from 'next';
 
@@ -41,7 +45,12 @@ export default function RootLayout({
     <html lang="zh-cmn-Hans">
       <head />
       <body>
-        {children}
+        <CircuitBackground />
+        <CurrentCanvas />
+        <TerminalNav />
+        <main style={{ position: 'relative', zIndex: 2 }}>
+          {children}
+        </main>
         <Footer />
       </body>
     </html>
