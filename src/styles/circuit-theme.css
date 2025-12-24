@@ -1,0 +1,141 @@
+/* src/styles/circuit-theme.css */
+:root {
+  /* Base colors */
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #111111;
+  --bg-tertiary: #1a1a1a;
+
+  /* Circuit colors */
+  --circuit-idle: rgba(255, 255, 255, 0.1);
+  --circuit-active: #00ff41;
+
+  /* Accent colors */
+  --accent-primary: #00ff41;  /* Terminal green */
+  --accent-secondary: #00d4ff; /* Electric blue */
+
+  /* Text colors */
+  --text-primary: #e8e8e8;
+  --text-secondary: rgba(232, 232, 232, 0.6);
+  --text-tertiary: rgba(232, 232, 232, 0.4);
+
+  /* Typography */
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', 'Menlo', monospace;
+
+  /* Spacing */
+  --gap-quarter: 0.25rem;
+  --gap-half: 0.5rem;
+  --gap: 1rem;
+  --gap-double: 2rem;
+
+  /* Animation */
+  --animation-fast: 0.2s;
+  --animation-normal: 0.3s;
+  --animation-slow: 0.6s;
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Base reset with dark theme */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-size: 16px;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  overflow-x: hidden;
+}
+
+/* Code block styling */
+code[class*='language-'],
+pre[class*='language-'] {
+  color: var(--text-primary);
+  background: var(--bg-tertiary);
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  font-size: 0.95em;
+  line-height: 1.4em;
+  tab-size: 4;
+  hyphens: none;
+}
+
+pre {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--circuit-idle);
+  border-left: 3px solid var(--accent-primary);
+  border-radius: 4px;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+pre code {
+  background: transparent;
+  padding: 0;
+  border: none;
+}
+
+code {
+  font-size: 0.8rem;
+  background: var(--bg-tertiary);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: var(--font-mono);
+}
+
+/* Link styling */
+a {
+  color: var(--accent-primary);
+  text-decoration: none;
+  transition: color var(--animation-fast) var(--ease-smooth);
+}
+
+a:hover {
+  color: var(--accent-secondary);
+}
+
+/* Selection */
+::selection {
+  background: var(--accent-primary);
+  color: var(--bg-primary);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--circuit-idle);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-primary);
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
