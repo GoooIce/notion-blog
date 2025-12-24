@@ -17,12 +17,11 @@ import {
   useScrollRotate,
   useScaleOnScroll
 } from '../../hooks/useParallax';
-import { 
-  FloatingShapes, 
-  WaveBackground, 
-  ParticleField, 
-  MorphingBlob, 
-  GeometricPattern 
+import {
+  FloatingShapes,
+  WaveBackground,
+  MorphingBlob,
+  GeometricPattern
 } from '../../components/decorations';
 import sharedStyles from '../../styles/shared.module.css';
 import styles from '../../styles/home.module.css';
@@ -64,24 +63,19 @@ export default function ClientHomePage({ recentPosts }: ClientHomePageProps) {
             
             {/* Artistic decorations - positioned to complement content */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
-              <FloatingShapes 
-                count={6} 
-                size="medium" 
+              <FloatingShapes
+                count={6}
+                size="medium"
                 className="opacity-08 absolute top-1/4 left-1/4"
               />
-              <ParticleField 
-                count={12} 
-                size={2} 
-                className="opacity-10 absolute top-1/2 right-1/3"
-              />
-              <MorphingBlob 
-                color="#FF6B9D" 
-                size={200} 
+              <MorphingBlob
+                color="#FF6B9D"
+                size={200}
                 className="opacity-05 absolute bottom-1/4 left-1/3"
               />
-              <GeometricPattern 
-                pattern="dots" 
-                color="#00D4FF" 
+              <GeometricPattern
+                pattern="dots"
+                color="#00D4FF"
                 className="opacity-06 absolute top-1/3 right-1/4"
               />
             </div>
@@ -200,23 +194,18 @@ export default function ClientHomePage({ recentPosts }: ClientHomePageProps) {
             
             {/* Artistic decorations - positioned to complement content */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
-              <WaveBackground 
-                color="#C06BFF" 
+              <WaveBackground
+                color="#C06BFF"
                 className="opacity-08 absolute bottom-0 left-0"
               />
-              <ParticleField 
-                count={12}
-                size={3} 
-                className="opacity-15 absolute top-1/4 right-1/4"
-              />
-              <MorphingBlob 
-                color="#00D4FF" 
-                size={300} 
+              <MorphingBlob
+                color="#00D4FF"
+                size={300}
                 className="opacity-06 absolute bottom-1/4 left-1/3"
               />
-              <GeometricPattern 
-                pattern="dots" 
-                color="#FFB800" 
+              <GeometricPattern
+                pattern="dots"
+                color="#FFB800"
                 className="opacity-05 absolute top-1/2 left-1/2"
               />
             </div>

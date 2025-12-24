@@ -8,6 +8,8 @@ This is a Next.js-based blog platform that uses Notion as a headless CMS. It's a
 
 **Important**: This project uses **Next.js App Router** (not Pages Router). All pages are located in `src/app/` directory, not `src/pages/`. The old Pages Router implementation has been moved to `src/pages_backup/`.
 
+**Language**: Always communicate in Chinese (总是使用中文交流) as per global user configuration.
+
 ## Architecture
 
 ### Core Components
@@ -53,6 +55,7 @@ npm start
 npm run test              # Run tests in watch mode
 npm run test:run          # Run tests once
 npm run test:ui           # Run tests with UI interface
+# Run a single test file: npx vitest run path/to/test.test.ts
 
 # Code quality
 npm run format            # Format code with Prettier
@@ -70,10 +73,15 @@ npm run restore           # Restore from backup using scripts/restore.sh
 Required environment variables (create `.env` file):
 
 - `NOTION_TOKEN`: Notion API integration token
-- `BLOG_INDEX_ID`: Notion database ID (32-character string, auto-formatted to UUID format)
+- `BLOG_INDEX_ID`: Notion database ID. Three accepted formats:
+  - 32-character string (auto-formatted to UUID format with hyphens)
+  - 36-character UUID format (e.g., `12345678-1234-1234-1234-123456789012`)
+  - New Notion v5 format with `secret_` prefix
 - `NEXT_PUBLIC_SITE_URL`: Site URL for metadata and OpenGraph (defaults to localhost:3000)
 - `QINIU_AK`: Qiniu cloud storage access key (optional, for image proxy)
 - `QINIU_SK`: Qiniu cloud storage secret key (optional, for image proxy)
+
+**ID normalization** happens in `src/lib/notion/server-constants.js:4-22` - 32-char IDs are auto-converted to UUID format.
 
 ## Key Files and Their Purpose
 
@@ -159,6 +167,13 @@ The project uses **Vitest v3** for testing with React Testing Library:
 - Run tests in watch mode: `npm run test`
 - Run tests once: `npm run test:run`
 - Run tests with UI: `npm run test:ui`
+- Run single test file: `npx vitest run path/to/test.test.ts`
+
+**Test mocks** (in `src/test/setup.ts`):
+- `next/router`: Mocked useRouter with push, pathname, query, asPath
+- `next/legacy/image`: Mocked Image component returning an img element
+- Environment variables: `NOTION_TOKEN` and `BLOG_INDEX_ID` set to test values
+- `matchMedia`: Mocked for responsive testing
 
 ### Code Quality
 
@@ -191,3 +206,76 @@ Posts in Notion should have these properties:
 - TypeScript strict mode is disabled (`strict: false` in tsconfig.json)
 - Some Notion block types may not be fully implemented
 - SSR (Server-Side Rendering) issues with p5.js require dynamic imports and client-side checks
+
+## Critical Architecture Patterns
+
+### p5.js SSR Safe Pattern
+
+When using p5.js or other browser-only libraries, follow this pattern to avoid SSR errors:
+
+```tsx
+'use client';
+
+import React, { useEffect, useState } from 'react';
+
+const Component = () => {
+  const [isClient, setIsClient] = useState(false);
+  const [Library, setLibrary] = useState<React.ComponentType<any> | null>(null);
+
+  // Ensure client-side only
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Dynamic import after client check
+  useEffect(() => {
+    if (!isClient) return;
+    const loadLibrary = async () => {
+      const lib = (await import('some-library')).default;
+      setLibrary(() => lib);
+    };
+    loadLibrary();
+  }, [isClient]);
+
+  if (!isClient || !Library) {
+    return <div className="placeholder" />; // SSR safe fallback
+  }
+
+  return <Library />;
+};
+```
+
+Reference implementation: `src/components/decorations/ParticleField.tsx:26-228`
+
+### Blog Post Rendering: Server/Client Split
+
+Blog posts use a hybrid server/client rendering pattern:
+
+1. **Server Component** (`src/app/blog/[slug]/page.tsx`):
+   - Fetches data from Notion API
+   - Generates metadata (SEO, OpenGraph)
+   - Passes data to client component
+
+2. **Client Component** (`src/app/blog/[slug]/BlogPostClient.tsx`):
+   - Receives pre-fetched data as props
+   - Handles interactive Notion block rendering
+   - Manages client-side features (code highlighting, smooth scroll)
+
+### ESLint Flat Config (v9)
+
+This project uses ESLint v9 **flat config** format (`eslint.config.js`), NOT the legacy `.eslintrc.json` format. When making ESLint changes:
+- Edit `eslint.config.js` (not `.eslintrc.json`)
+- Use `FlatCompat` for legacy plugin compatibility
+- Configuration is in ESM format (not CommonJS)
+
+### Slug Generation Pattern
+
+Blog post slugs are generated in `src/lib/notion/client.ts:146-164`:
+1. Primary: Uses `Slug` multi-select property + page ID (e.g., `my-post-abc123def456`)
+2. Fallback: Uses `Page`/`title` property (lowercased, URL-safe) + page ID
+3. Page ID is always appended (32-char string without hyphens) to ensure uniqueness
+
+When parsing slugs, extract the page ID from the end:
+```typescript
+const post_id = slug.split('-').pop(); // Get last element (the ID)
+```

@@ -9,11 +9,10 @@ import {
   use3DTilt,
   useScaleOnScroll
 } from '../../hooks/useParallax';
-import { 
-  FloatingShapes, 
-  WaveBackground, 
-  ParticleField, 
-  GeometricPattern 
+import {
+  FloatingShapes,
+  WaveBackground,
+  GeometricPattern
 } from '../../components/decorations';
 import blogStyles from '../../styles/blog.module.css';
 import sharedStyles from '../../styles/shared.module.css';
@@ -37,19 +36,14 @@ export default function BlogListClient({ posts }: BlogListClientProps) {
           <div ref={backgroundRef as any} className={blogStyles.blogHeroBackground} />
           
           {/* Artistic decorations */}
-          <FloatingShapes 
-            count={15} 
-            size="medium" 
+          <FloatingShapes
+            count={15}
+            size="medium"
             className="opacity-20"
           />
-          <ParticleField 
-            count={25} 
-            size={2} 
-            className="opacity-30"
-          />
-          <GeometricPattern 
-            pattern="triangles" 
-            color="#FF6B9D" 
+          <GeometricPattern
+            pattern="triangles"
+            color="#FF6B9D"
             className="opacity-15"
           />
           

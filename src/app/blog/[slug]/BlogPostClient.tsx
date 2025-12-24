@@ -15,11 +15,10 @@ import {
   useParallax,
   useMouseParallax 
 } from '../../../hooks/useParallax';
-import { 
-  FloatingShapes, 
-  WaveBackground, 
-  ParticleField, 
-  GeometricPattern 
+import {
+  FloatingShapes,
+  WaveBackground,
+  GeometricPattern
 } from '../../../components/decorations';
 
 interface BlogPostClientProps {
@@ -117,19 +116,14 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview
         <div ref={backgroundRef as any} className={blogStyles.postHeroBackground} />
         
         {/* Artistic decorations */}
-        <FloatingShapes 
-          count={4} 
-          size="small" 
+        <FloatingShapes
+          count={4}
+          size="small"
           className="opacity-10"
         />
-        <ParticleField 
-          count={8} 
-          size={2} 
-          className="opacity-15"
-        />
-        <GeometricPattern 
-          pattern="dots" 
-          color="#00D4FF" 
+        <GeometricPattern
+          pattern="dots"
+          color="#00D4FF"
           className="opacity-08"
         />
         
