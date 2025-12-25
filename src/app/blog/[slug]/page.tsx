@@ -12,7 +12,8 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   try {
-    const post_id = params.slug.split('-').pop();
+    const resolvedParams = await params;
+    const post_id = resolvedParams.slug.split('-').pop();
     const post = await getPageData(post_id);
 
     if (!post) {
@@ -41,11 +42,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function BlogPost({ params }: PageProps) {
   try {
-    const post_id = params.slug.split('-').pop();
+    const resolvedParams = await params;
+    const post_id = resolvedParams.slug.split('-').pop();
     const post = await getPageData(post_id);
 
     if (!post) {
-      console.log(`Failed to find post for slug: ${params.slug}`);
+      console.log(`Failed to find post for slug: ${resolvedParams.slug}`);
       notFound();
     }
 

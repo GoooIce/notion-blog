@@ -7,9 +7,19 @@ import components from '../../../components/dynamic';
 import ReactJSXParser from 'react-jsx-parser';
 import blogStyles from '../../../styles/blog.module.css';
 import { textBlock } from '../../../lib/notion/renderers';
-import React, { CSSProperties, useEffect } from 'react';
+import React, { CSSProperties, useEffect, useState } from 'react';
 import { getBlogLink } from '../../../lib/blog-helpers';
 import { useRouter } from 'next/navigation';
+import { 
+  useRevealOnScroll, 
+  useParallax,
+  useMouseParallax 
+} from '../../../hooks/useParallax';
+import {
+  FloatingShapes,
+  WaveBackground,
+  GeometricPattern
+} from '../../../components/decorations';
 
 interface BlogPostClientProps {
   post: any;
@@ -19,6 +29,13 @@ interface BlogPostClientProps {
 
 const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview }) => {
   const router = useRouter();
+  const [readingProgress, setReadingProgress] = useState(0);
+  
+  // Parallax refs
+  const heroRef = useRevealOnScroll({ delay: 0.1 });
+  const contentRef = useRevealOnScroll({ delay: 0.2 });
+  const backgroundRef = useParallax({ speed: 0.3 });
+  const mouseRef = useMouseParallax({ intensity: 0.05 });
 
   let listTagName: string | null = null;
   let listLastId: string | null = null;
@@ -37,6 +54,19 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview
     }
   }, [redirect, post, router]);
 
+  // Reading progress effect
+  useEffect(() => {
+    const updateReadingProgress = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (scrollTop / docHeight) * 100;
+      setReadingProgress(Math.min(progress, 100));
+    };
+
+    window.addEventListener('scroll', updateReadingProgress);
+    return () => window.removeEventListener('scroll', updateReadingProgress);
+  }, []);
+
   // If the page is not yet generated, this will be displayed
   // initially until the server component finishes loading
   if (!post) {
@@ -53,6 +83,22 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview
   return (
     <>
       <Header titlePre={post.title} />
+      
+      {/* Reading Progress Bar */}
+      <div 
+        className={blogStyles.readingProgress}
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: `${readingProgress}%`,
+          height: '3px',
+          background: 'var(--gradient-primary)',
+          zIndex: 1000,
+          transition: 'width 0.1s ease',
+        }}
+      />
+      
       {preview && (
         <div className={blogStyles.previewAlertContainer}>
           <div className={blogStyles.previewAlert}>
@@ -64,15 +110,34 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview
           </div>
         </div>
       )}
-      <div className={blogStyles.post}>
-        <h1>{post.title || ''}</h1>
-        {post.author.length > 0 && (
-          <div className="authors">By: {post.author}</div>
-        )}
-        {post.date && <div className="posted">Posted: {post.date}</div>}
-
-        <hr />
-
+      
+      {/* Hero Section */}
+      <section ref={heroRef as any} className={blogStyles.postHero}>
+        <div ref={backgroundRef as any} className={blogStyles.postHeroBackground} />
+        
+        {/* Artistic decorations */}
+        <FloatingShapes
+          count={4}
+          size="small"
+          className="opacity-10"
+        />
+        <GeometricPattern
+          pattern="dots"
+          color="#00D4FF"
+          className="opacity-08"
+        />
+        
+        <div ref={mouseRef as any} className={blogStyles.postHeroContent}>
+          <h1 className="artistic-text-gradient">{post.title || ''}</h1>
+          {post.author.length > 0 && (
+            <div className={blogStyles.postAuthor}>By: {post.author}</div>
+          )}
+          {post.date && <div className={blogStyles.postDate}>Posted: {post.date}</div>}
+        </div>
+      </section>
+      
+      {/* Content Section */}
+      <div ref={contentRef as any} className={blogStyles.post}>
         {(!post.page_blocks || post.page_blocks.length === 0) && (
           <p>This post has no content</p>
         )}
@@ -240,6 +305,24 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview
 
           return toRender;
         })}
+        
+        {/* Background decorations - subtle and non-intrusive */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <WaveBackground 
+            color="#FF6B9D" 
+            className="opacity-03 absolute bottom-0 left-0"
+          />
+          <FloatingShapes 
+            count={2} 
+            size="small" 
+            className="opacity-05 absolute top-1/4 right-1/4"
+          />
+          <GeometricPattern 
+            pattern="dots" 
+            color="#00D4FF" 
+            className="opacity-02 absolute top-1/2 left-1/4"
+          />
+        </div>
       </div>
     </>
   );

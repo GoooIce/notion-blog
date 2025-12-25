@@ -4,30 +4,124 @@
   padding: 2em 0;
   text-align: center;
   letter-spacing: -0.02em;
+  position: relative;
+  z-index: 100;
+}
+
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.navContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logoWrapper {
+  transition: transform var(--animation-normal) var(--ease-smooth);
+}
+
+.logo {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  transition: filter var(--animation-normal) var(--ease-smooth);
+}
+
+.logo:hover {
+  filter: drop-shadow(0 4px 8px rgba(255, 107, 157, 0.3));
 }
 
 .header ul {
   list-style: none;
   padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 2rem;
 }
 
 .header ul li {
   display: inline-block;
-  padding: 0 10px;
+  padding: 0;
 }
 
-.header :global(a) {
+.navLink {
   color: var(--accents-3);
-  font-weight: 400;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  position: relative;
+  transition: all var(--animation-normal) var(--ease-smooth);
+  overflow: hidden;
+}
+
+.navLink::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--gradient-primary);
+  opacity: 0;
+  transition: opacity var(--animation-normal) var(--ease-smooth);
+  z-index: -1;
+}
+
+.navLink:hover::before {
+  opacity: 0.1;
+}
+
+.navLink:hover {
+  color: var(--primary-pink);
+  transform: translateY(-2px);
 }
 
 .header :global(a.active) {
-  color: #0070f3;
+  color: var(--primary-pink);
   font-weight: 600;
+  background: rgba(255, 107, 157, 0.1);
+  border: 1px solid rgba(255, 107, 157, 0.2);
+}
+
+.header :global(a.active)::before {
+  opacity: 0.2;
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem 0;
+  }
+  
+  .navContainer {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+  
+  .header ul {
+    gap: 1rem;
+  }
+  
+  .navLink {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
 }
 
 @media (max-width: 600px) {
   .header {
-    padding: 0.5em 0 2em;
+    padding: 0.5em 0 1em;
+  }
+  
+  .header ul {
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }

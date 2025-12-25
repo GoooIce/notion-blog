@@ -1,0 +1,110 @@
+/* src/styles/circuit-animations.css */
+
+/* Circuit flow animation */
+@keyframes circuit-flow {
+  0% {
+    stroke-dashoffset: 100;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes circuit-pulse {
+  0%, 100% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 5px rgba(0, 255, 65, 0.1),
+      0 0 10px rgba(0, 255, 65, 0.05);
+  }
+  50% {
+    box-shadow:
+      0 0 15px rgba(0, 255, 65, 0.3),
+      0 0 30px rgba(0, 255, 65, 0.1);
+  }
+}
+
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* Utility classes */
+.circuit-flow {
+  stroke-dasharray: 10 5;
+  animation: circuit-flow 2s linear infinite;
+}
+
+.circuit-pulse {
+  animation: circuit-pulse 3s ease-in-out infinite;
+}
+
+.cursor-blink {
+  display: inline-block;
+  width: 10px;
+  height: 1em;
+  background: var(--accent-primary);
+  animation: blink 1s infinite;
+  vertical-align: text-bottom;
+}
+
+.glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* GPU acceleration utilities */
+.gpu-accelerated {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.smooth-transition {
+  transition: all var(--animation-normal) var(--ease-smooth);
+}
+
+/* Hover effects */
+.circuit-hover {
+  position: relative;
+  transition: all var(--animation-normal) var(--ease-smooth);
+}
+
+.circuit-hover::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--accent-primary);
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity var(--animation-normal) var(--ease-smooth);
+  pointer-events: none;
+}
+
+.circuit-hover:hover {
+  transform: translateY(-2px);
+}
+
+.circuit-hover:hover::before {
+  opacity: 1;
+}

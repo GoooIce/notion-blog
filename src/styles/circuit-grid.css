@@ -1,0 +1,75 @@
+/* src/styles/circuit-grid.css */
+/* Grid container */
+.circuit-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--gap-double);
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--gap-double);
+}
+
+/* Responsive breakpoints */
+@media (max-width: 1024px) {
+  .circuit-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .circuit-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--gap);
+  }
+}
+
+@media (max-width: 480px) {
+  .circuit-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Page container */
+.circuit-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.circuit-page-main {
+  flex: 1;
+  padding: var(--gap-double) 0;
+}
+
+/* Content container with circuit background */
+.circuit-content {
+  position: relative;
+  background: var(--bg-primary);
+  border: 1px solid var(--circuit-idle);
+  border-radius: 8px;
+  padding: var(--gap-double);
+  overflow: hidden;
+}
+
+/* Circuit lines decoration */
+.circuit-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    linear-gradient(var(--circuit-idle) 1px, transparent 1px),
+    linear-gradient(90deg, var(--circuit-idle) 1px, transparent 1px);
+  background-size: 50px 50px;
+  background-position: -1px -1px;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.circuit-content > * {
+  position: relative;
+  z-index: 1;
+}

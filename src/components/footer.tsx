@@ -1,22 +1,28 @@
-import ExtLink from './ext-link';
+// src/components/footer.tsx
+import React from 'react';
+import styles from '@/styles/footer.module.css';
 
 export default function Footer() {
   return (
-    <>
-      <footer>
+    <footer className={styles.footer}>
+      <div className={styles.prompt}>root@miantu:~$</div>
+      <p className={styles.text}>
         Powered by{' '}
-        <a href="https://notion.io" rel="nofollow">
+        <a href="https://notion.so" target="_blank" rel="noopener noreferrer">
           Notion
-        </a>{' '}
-        ©王雪
-        <span>
-          {' '}
-          2021-2024{' '}
-          <a href="https://beian.miit.gov.cn/" rel="nofollow">
-            冀ICP备15007337号
-          </a>
-        </span>
-      </footer>
-    </>
+        </a>
+        {' & '}
+        <a href="https://nextjs.org" target="_blank" rel="noopener noreferrer">
+          Next.js
+        </a>
+        {' '}© 王雪
+      </p>
+      <p className={styles.links}>
+        2021-{new Date().getFullYear()}{' '}
+        <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">
+          冀ICP备15007337号
+        </a>
+      </p>
+    </footer>
   );
 }

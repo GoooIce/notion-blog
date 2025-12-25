@@ -52,26 +52,4 @@ module.exports = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-    webpack(cfg, { dev, isServer }) {
-    // Add Node.js polyfills for client-side builds
-    if (!isServer) {
-      cfg.resolve.fallback = {
-        ...cfg.resolve.fallback,
-        crypto: require.resolve('crypto-browserify'),
-        path: require.resolve('path-browserify'),
-        fs: false,
-        stream: require.resolve('stream-browserify'),
-        buffer: require.resolve('buffer'),
-        os: require.resolve('os-browserify/browser'),
-        util: require.resolve('util'),
-      };
-    }
-
-    // Temporarily skip RSS build step due to Node.js polyfill issues
-    // TODO: Fix RSS generation for Next.js 15.5.4
-    return cfg;
-  },
 };
