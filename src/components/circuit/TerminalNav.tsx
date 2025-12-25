@@ -9,8 +9,6 @@ import styles from '@/styles/terminal-nav.module.css';
 const navItems = [
   { name: 'home', href: '/' },
   { name: 'blog', href: '/blog' },
-  { name: 'about', href: '/about' },
-  { name: 'contact', href: '/contact' },
 ];
 
 export default function TerminalNav() {
