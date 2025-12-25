@@ -11,6 +11,10 @@ export default function Footer() {
         <a href="https://notion.so" target="_blank" rel="noopener noreferrer">
           Notion
         </a>
+        {' & '}
+        <a href="https://nextjs.org" target="_blank" rel="noopener noreferrer">
+          Next.js
+        </a>
         {' '}© 王雪
       </p>
       <p className={styles.links}>
