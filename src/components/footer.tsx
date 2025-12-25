@@ -7,15 +7,16 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.prompt}>root@miantu:~$</div>
       <p className={styles.text}>
-        © {new Date().getFullYear()} GoooIce的MiantuNet
+        Powered by{' '}
+        <a href="https://notion.so" target="_blank" rel="noopener noreferrer">
+          Notion
+        </a>
+        {' '}© 王雪
       </p>
       <p className={styles.links}>
-        <a href="https://notion.so" target="_blank" rel="noopener noreferrer">
-          [notion]
-        </a>
-        {' '}
+        2021-{new Date().getFullYear()}{' '}
         <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">
-          [icp]
+          冀ICP备15007337号
         </a>
       </p>
     </footer>
