@@ -1,0 +1,1 @@
+export { SyncedBlock } from './SyncedBlock';
