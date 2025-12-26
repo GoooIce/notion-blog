@@ -4,7 +4,10 @@ import { Client } from '@notionhq/client';
 
 const nonPreviewTypes = new Set(['editor', 'page', 'collection_view']);
 
-export const client = new Client({ auth: NOTION_TOKEN });
+export const client = new Client({
+  auth: NOTION_TOKEN,
+  notionVersion: '2025-09-03',
+});
 
 export async function getNotionAssetUrl(id: string): Promise<string> {
   const result = await client.blocks.retrieve({
@@ -57,8 +60,9 @@ export async function getPostPreview(pageId: string) {
   }
   let blocks = (await client.blocks.children.list({ block_id: pageId }))
     .results;
-  let dividerIndex = 0;
+  let dividerIndex = blocks.length; // Default to end of blocks if no divider
 
+  // Find divider position
   for (let i = 0; i < blocks.length; i++) {
     if ((blocks[i] as any).type === 'divider') {
       dividerIndex = i;
@@ -66,18 +70,21 @@ export async function getPostPreview(pageId: string) {
     }
   }
 
-  const content = blocks.splice(0, dividerIndex);
+  // Get content before divider (or first 5 blocks if no divider)
+  const maxPreviewBlocks = dividerIndex === blocks.length ? Math.min(5, blocks.length) : dividerIndex;
+  const content = blocks.slice(0, maxPreviewBlocks);
+
   const content_str = content
-    .map((block, idx) => {
+    .map((block) => {
       const blockData = block as any;
       const blockType = blockData.type;
       const blockContent = blockData[blockType];
 
       // Handle different text structures in the new SDK
       if (blockContent?.text) {
-        return blockContent.text.map((text: any) => text.plain_text || '').join('\n');
+        return blockContent.text.map((text: any) => text.plain_text || '').join('');
       } else if (blockContent?.rich_text) {
-        return blockContent.rich_text.map((text: any) => text.plain_text || '').join('\n');
+        return blockContent.rich_text.map((text: any) => text.plain_text || '').join('');
       } else {
         return '';
       }

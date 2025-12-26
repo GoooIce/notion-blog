@@ -401,6 +401,17 @@
 }
 
 /* List */
+.list {
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin: 1.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.list ul,
+.list ol {
+  margin: 0.5rem 0;
+}
 .listItem {
   color: var(--text-secondary);
   line-height: 1.8;

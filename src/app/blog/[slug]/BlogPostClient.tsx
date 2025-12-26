@@ -296,122 +296,112 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview
               </div>
             )}
 
-            {(post.page_blocks || []).map((block, blockIdx) => {
-              const id = block.id;
-              const type = block.type;
-              const properties = block[type];
+            {useMemo(() => {
+              // Block grouping types
+              type GroupedBlock =
+                | { type: 'single'; block: any }
+                | { type: 'list'; listType: 'ul' | 'ol'; items: any[] };
 
-              let toRender: React.ReactNode[] = [];
+              // Helper: check if block is a list item
+              const isListItem = (block: any): boolean =>
+                ['bulleted_list', 'bulleted_list_item', 'numbered_list', 'numbered_list_item'].includes(block.type);
 
-              const renderHeading = (Type: 'h1' | 'h2' | 'h3') => {
-                toRender.push(
-                  <Heading key={id}>
-                    <Type id={id} className={postStyles.heading}>
-                      {textBlock(properties.text, true, id)}
-                    </Type>
-                  </Heading>
-                );
+              // Helper: get list type from block
+              const getListType = (block: any): 'ul' | 'ol' => {
+                if (block.type === 'numbered_list' || block.type === 'numbered_list_item') return 'ol';
+                return 'ul';
               };
 
-              const renderBookmark = ({ link, title, description, format }: any) => {
-                const { bookmark_icon: icon, bookmark_cover: cover } = format || {};
-                return toRender.push(
-                  <a
-                    key={id}
-                    href={link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={postStyles.bookmark}
-                  >
-                    <div className={postStyles.bookmarkInfo}>
-                      <div className={postStyles.bookmarkTitle}>{title}</div>
-                      {description && <div className={postStyles.bookmarkDescription}>{description}</div>}
-                      <div className={postStyles.bookmarkLink}>
-                        {icon && <img src={icon} alt="" className={postStyles.bookmarkIcon} />}
-                        <span>{link}</span>
-                      </div>
-                    </div>
-                    {cover && <img src={cover} alt="" className={postStyles.bookmarkCover} />}
-                  </a>
-                );
-              };
+              // Group consecutive list items using reduce
+              const groupBlocks = (blocks: any[]): GroupedBlock[] => {
+                return blocks.reduce<GroupedBlock[]>((acc, block) => {
+                  if (isListItem(block)) {
+                    const listType = getListType(block);
+                    const lastGroup = acc[acc.length - 1];
 
-              switch (type) {
-                case 'page':
-                case 'divider':
-                  break;
-                case 'text': {
-                  if (properties) {
-                    toRender.push(textBlock(properties.text, false, id));
+                    // If last group is same type of list, append to it
+                    if (lastGroup?.type === 'list' && lastGroup.listType === listType) {
+                      lastGroup.items.push(block);
+                    } else {
+                      // Create new list group
+                      acc.push({ type: 'list', listType, items: [block] });
+                    }
+                  } else {
+                    // Non-list block, single group
+                    acc.push({ type: 'single', block });
                   }
-                  break;
-                }
-                case 'paragraph': {
-                  if (properties && properties.rich_text) {
-                    toRender.push(
+
+                  return acc;
+                }, []);
+              };
+
+              // Render a single block
+              const renderSingleBlock = (block: any): React.ReactNode => {
+                const id = block.id;
+                const properties = block[block.type];
+
+                // Renderer functions map
+                const renderers: Record<string, () => React.ReactNode> = {
+                  text: () => properties ? textBlock(properties.text, false, id) : null,
+                  paragraph: () =>
+                    properties?.rich_text ? (
                       <p key={id} className={postStyles.paragraph}>
-                        {properties.rich_text[0]?.plain_text || ''}
+                        {textBlock(properties.rich_text, true, id)}
                       </p>
-                    );
-                  }
-                  break;
-                }
-                case 'image':
-                case 'video': {
-                  const isImage = type === 'image';
-                  const Comp = isImage ? 'img' : 'video';
-                  toRender.push(
+                    ) : null,
+                  image: () => (
                     <div key={id} className={postStyles.mediaWrapper}>
-                      <Comp
+                      <img
                         src={`/api/asset?id=${id}`}
-                        loop={!isImage}
-                        muted={!isImage}
-                        alt={`An ${isImage ? 'image' : 'video'} from Notion`}
-                        controls={!isImage}
-                        autoPlay={!isImage}
-                        className={isImage ? postStyles.image : postStyles.video}
+                        alt="An image from Notion"
+                        className={postStyles.image}
                       />
                     </div>
-                  );
-                  break;
-                }
-                case 'embed':
-                  break;
-                case 'heading_1':
-                  renderHeading('h1');
-                  break;
-                case 'heading_2':
-                  renderHeading('h2');
-                  break;
-                case 'heading_3':
-                  renderHeading('h3');
-                  break;
-                case 'bulleted_list':
-                case 'numbered_list': {
-                  const plainText = properties?.rich_text?.[0]?.plain_text || '';
-                  toRender.push(
-                    <li key={id} className={postStyles.listItem}>
-                      {plainText}
-                    </li>
-                  );
-                  break;
-                }
-                case 'quote': {
-                  if (properties && properties.rich_text) {
-                    toRender.push(
+                  ),
+                  video: () => (
+                    <div key={id} className={postStyles.mediaWrapper}>
+                      <video
+                        src={`/api/asset?id=${id}`}
+                        loop
+                        muted
+                        controls
+                        autoPlay
+                        className={postStyles.video}
+                      />
+                    </div>
+                  ),
+                  heading_1: () => (
+                    <Heading key={id}>
+                      <h1 id={id} className={postStyles.heading}>
+                        {textBlock(properties.text, true, id)}
+                      </h1>
+                    </Heading>
+                  ),
+                  heading_2: () => (
+                    <Heading key={id}>
+                      <h2 id={id} className={postStyles.heading}>
+                        {textBlock(properties.text, true, id)}
+                      </h2>
+                    </Heading>
+                  ),
+                  heading_3: () => (
+                    <Heading key={id}>
+                      <h3 id={id} className={postStyles.heading}>
+                        {textBlock(properties.text, true, id)}
+                      </h3>
+                    </Heading>
+                  ),
+                  quote: () =>
+                    properties?.rich_text ? (
                       <blockquote key={id} className={postStyles.blockquote}>
                         {properties.rich_text[0]?.plain_text || ''}
                       </blockquote>
-                    );
-                  }
-                  break;
-                }
-                case 'code': {
-                  if (properties && properties.rich_text) {
+                    ) : null,
+                  code: () => {
+                    if (!properties?.rich_text) return null;
                     const language = properties.language || '';
                     const code = properties.rich_text[0]?.plain_text || '';
-
-                    toRender.push(
+                    return (
                       <div key={id} className={postStyles.codeWrapper}>
                         {language && (
                           <div className={postStyles.codeHeader}>
@@ -429,20 +419,68 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview
                         </pre>
                       </div>
                     );
-                  }
-                  break;
-                }
-                case 'bookmark': {
-                  renderBookmark(properties);
-                  break;
-                }
-                default:
-                  console.log(`Unknown block type: ${type}`);
-                  break;
-              }
+                  },
+                  bookmark: () => {
+                    const { link, title, description, format } = properties;
+                    const { bookmark_icon: icon, bookmark_cover: cover } = format || {};
+                    return (
+                      <a
+                        key={id}
+                        href={link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={postStyles.bookmark}
+                      >
+                        <div className={postStyles.bookmarkInfo}>
+                          <div className={postStyles.bookmarkTitle}>{title}</div>
+                          {description && <div className={postStyles.bookmarkDescription}>{description}</div>}
+                          <div className={postStyles.bookmarkLink}>
+                            {icon && <img src={icon} alt="" className={postStyles.bookmarkIcon} />}
+                            <span>{link}</span>
+                          </div>
+                        </div>
+                        {cover && <img src={cover} alt="" className={postStyles.bookmarkCover} />}
+                      </a>
+                    );
+                  },
+                };
 
-              return toRender;
-            })}
+                // Skip ignored block types
+                if (['page', 'divider', 'embed'].includes(block.type)) {
+                  return null;
+                }
+
+                return renderers[block.type]?.() || null;
+              };
+
+              // Render a list group
+              const renderListGroup = (group: Extract<GroupedBlock, { type: 'list' }>): React.ReactNode => {
+                const ListTag = group.listType;
+                return (
+                  <ListTag key={`list-${group.items[0].id}`} className={postStyles.list}>
+                    {group.items.map((item) => {
+                      const properties = item[item.type];
+                      const plainText = properties?.rich_text?.[0]?.plain_text || '';
+                      return (
+                        <li key={item.id} className={postStyles.listItem}>
+                          {plainText}
+                        </li>
+                      );
+                    })}
+                  </ListTag>
+                );
+              };
+
+              // Main: group blocks and render
+              const groupedBlocks = groupBlocks(post.page_blocks || []);
+
+              return groupedBlocks.flatMap((group) => {
+                if (group.type === 'list') {
+                  return renderListGroup(group);
+                }
+                return renderSingleBlock(group.block);
+              });
+            }, [post.page_blocks])}
           </div>
         </div>
 
