@@ -18,6 +18,7 @@ import { LinkPreview } from '../../../components/notion/blocks/embed/LinkPreview
 import { Divider } from '../../../components/notion/blocks/layout/Divider';
 import { ColumnList } from '../../../components/notion/blocks/layout/ColumnList';
 import { Table } from '../../../components/notion/blocks/layout/Table';
+import { SyncedBlock } from '../../../components/notion/blocks/special/SyncedBlock';
 
 interface BlogPostClientProps {
   post: any;
@@ -708,6 +709,25 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({
                   table_row: () => {
                     // table_row blocks are handled by Table, not rendered directly
                     return null;
+                  },
+                  synced_block: () => {
+                    const syncedBlockProps = block.synced_block;
+                    if (!syncedBlockProps) return null;
+
+                    const children =
+                      block.children && block.children.length > 0
+                        ? block.children
+                        : [];
+
+                    return (
+                      <SyncedBlock
+                        key={id}
+                        id={id}
+                        renderBlock={renderSingleBlock}
+                      >
+                        {children}
+                      </SyncedBlock>
+                    );
                   },
                 };
 
