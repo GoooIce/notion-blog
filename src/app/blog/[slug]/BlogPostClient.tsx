@@ -15,6 +15,9 @@ import { File } from '../../../components/notion/blocks/media/File';
 import { Pdf } from '../../../components/notion/blocks/media/Pdf';
 import { Equation } from '../../../components/notion/blocks/embed/Equation';
 import { LinkPreview } from '../../../components/notion/blocks/embed/LinkPreview';
+import { Divider } from '../../../components/notion/blocks/layout/Divider';
+import { ColumnList } from '../../../components/notion/blocks/layout/ColumnList';
+import { Table } from '../../../components/notion/blocks/layout/Table';
 
 interface BlogPostClientProps {
   post: any;
@@ -655,10 +658,61 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({
                     const { url } = linkPreviewProps;
                     return <LinkPreview key={id} id={id} url={url} />;
                   },
+                  divider: () => <Divider key={id} id={id} />,
+                  column_list: () => {
+                    const columnListProps = block.column_list;
+                    if (!columnListProps) return null;
+
+                    const children =
+                      block.children && block.children.length > 0
+                        ? block.children
+                        : [];
+
+                    return (
+                      <ColumnList
+                        key={id}
+                        id={id}
+                        renderBlock={renderSingleBlock}
+                      >
+                        {children}
+                      </ColumnList>
+                    );
+                  },
+                  column: () => {
+                    // column blocks are handled by ColumnList, not rendered directly
+                    return null;
+                  },
+                  table: () => {
+                    const tableProps = block.table;
+                    if (!tableProps) return null;
+                    const { table_width, has_column_header, has_row_header } =
+                      tableProps;
+
+                    const children =
+                      block.children && block.children.length > 0
+                        ? block.children
+                        : [];
+
+                    return (
+                      <Table
+                        key={id}
+                        id={id}
+                        table_width={table_width}
+                        has_column_header={has_column_header}
+                        has_row_header={has_row_header}
+                      >
+                        {children}
+                      </Table>
+                    );
+                  },
+                  table_row: () => {
+                    // table_row blocks are handled by Table, not rendered directly
+                    return null;
+                  },
                 };
 
                 // Skip ignored block types
-                if (['page', 'divider', 'embed'].includes(block.type)) {
+                if (['page', 'embed'].includes(block.type)) {
                   return null;
                 }
 
