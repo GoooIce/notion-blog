@@ -23,27 +23,25 @@ interface FileProps {
 // Get file icon based on extension
 const getFileIcon = (fileName: string): string => {
   const iconMap: Record<string, string> = {
-    'PDF': '📕',
-    'DOC': '📘', 'DOCX': '📘',
-    'XLS': '📗', 'XLSX': '📗',
-    'PPT': '📙', 'PPTX': '📙',
-    'ZIP': '📦', 'RAR': '📦',
-    'TXT': '📄',
+    PDF: '📕',
+    DOC: '📘',
+    DOCX: '📘',
+    XLS: '📗',
+    XLSX: '📗',
+    PPT: '📙',
+    PPTX: '📙',
+    ZIP: '📦',
+    RAR: '📦',
+    TXT: '📄',
   };
 
   const ext = fileName.split('.').pop()?.toUpperCase() || '';
   return iconMap[ext] || '📄';
 };
 
-export const File: React.FC<FileProps> = ({
-  id,
-  caption = [],
-  file
-}) => {
+export const File: React.FC<FileProps> = ({ id, caption = [], file }) => {
   // Get URL based on storage type
-  const fileUrl = file?.type === 'file'
-    ? file?.file?.url
-    : file?.external?.url;
+  const fileUrl = file?.type === 'file' ? file?.file?.url : file?.external?.url;
 
   if (!fileUrl) {
     return null;
@@ -64,9 +62,7 @@ export const File: React.FC<FileProps> = ({
         className={styles.fileLink}
         aria-label={`下载 ${fileName}`}
       >
-        <div className={styles.fileIcon}>
-          {fileIcon}
-        </div>
+        <div className={styles.fileIcon}>{fileIcon}</div>
         <div className={styles.fileInfo}>
           <div className={styles.fileName}>{fileName}</div>
         </div>
