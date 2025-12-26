@@ -13,6 +13,8 @@ import { Toggle } from '../../../components/notion/blocks/list/Toggle';
 import { Audio } from '../../../components/notion/blocks/media/Audio';
 import { File } from '../../../components/notion/blocks/media/File';
 import { Pdf } from '../../../components/notion/blocks/media/Pdf';
+import { Equation } from '../../../components/notion/blocks/embed/Equation';
+import { LinkPreview } from '../../../components/notion/blocks/embed/LinkPreview';
 
 interface BlogPostClientProps {
   post: any;
@@ -622,12 +624,7 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({
                     if (!audioProps) return null;
                     const { caption = [], audio } = audioProps;
                     return (
-                      <Audio
-                        key={id}
-                        id={id}
-                        caption={caption}
-                        audio={audio}
-                      />
+                      <Audio key={id} id={id} caption={caption} audio={audio} />
                     );
                   },
                   file: () => {
@@ -635,26 +632,28 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({
                     if (!fileProps) return null;
                     const { caption = [], file } = fileProps;
                     return (
-                      <File
-                        key={id}
-                        id={id}
-                        caption={caption}
-                        file={file}
-                      />
+                      <File key={id} id={id} caption={caption} file={file} />
                     );
                   },
                   pdf: () => {
                     const pdfProps = block.pdf;
                     if (!pdfProps) return null;
                     const { caption = [], pdf } = pdfProps;
+                    return <Pdf key={id} id={id} caption={caption} pdf={pdf} />;
+                  },
+                  equation: () => {
+                    const equationProps = block.equation;
+                    if (!equationProps) return null;
+                    const { expression } = equationProps;
                     return (
-                      <Pdf
-                        key={id}
-                        id={id}
-                        caption={caption}
-                        pdf={pdf}
-                      />
+                      <Equation key={id} id={id} expression={expression} />
                     );
+                  },
+                  link_preview: () => {
+                    const linkPreviewProps = block.link_preview;
+                    if (!linkPreviewProps) return null;
+                    const { url } = linkPreviewProps;
+                    return <LinkPreview key={id} id={id} url={url} />;
                   },
                 };
 
