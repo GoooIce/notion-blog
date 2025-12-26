@@ -65,7 +65,7 @@ const generateTOC = (blocks: any[]) => {
       block.type === 'heading_3'
     ) {
       const properties = block[block.type];
-      const text = properties?.text?.[0]?.plain_text || '';
+      const text = properties?.rich_text?.[0]?.plain_text || '';
       const level = parseInt(block.type.split('_')[1]);
 
       if (text) {
@@ -466,21 +466,21 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({
                   heading_1: () => (
                     <Heading key={id}>
                       <h1 id={id} className={postStyles.heading}>
-                        {textBlock(properties.text, true, id)}
+                        {textBlock(properties.rich_text, true, id)}
                       </h1>
                     </Heading>
                   ),
                   heading_2: () => (
                     <Heading key={id}>
                       <h2 id={id} className={postStyles.heading}>
-                        {textBlock(properties.text, true, id)}
+                        {textBlock(properties.rich_text, true, id)}
                       </h2>
                     </Heading>
                   ),
                   heading_3: () => (
                     <Heading key={id}>
                       <h3 id={id} className={postStyles.heading}>
-                        {textBlock(properties.text, true, id)}
+                        {textBlock(properties.rich_text, true, id)}
                       </h3>
                     </Heading>
                   ),
