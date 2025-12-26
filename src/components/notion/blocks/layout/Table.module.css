@@ -1,0 +1,27 @@
+.tableWrapper {
+  margin: 1.5rem 0;
+  width: 100%;
+}
+
+.tableOverflow {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+/* 响应式：小屏幕调整字体 */
+@media (max-width: 768px) {
+  .table {
+    font-size: 0.85rem;
+  }
+
+  .tableCell,
+  .tableHeaderCell {
+    padding: 0.5rem 0.75rem;
+  }
+}

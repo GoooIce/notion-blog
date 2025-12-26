@@ -1,0 +1,20 @@
+.tableRow {
+  border-bottom: 1px solid var(--circuit-idle, rgba(255, 255, 255, 0.1));
+}
+
+.tableRow:last-child {
+  border-bottom: none;
+}
+
+.tableCell {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.tableHeaderCell {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  background-color: var(--circuit-active, rgba(255, 255, 255, 0.05));
+}
