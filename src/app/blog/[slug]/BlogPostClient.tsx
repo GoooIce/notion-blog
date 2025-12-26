@@ -180,6 +180,7 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({
         style={{
           width: `${readingProgress}%`,
         }}
+        suppressHydrationWarning
       >
         <div className={postStyles.progressGlow} />
       </div>
