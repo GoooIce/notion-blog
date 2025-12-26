@@ -56,14 +56,15 @@ export const Table: React.FC<TableProps> = ({
           <tbody>
             {rows.map((rowBlock: NotionBlock, index: number) => {
               const isFirstRow = index === 0;
-              const isHeader = has_column_header && isFirstRow;
+              const isColumnHeader = has_column_header && isFirstRow;
 
               return (
                 <TableRow
                   key={rowBlock.id}
                   id={rowBlock.id}
                   cells={rowBlock.table_row?.cells}
-                  isHeader={isHeader}
+                  isHeader={isColumnHeader}
+                  isFirstRowHeader={has_row_header}
                 />
               );
             })}

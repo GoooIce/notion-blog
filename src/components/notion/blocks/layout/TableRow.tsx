@@ -20,27 +20,40 @@ interface TableRowProps {
   id: string;
   /** Table row cells from Notion */
   cells?: string[][];
-  /** Whether this is a header row */
+  /** Whether this is a header row (column header) */
   isHeader?: boolean;
+  /** Whether first column should be header (row header) */
+  isFirstRowHeader?: boolean;
 }
 
 export const TableRow: React.FC<TableRowProps> = ({
   id,
   cells = [],
   isHeader = false,
+  isFirstRowHeader = false,
 }) => {
-  const Tag = isHeader ? 'th' : 'td';
+  // 边界情况处理：空 cells
+  if (!cells || cells.length === 0) {
+    return null;
+  }
 
   return (
     <tr className={styles.tableRow}>
-      {cells.map((cell, index) => (
-        <Tag
-          key={`${id}-cell-${index}`}
-          className={isHeader ? styles.tableHeaderCell : styles.tableCell}
-        >
-          {textBlock(cell, false, `${id}-cell-${index}`)}
-        </Tag>
-      ))}
+      {cells.map((cell, index) => {
+        const isFirstCell = index === 0;
+        const isRowHeaderCell = isFirstRowHeader && isFirstCell;
+        const isHeaderCell = isHeader || isRowHeaderCell;
+        const Tag = isHeaderCell ? 'th' : 'td';
+
+        return (
+          <Tag
+            key={`${id}-cell-${index}`}
+            className={isHeaderCell ? styles.tableHeaderCell : styles.tableCell}
+          >
+            {textBlock(cell, false, `${id}-cell-${index}`)}
+          </Tag>
+        );
+      })}
     </tr>
   );
 };

@@ -19,9 +19,4 @@
   .table {
     font-size: 0.85rem;
   }
-
-  .tableCell,
-  .tableHeaderCell {
-    padding: 0.5rem 0.75rem;
-  }
 }
