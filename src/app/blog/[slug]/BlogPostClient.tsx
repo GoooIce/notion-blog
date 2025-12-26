@@ -421,23 +421,35 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview
                     );
                   },
                   bookmark: () => {
-                    const { link, title, description, format } = properties;
-                    const { bookmark_icon: icon, bookmark_cover: cover } = format || {};
+                    // Notion API bookmark structure: properties = { url, caption, format }
+                    const url = properties.url || '';
+                    const caption = properties.caption || [];
+                    const title = caption[0]?.plain_text || '';
+                    const description = caption[1]?.plain_text || '';
+                    const { bookmark_icon: icon, bookmark_cover: cover } = properties.format || {};
+
+                    // Use custom title if available, otherwise use full URL
+                    const displayTitle = title || url || 'Bookmark';
+                    // Show link section only if there's a custom title
+                    const showLinkSection = !!title;
+
                     return (
                       <a
                         key={id}
-                        href={link}
+                        href={url}
                         target="_blank"
                         rel="noopener noreferrer"
                         className={postStyles.bookmark}
                       >
                         <div className={postStyles.bookmarkInfo}>
-                          <div className={postStyles.bookmarkTitle}>{title}</div>
+                          <div className={postStyles.bookmarkTitle}>{displayTitle}</div>
                           {description && <div className={postStyles.bookmarkDescription}>{description}</div>}
-                          <div className={postStyles.bookmarkLink}>
-                            {icon && <img src={icon} alt="" className={postStyles.bookmarkIcon} />}
-                            <span>{link}</span>
-                          </div>
+                          {showLinkSection && (
+                            <div className={postStyles.bookmarkLink}>
+                              {icon && <img src={icon} alt="" className={postStyles.bookmarkIcon} />}
+                              <span>{url}</span>
+                            </div>
+                          )}
                         </div>
                         {cover && <img src={cover} alt="" className={postStyles.bookmarkCover} />}
                       </a>
