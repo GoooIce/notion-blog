@@ -1,0 +1,13 @@
+.divider {
+  border: none;
+  border-top: 1px solid var(--divider-color, #e0e0e0);
+  margin: 1.5rem 0;
+  width: 100%;
+}
+
+/* 深色模式支持 */
+@media (prefers-color-scheme: dark) {
+  .divider {
+    border-top-color: var(--divider-color, #333);
+  }
+}
