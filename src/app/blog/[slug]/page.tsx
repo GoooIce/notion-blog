@@ -10,7 +10,9 @@ interface PageProps {
   };
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   try {
     const resolvedParams = await params;
     const post_id = resolvedParams.slug.split('-').pop();
@@ -24,10 +26,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
     return {
       title: post.title || 'Blog Post',
-      description: post.preview || 'A blog post on GoooIce\'s MiantuNet',
+      description: post.preview || "A blog post on GoooIce's MiantuNet",
       openGraph: {
         title: post.title || 'Blog Post',
-        description: post.preview || 'A blog post on GoooIce\'s MiantuNet',
+        description: post.preview || "A blog post on GoooIce's MiantuNet",
         type: 'article',
         publishedTime: post.date,
         authors: post.author,

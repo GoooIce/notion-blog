@@ -24,15 +24,15 @@
 
 ### 2.1 基础色彩
 
-| 用途 | 颜色值 | 说明 |
-|------|--------|------|
-| 背景色 | `#0a0a0a` | 近乎纯黑，比纯#000更柔和 |
-| 电路走线（未通电） | `rgba(255, 255, 255, 0.1)` | 低透明度白色 |
-| 主强调色 | `#00ff41` | 终端绿，用于主要交互/链接 |
-| 次强调色 | `#00d4ff` | 电光蓝，用于次要元素 |
-| 文字主色 | `#e8e8e8` | 主要正文内容 |
-| 文字次色 | `rgba(232, 232, 232, 0.6)` | 次要信息 |
-| 代码块背景 | `#1a1a1a` | 深灰色 |
+| 用途               | 颜色值                     | 说明                      |
+| ------------------ | -------------------------- | ------------------------- |
+| 背景色             | `#0a0a0a`                  | 近乎纯黑，比纯#000更柔和  |
+| 电路走线（未通电） | `rgba(255, 255, 255, 0.1)` | 低透明度白色              |
+| 主强调色           | `#00ff41`                  | 终端绿，用于主要交互/链接 |
+| 次强调色           | `#00d4ff`                  | 电光蓝，用于次要元素      |
+| 文字主色           | `#e8e8e8`                  | 主要正文内容              |
+| 文字次色           | `rgba(232, 232, 232, 0.6)` | 次要信息                  |
+| 代码块背景         | `#1a1a1a`                  | 深灰色                    |
 
 ### 2.2 CSS 变量定义
 
@@ -48,7 +48,7 @@
   --circuit-active: #00ff41;
 
   /* Accent colors */
-  --accent-primary: #00ff41;  /* Terminal green */
+  --accent-primary: #00ff41; /* Terminal green */
   --accent-secondary: #00d4ff; /* Electric blue */
 
   /* Text colors */
@@ -69,11 +69,11 @@
 
 基于 CSS Grid 的响应式网格：
 
-| 断点 | 列数 | 说明 |
-|------|------|------|
-| 移动端 (< 640px) | 1 列 | 单列布局 |
+| 断点                  | 列数   | 说明     |
+| --------------------- | ------ | -------- |
+| 移动端 (< 640px)      | 1 列   | 单列布局 |
 | 平板 (640px - 1024px) | 2-3 列 | 中等密度 |
-| 桌面 (> 1024px) | 4 列 | 完整阵列 |
+| 桌面 (> 1024px)       | 4 列   | 完整阵列 |
 
 ### 3.2 首页结构
 
@@ -119,6 +119,7 @@ root@miantu:~# [home] [blog] [about] [contact]
 ```
 
 **样式规范：**
+
 - 使用等宽字体
 - `root@miantu:~#` 固定命令提示符
 - 导航项用方括号包裹
@@ -141,6 +142,7 @@ root@miantu:~# [home] [blog] [about] [contact]
 使用 Canvas 实现的交互层：
 
 **技术实现：**
+
 - 监听鼠标移动事件
 - 生成贝塞尔曲线路径连接到最近焊盘
 - 颜色渐变：终端绿 → 电光蓝
@@ -159,8 +161,12 @@ root@miantu:~# [home] [blog] [about] [contact]
 
 ```css
 @keyframes circuit-flow {
-  0% { stroke-dashoffset: 100; }
-  100% { stroke-dashoffset: 0; }
+  0% {
+    stroke-dashoffset: 100;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
 }
 
 .circuit-active {
@@ -221,6 +227,7 @@ pre {
 ### 7.1 静态背景
 
 使用 CSS/SVG 绘制：
+
 - 45° 角折线风格（真实 PCB 走线）
 - 走线宽度 1-2px
 - 透明度 10%
@@ -238,6 +245,7 @@ pre {
 ### 8.1 终端打字效果
 
 页面加载时重要文字使用打字机效果：
+
 - 逐字显示
 - 伴随光标闪烁
 - 可通过配置开关控制
@@ -246,8 +254,14 @@ pre {
 
 ```css
 @keyframes blink {
-  0%, 50% { opacity: 1; }
-  51%, 100% { opacity: 0; }
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
 }
 
 .cursor-blink {
@@ -297,12 +311,15 @@ pre {
 
 ```css
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
 
-  .current-canvas, .circuit-decoration {
+  .current-canvas,
+  .circuit-decoration {
     display: none !important;
   }
 }
@@ -339,27 +356,32 @@ src/
 ## 12. 实施清单
 
 ### 12.1 核心样式
+
 - [ ] 创建 `circuit-theme.css` 定义 CSS 变量和基础样式
 - [ ] 创建 `circuit-grid.css` 实现网格布局
 - [ ] 创建 `circuit-animations.css` 定义动画
 
 ### 12.2 组件开发
+
 - [ ] `CircuitBackground.tsx` - 静态电路背景
 - [ ] `CurrentCanvas.tsx` - 鼠标电流追踪
 - [ ] `TerminalNav.tsx` - 终端风格导航
 - [ ] `ChipCard.tsx` - 芯片卡片组件
 
 ### 12.3 页面更新
+
 - [ ] 更新 `layout.tsx` 应用新主题
 - [ ] 更新 `page.tsx` 为网格布局
 - [ ] 更新博客列表页
 - [ ] 更新单篇文章页
 
 ### 12.4 移除旧代码
+
 - [ ] 移除/替换 `src/components/decorations/` 下的旧装饰组件
 - [ ] 清理旧的颜色变量和渐变样式
 
 ### 12.5 测试
+
 - [ ] 响应式测试（移动端/平板/桌面）
 - [ ] 性能测试（Lighthouse）
 - [ ] 可访问性测试
@@ -370,11 +392,13 @@ src/
 ## 13. 设计参考
 
 **视觉灵感：**
+
 - 印刷电路板（PCB）美学
 - 终端/命令行界面
 - 赛博朋克工业风格
 
 **技术参考：**
+
 - CSS Grid 布局
 - Canvas 交互效果
 - SVG 路径动画

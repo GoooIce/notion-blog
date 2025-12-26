@@ -40,14 +40,17 @@ const Header = ({ titlePre = '' }) => {
               return (
                 <li key={item.label} ref={navMagneticRef as any}>
                   {item.page ? (
-                    <Link 
-                      href={item.page} 
+                    <Link
+                      href={item.page}
                       className={`${isActive ? styles.active : ''} ${styles.navLink} artistic-hover-lift`}
                     >
                       {item.label}
                     </Link>
                   ) : (
-                    <ExtLink href={item.link} className={`${styles.navLink} artistic-hover-lift`}>
+                    <ExtLink
+                      href={item.link}
+                      className={`${styles.navLink} artistic-hover-lift`}
+                    >
                       {item.label}
                     </ExtLink>
                   )}

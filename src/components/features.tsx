@@ -13,49 +13,49 @@ const features = [
     text: 'Rust',
     icon: Lightning,
     gradient: 'var(--gradient-primary)',
-    color: '#FF6B9D'
+    color: '#FF6B9D',
   },
   {
     text: 'DDD',
     icon: Jamstack,
     gradient: 'var(--gradient-secondary)',
-    color: '#00D4FF'
+    color: '#00D4FF',
   },
   {
     text: '蒸达人',
     icon: Wifi,
     gradient: 'var(--gradient-accent)',
-    color: '#FFB800'
+    color: '#FFB800',
   },
   {
     text: 'DeepLearning',
     icon: Edit,
     gradient: 'var(--gradient-nature)',
-    color: '#00FFA3'
+    color: '#00FFA3',
   },
   {
     text: '终身学习',
     icon: Plus,
     gradient: 'var(--gradient-primary)',
-    color: '#C06BFF'
+    color: '#C06BFF',
   },
   {
     text: '开源爱好',
     icon: Scroll,
     gradient: 'var(--gradient-secondary)',
-    color: '#0099FF'
+    color: '#0099FF',
   },
   {
     text: '半程马拉松',
     icon: Lighthouse,
     gradient: 'var(--gradient-accent)',
-    color: '#FF6B00'
+    color: '#FF6B00',
   },
   {
     text: 'Edit via Notion',
     icon: Notion,
     gradient: 'var(--gradient-nature)',
-    color: '#00D4AA'
+    color: '#00D4AA',
   },
 ];
 
@@ -64,7 +64,7 @@ const FeatureItem = ({ text, icon: Icon, gradient, color }: any) => {
   const tiltRef = use3DTilt({ intensity: 0.1 });
 
   return (
-    <div 
+    <div
       ref={magneticRef as any}
       className="feature artistic-hover-lift"
       style={{
@@ -77,7 +77,7 @@ const FeatureItem = ({ text, icon: Icon, gradient, color }: any) => {
         transition: 'all var(--animation-normal) var(--ease-smooth)',
       }}
     >
-      <div 
+      <div
         ref={tiltRef as any}
         className="feature-content"
         style={{
@@ -89,7 +89,7 @@ const FeatureItem = ({ text, icon: Icon, gradient, color }: any) => {
         }}
       >
         {Icon && (
-          <div 
+          <div
             className="feature-icon"
             style={{
               color: color,
@@ -100,7 +100,7 @@ const FeatureItem = ({ text, icon: Icon, gradient, color }: any) => {
             <Icon height={24} width={24} />
           </div>
         )}
-        <span 
+        <span
           className="feature-text"
           style={{
             fontWeight: '600',
@@ -112,9 +112,9 @@ const FeatureItem = ({ text, icon: Icon, gradient, color }: any) => {
           {text}
         </span>
       </div>
-      
+
       {/* Gradient overlay */}
-      <div 
+      <div
         className="feature-overlay"
         style={{
           position: 'absolute',

@@ -31,7 +31,7 @@ export const Todo: React.FC<TodoProps> = ({
   id,
   rich_text = [],
   checked = false,
-  color = 'default'
+  color = 'default',
 }) => {
   const { toggleTodo, isChecked } = useTodoState();
   const normalizedColor = normalizeColor(color);

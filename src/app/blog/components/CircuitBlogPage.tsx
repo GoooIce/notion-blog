@@ -42,15 +42,15 @@ export default function CircuitBlogPage({ posts }: CircuitBlogPageProps) {
   // Sort posts by date (newest first) and add computed properties
   const processedPosts = useMemo(() => {
     return posts
-      .map(post => ({
+      .map((post) => ({
         ...post,
         readingTime: calculateReadingTime(post.excerpt || ''),
         relativeDate: formatRelativeDate(post.date),
         formattedDate: new Date(post.date).toLocaleDateString('zh-CN', {
           year: 'numeric',
           month: 'long',
-          day: 'numeric'
-        })
+          day: 'numeric',
+        }),
       }))
       .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   }, [posts]);
@@ -65,7 +65,12 @@ export default function CircuitBlogPage({ posts }: CircuitBlogPageProps) {
       {/* Hero Section */}
       <div className={styles.hero}>
         <div className={styles.heroDecoration}>
-          <svg width="100%" height="100%" viewBox="0 0 400 100" preserveAspectRatio="none">
+          <svg
+            width="100%"
+            height="100%"
+            viewBox="0 0 400 100"
+            preserveAspectRatio="none"
+          >
             <path
               d="M0,50 L50,50 L60,40 L80,40 L90,50 L150,50"
               stroke="rgba(0, 255, 65, 0.3)"
@@ -80,8 +85,20 @@ export default function CircuitBlogPage({ posts }: CircuitBlogPageProps) {
               fill="none"
               className={styles.circuitFlow}
             />
-            <circle cx="0" cy="50" r="3" fill="var(--accent-primary)" className={styles.pulseDot} />
-            <circle cx="400" cy="50" r="3" fill="var(--accent-primary)" className={styles.pulseDot} />
+            <circle
+              cx="0"
+              cy="50"
+              r="3"
+              fill="var(--accent-primary)"
+              className={styles.pulseDot}
+            />
+            <circle
+              cx="400"
+              cy="50"
+              r="3"
+              fill="var(--accent-primary)"
+              className={styles.pulseDot}
+            />
           </svg>
         </div>
 
@@ -105,15 +122,13 @@ export default function CircuitBlogPage({ posts }: CircuitBlogPageProps) {
             <div className={styles.statDivider} />
             <div className={styles.stat}>
               <span className={styles.statValue}>
-                {new Set(posts.map(p => p.tag).filter(Boolean)).size}
+                {new Set(posts.map((p) => p.tag).filter(Boolean)).size}
               </span>
               <span className={styles.statLabel}>个分类</span>
             </div>
           </div>
 
-          <p className={styles.heroSubtitle}>
-            探索技术、分享知识、记录成长
-          </p>
+          <p className={styles.heroSubtitle}>探索技术、分享知识、记录成长</p>
         </div>
       </div>
 
@@ -153,9 +168,7 @@ export default function CircuitBlogPage({ posts }: CircuitBlogPageProps) {
               <h3 className={styles.cardTitle}>{post.title}</h3>
 
               {/* Card excerpt */}
-              <p className={styles.cardExcerpt}>
-                {post.excerpt || '暂无摘要'}
-              </p>
+              <p className={styles.cardExcerpt}>{post.excerpt || '暂无摘要'}</p>
 
               {/* Card metadata */}
               <div className={styles.cardMetadata}>

@@ -41,7 +41,7 @@ const formatDate = (dateString: string): string => {
   return date.toLocaleDateString('zh-CN', {
     year: 'numeric',
     month: 'long',
-    day: 'numeric'
+    day: 'numeric',
   });
 };
 
@@ -50,7 +50,11 @@ const generateTOC = (blocks: any[]) => {
   const toc: { id: string; text: string; level: number }[] = [];
 
   blocks.forEach((block) => {
-    if (block.type === 'heading_1' || block.type === 'heading_2' || block.type === 'heading_3') {
+    if (
+      block.type === 'heading_1' ||
+      block.type === 'heading_2' ||
+      block.type === 'heading_3'
+    ) {
       const properties = block[block.type];
       const text = properties?.text?.[0]?.plain_text || '';
       const level = parseInt(block.type.split('_')[1]);
@@ -59,7 +63,7 @@ const generateTOC = (blocks: any[]) => {
         toc.push({
           id: block.id,
           text,
-          level
+          level,
         });
       }
     }
@@ -68,15 +72,25 @@ const generateTOC = (blocks: any[]) => {
   return toc;
 };
 
-const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview }) => {
+const BlogPostClient: React.FC<BlogPostClientProps> = ({
+  post,
+  redirect,
+  preview,
+}) => {
   const router = useRouter();
   const [readingProgress, setReadingProgress] = useState(0);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [activeHeading, setActiveHeading] = useState<string>('');
 
   // Calculate reading time and TOC
-  const readingTime = useMemo(() => calculateReadingTime(post.page_blocks || []), [post.page_blocks]);
-  const toc = useMemo(() => generateTOC(post.page_blocks || []), [post.page_blocks]);
+  const readingTime = useMemo(
+    () => calculateReadingTime(post.page_blocks || []),
+    [post.page_blocks]
+  );
+  const toc = useMemo(
+    () => generateTOC(post.page_blocks || []),
+    [post.page_blocks]
+  );
   const formattedDate = useMemo(() => formatDate(post.date), [post.date]);
 
   // Handle redirect
@@ -90,7 +104,8 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview
   useEffect(() => {
     const updateReadingProgress = () => {
       const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const docHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
       const progress = (scrollTop / docHeight) * 100;
       setReadingProgress(Math.min(progress, 100));
 
@@ -187,9 +202,20 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview
         <header className={postStyles.hero}>
           {/* Circuit decoration */}
           <div className={postStyles.heroDecoration}>
-            <svg width="100%" height="100%" viewBox="0 0 800 200" preserveAspectRatio="xMidYMid slice">
+            <svg
+              width="100%"
+              height="100%"
+              viewBox="0 0 800 200"
+              preserveAspectRatio="xMidYMid slice"
+            >
               <defs>
-                <linearGradient id="circuit-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <linearGradient
+                  id="circuit-gradient"
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="0%"
+                >
                   <stop offset="0%" stopColor="rgba(0, 255, 65, 0.1)" />
                   <stop offset="50%" stopColor="rgba(0, 255, 65, 0.3)" />
                   <stop offset="100%" stopColor="rgba(0, 255, 65, 0.1)" />
@@ -212,11 +238,41 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview
                 className={postStyles.circuitFlow}
               />
               {/* Circuit nodes */}
-              <circle cx="0" cy="80" r="4" fill="var(--accent-primary)" className={postStyles.pulseDot} />
-              <circle cx="350" cy="80" r="3" fill="var(--accent-primary)" opacity="0.6" />
-              <circle cx="800" cy="80" r="4" fill="var(--accent-primary)" className={postStyles.pulseDot} />
-              <circle cx="100" cy="120" r="3" fill="var(--accent-primary)" opacity="0.6" />
-              <circle cx="500" cy="120" r="3" fill="var(--accent-primary)" opacity="0.6" />
+              <circle
+                cx="0"
+                cy="80"
+                r="4"
+                fill="var(--accent-primary)"
+                className={postStyles.pulseDot}
+              />
+              <circle
+                cx="350"
+                cy="80"
+                r="3"
+                fill="var(--accent-primary)"
+                opacity="0.6"
+              />
+              <circle
+                cx="800"
+                cy="80"
+                r="4"
+                fill="var(--accent-primary)"
+                className={postStyles.pulseDot}
+              />
+              <circle
+                cx="100"
+                cy="120"
+                r="3"
+                fill="var(--accent-primary)"
+                opacity="0.6"
+              />
+              <circle
+                cx="500"
+                cy="120"
+                r="3"
+                fill="var(--accent-primary)"
+                opacity="0.6"
+              />
             </svg>
           </div>
 
@@ -236,7 +292,11 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview
             {/* Metadata */}
             <div className={postStyles.metadata}>
               <div className={postStyles.metadataItem}>
-                <svg className={postStyles.metadataIcon} viewBox="0 0 16 16" fill="currentColor">
+                <svg
+                  className={postStyles.metadataIcon}
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                >
                   <path d="M8 0a8 8 0 100 16A8 8 0 008 0zm0 14.5a6.5 6.5 0 110-13 6.5 6.5 0 010 13z" />
                   <path d="M8 4a.5.5 0 01.5.5v3h3a.5.5 0 010 1h-3.5a.5.5 0 01-.5-.5v-3.5A.5.5 0 018 4z" />
                 </svg>
@@ -246,7 +306,11 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview
               <div className={postStyles.metadataDivider} />
 
               <div className={postStyles.metadataItem}>
-                <svg className={postStyles.metadataIcon} viewBox="0 0 16 16" fill="currentColor">
+                <svg
+                  className={postStyles.metadataIcon}
+                  viewBox="0 0 16 16"
+                  fill="currentColor"
+                >
                   <path d="M1 2.5A1.5 1.5 0 012.5 1h3A1.5 1.5 0 017 2.5v3A1.5 1.5 0 015.5 7h-3A1.5 1.5 0 011 5.5v-3zM2.5 2a.5.5 0 00-.5.5v3a.5.5 0 00.5.5h3a.5.5 0 00.5-.5v-3a.5.5 0 00-.5-.5h-3zm6.5.5A1.5 1.5 0 0110.5 1h3A1.5 1.5 0 0115 2.5v3A1.5 1.5 0 0113.5 7h-3A1.5 1.5 0 019 5.5v-3zm1.5-.5a.5.5 0 00-.5.5v3a.5.5 0 00.5.5h3a.5.5 0 00.5-.5v-3a.5.5 0 00-.5-.5h-3z" />
                 </svg>
                 <span>{readingTime} 分钟阅读</span>
@@ -256,7 +320,11 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview
                 <>
                   <div className={postStyles.metadataDivider} />
                   <div className={postStyles.metadataItem}>
-                    <svg className={postStyles.metadataIcon} viewBox="0 0 16 16" fill="currentColor">
+                    <svg
+                      className={postStyles.metadataIcon}
+                      viewBox="0 0 16 16"
+                      fill="currentColor"
+                    >
                       <path d="M8 8a3 3 0 100-6 3 3 0 000 6zm2-3a2 2 0 11-4 0 2 2 0 014 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z" />
                     </svg>
                     <span>{post.author}</span>
@@ -307,11 +375,20 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview
 
               // Helper: check if block is a list item
               const isListItem = (block: any): boolean =>
-                ['bulleted_list', 'bulleted_list_item', 'numbered_list', 'numbered_list_item'].includes(block.type);
+                [
+                  'bulleted_list',
+                  'bulleted_list_item',
+                  'numbered_list',
+                  'numbered_list_item',
+                ].includes(block.type);
 
               // Helper: get list type from block
               const getListType = (block: any): 'ul' | 'ol' => {
-                if (block.type === 'numbered_list' || block.type === 'numbered_list_item') return 'ol';
+                if (
+                  block.type === 'numbered_list' ||
+                  block.type === 'numbered_list_item'
+                )
+                  return 'ol';
                 return 'ul';
               };
 
@@ -323,7 +400,10 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview
                     const lastGroup = acc[acc.length - 1];
 
                     // If last group is same type of list, append to it
-                    if (lastGroup?.type === 'list' && lastGroup.listType === listType) {
+                    if (
+                      lastGroup?.type === 'list' &&
+                      lastGroup.listType === listType
+                    ) {
                       lastGroup.items.push(block);
                     } else {
                       // Create new list group
@@ -345,7 +425,8 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview
 
                 // Renderer functions map
                 const renderers: Record<string, () => React.ReactNode> = {
-                  text: () => properties ? textBlock(properties.text, false, id) : null,
+                  text: () =>
+                    properties ? textBlock(properties.text, false, id) : null,
                   paragraph: () =>
                     properties?.rich_text ? (
                       <p key={id} className={postStyles.paragraph}>
@@ -408,10 +489,14 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview
                       <div key={id} className={postStyles.codeWrapper}>
                         {language && (
                           <div className={postStyles.codeHeader}>
-                            <span className={postStyles.codeLanguage}>{language}</span>
+                            <span className={postStyles.codeLanguage}>
+                              {language}
+                            </span>
                             <button
                               className={postStyles.copyButton}
-                              onClick={() => navigator.clipboard.writeText(code)}
+                              onClick={() =>
+                                navigator.clipboard.writeText(code)
+                              }
                             >
                               复制
                             </button>
@@ -429,7 +514,8 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview
                     const caption = properties.caption || [];
                     const title = caption[0]?.plain_text || '';
                     const description = caption[1]?.plain_text || '';
-                    const { bookmark_icon: icon, bookmark_cover: cover } = properties.format || {};
+                    const { bookmark_icon: icon, bookmark_cover: cover } =
+                      properties.format || {};
 
                     // Use custom title if available, otherwise use full URL
                     const displayTitle = title || url || 'Bookmark';
@@ -445,16 +531,34 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview
                         className={postStyles.bookmark}
                       >
                         <div className={postStyles.bookmarkInfo}>
-                          <div className={postStyles.bookmarkTitle}>{displayTitle}</div>
-                          {description && <div className={postStyles.bookmarkDescription}>{description}</div>}
+                          <div className={postStyles.bookmarkTitle}>
+                            {displayTitle}
+                          </div>
+                          {description && (
+                            <div className={postStyles.bookmarkDescription}>
+                              {description}
+                            </div>
+                          )}
                           {showLinkSection && (
                             <div className={postStyles.bookmarkLink}>
-                              {icon && <img src={icon} alt="" className={postStyles.bookmarkIcon} />}
+                              {icon && (
+                                <img
+                                  src={icon}
+                                  alt=""
+                                  className={postStyles.bookmarkIcon}
+                                />
+                              )}
                               <span>{url}</span>
                             </div>
                           )}
                         </div>
-                        {cover && <img src={cover} alt="" className={postStyles.bookmarkCover} />}
+                        {cover && (
+                          <img
+                            src={cover}
+                            alt=""
+                            className={postStyles.bookmarkCover}
+                          />
+                        )}
                       </a>
                     );
                   },
@@ -462,13 +566,29 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview
                     const calloutProps = block.callout;
                     if (!calloutProps) return null;
                     const { rich_text = [], icon, color } = calloutProps;
-                    return <Callout key={id} id={id} rich_text={rich_text} icon={icon} color={color} />;
+                    return (
+                      <Callout
+                        key={id}
+                        id={id}
+                        rich_text={rich_text}
+                        icon={icon}
+                        color={color}
+                      />
+                    );
                   },
                   to_do: () => {
                     const todoProps = block.to_do;
                     if (!todoProps) return null;
                     const { rich_text = [], checked, color } = todoProps;
-                    return <Todo key={id} id={id} rich_text={rich_text} checked={checked} color={color} />;
+                    return (
+                      <Todo
+                        key={id}
+                        id={id}
+                        rich_text={rich_text}
+                        checked={checked}
+                        color={color}
+                      />
+                    );
                   },
                   toggle: () => {
                     const toggleProps = block.toggle;
@@ -476,12 +596,20 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview
                     const { rich_text = [], color } = toggleProps;
 
                     // Render children blocks if they exist
-                    const children = block.children && block.children.length > 0
-                      ? block.children.map((childBlock: any) => renderSingleBlock(childBlock))
-                      : null;
+                    const children =
+                      block.children && block.children.length > 0
+                        ? block.children.map((childBlock: any) =>
+                            renderSingleBlock(childBlock)
+                          )
+                        : null;
 
                     return (
-                      <Toggle key={id} id={id} rich_text={rich_text} color={color}>
+                      <Toggle
+                        key={id}
+                        id={id}
+                        rich_text={rich_text}
+                        color={color}
+                      >
                         {children}
                       </Toggle>
                     );
@@ -497,13 +625,19 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview
               };
 
               // Render a list group
-              const renderListGroup = (group: Extract<GroupedBlock, { type: 'list' }>): React.ReactNode => {
+              const renderListGroup = (
+                group: Extract<GroupedBlock, { type: 'list' }>
+              ): React.ReactNode => {
                 const ListTag = group.listType;
                 return (
-                  <ListTag key={`list-${group.items[0].id}`} className={postStyles.list}>
+                  <ListTag
+                    key={`list-${group.items[0].id}`}
+                    className={postStyles.list}
+                  >
                     {group.items.map((item) => {
                       const properties = item[item.type];
-                      const plainText = properties?.rich_text?.[0]?.plain_text || '';
+                      const plainText =
+                        properties?.rich_text?.[0]?.plain_text || '';
                       return (
                         <li key={item.id} className={postStyles.listItem}>
                           {plainText}
@@ -530,7 +664,11 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview
         {/* Article Footer */}
         <footer className={postStyles.footer}>
           <Link href="/blog" className={postStyles.backLink}>
-            <svg viewBox="0 0 16 16" fill="currentColor" className={postStyles.backIcon}>
+            <svg
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              className={postStyles.backIcon}
+            >
               <path d="M11.354 1.646a.5.5 0 010 .708L5.707 8l5.647 5.646a.5.5 0 01-.708.708l-6-6a.5.5 0 010-.708l6-6a.5.5 0 01.708 0z" />
             </svg>
             返回博客列表

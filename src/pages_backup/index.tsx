@@ -5,7 +5,11 @@ import SmoothScroll from '../components/smooth-scroll';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { useParallax, useRevealOnScroll, useStaggeredReveal } from '../hooks/useParallax';
+import {
+  useParallax,
+  useRevealOnScroll,
+  useStaggeredReveal,
+} from '../hooks/useParallax';
 import sharedStyles from '../styles/shared.module.css';
 import styles from '../styles/home.module.css';
 
@@ -64,7 +68,8 @@ export default function Index() {
               </div>
               <div className={styles.heroText}>
                 <h1 className={styles.heroTitle}>
-                  欢迎访问 <span className={styles.highlight}>GoooIce</span> 的 MiantuNet
+                  欢迎访问 <span className={styles.highlight}>GoooIce</span> 的
+                  MiantuNet
                 </h1>
                 <h2 className={styles.heroSubtitle}>
                   一个关于技术、生活与思考的个人博客
@@ -81,7 +86,10 @@ export default function Index() {
           </section>
 
           {/* Features Section */}
-          <section ref={featuresSectionRef as any} className={styles.featuresSection}>
+          <section
+            ref={featuresSectionRef as any}
+            className={styles.featuresSection}
+          >
             <h2 className={styles.sectionTitle}>技术栈与兴趣</h2>
             <Features />
           </section>

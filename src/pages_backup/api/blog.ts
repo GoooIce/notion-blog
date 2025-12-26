@@ -13,19 +13,19 @@ export default async function handler(
     const posts = await getPostsInfos(false); // Don't include preview for performance
 
     // Sort posts by date (newest first)
-    const sortedPosts = posts.sort((a, b) =>
-      new Date(b.date).getTime() - new Date(a.date).getTime()
+    const sortedPosts = posts.sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
 
     res.status(200).json({
       posts: sortedPosts,
-      total: sortedPosts.length
+      total: sortedPosts.length,
     });
   } catch (error) {
     console.error('Error fetching posts:', error);
     res.status(500).json({
       message: 'Failed to fetch posts',
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error.message : 'Unknown error',
     });
   }
 }

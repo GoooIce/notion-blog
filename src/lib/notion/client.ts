@@ -71,7 +71,8 @@ export async function getPostPreview(pageId: string) {
   }
 
   // Get content before divider (or first 5 blocks if no divider)
-  const maxPreviewBlocks = dividerIndex === blocks.length ? Math.min(5, blocks.length) : dividerIndex;
+  const maxPreviewBlocks =
+    dividerIndex === blocks.length ? Math.min(5, blocks.length) : dividerIndex;
   const content = blocks.slice(0, maxPreviewBlocks);
 
   const content_str = content
@@ -82,9 +83,13 @@ export async function getPostPreview(pageId: string) {
 
       // Handle different text structures in the new SDK
       if (blockContent?.text) {
-        return blockContent.text.map((text: any) => text.plain_text || '').join('');
+        return blockContent.text
+          .map((text: any) => text.plain_text || '')
+          .join('');
       } else if (blockContent?.rich_text) {
-        return blockContent.rich_text.map((text: any) => text.plain_text || '').join('');
+        return blockContent.rich_text
+          .map((text: any) => text.plain_text || '')
+          .join('');
       } else {
         return '';
       }

@@ -26,6 +26,7 @@
 将 Notion block 类型分为以下几类来处理：
 
 **1. 基础文本类**
+
 - `paragraph` - 段落
 - `heading_1/2/3` - 标题
 - `quote` - 引用
@@ -34,11 +35,13 @@
 - `to_do` - 复选框任务 ⭐ 新增
 
 **2. 列表类**
+
 - `bulleted_list_item` - 无序列表
 - `numbered_list_item` - 有序列表
 - `toggle` - 可折叠列表 ⭐ 新增
 
 **3. 媒体文件类**
+
 - `image` - 图片
 - `video` - 视频
 - `audio` - 音频 ⭐ 新增
@@ -46,16 +49,19 @@
 - `pdf` - PDF 文件 ⭐ 新增
 
 **4. 嵌入内容类**
+
 - `bookmark` - 书签
 - `link_preview` - 链接预览 ⭐ 新增
 - `equation` - 公式 ⭐ 新增
 
 **5. 布局类**
+
 - `divider` - 分隔线 ⭐ 新增
 - `column_list / column` - 分栏布局 ⭐ 新增
 - `table / table_row` - 表格 ⭐ 新增
 
 **6. 特殊类**
+
 - `synced_block` - 同步块 ⭐ 新增
 
 ---
@@ -67,12 +73,12 @@
 ```typescript
 // Block 类型分类
 type BlockCategory =
-  | 'text'      // 基础文本
-  | 'list'      // 列表
-  | 'media'     // 媒体
-  | 'embed'     // 嵌入
-  | 'layout'    // 布局
-  | 'special';  // 特殊
+  | 'text' // 基础文本
+  | 'list' // 列表
+  | 'media' // 媒体
+  | 'embed' // 嵌入
+  | 'layout' // 布局
+  | 'special'; // 特殊
 
 // Block 分类映射
 const BLOCK_CATEGORIES: Record<string, BlockCategory> = {
@@ -105,7 +111,7 @@ const BLOCK_CATEGORIES: Record<string, BlockCategory> = {
   table: 'layout',
   table_row: 'layout',
 
-  synced_block: 'special'
+  synced_block: 'special',
 };
 ```
 
@@ -156,6 +162,7 @@ src/components/notion/blocks/
 ### 关键组件接口设计
 
 **1. Callout（提示框）**
+
 ```typescript
 interface CalloutProps {
   id: string;
@@ -174,6 +181,7 @@ interface CalloutProps {
 ```
 
 **2. Todo（复选框任务）**
+
 ```typescript
 interface TodoProps {
   id: string;
@@ -190,6 +198,7 @@ interface TodoProps {
 ```
 
 **3. Toggle（可折叠）**
+
 ```typescript
 interface ToggleProps {
   id: string;
@@ -209,6 +218,7 @@ interface ToggleProps {
 ```
 
 **4. Table（表格）**
+
 ```typescript
 interface TableProps {
   id: string;
@@ -226,6 +236,7 @@ interface TableProps {
 ```
 
 **5. Column Layout（分栏）**
+
 ```typescript
 interface ColumnListProps {
   id: string;
@@ -312,12 +323,30 @@ interface NotionBlock {
 }
 
 type BlockType =
-  | 'paragraph' | 'heading_1' | 'heading_2' | 'heading_3'
-  | 'bulleted_list_item' | 'numbered_list_item' | 'toggle'
-  | 'to_do' | 'quote' | 'code' | 'callout'
-  | 'image' | 'video' | 'audio' | 'file' | 'pdf'
-  | 'bookmark' | 'link_preview' | 'equation'
-  | 'divider' | 'column_list' | 'column' | 'table' | 'table_row'
+  | 'paragraph'
+  | 'heading_1'
+  | 'heading_2'
+  | 'heading_3'
+  | 'bulleted_list_item'
+  | 'numbered_list_item'
+  | 'toggle'
+  | 'to_do'
+  | 'quote'
+  | 'code'
+  | 'callout'
+  | 'image'
+  | 'video'
+  | 'audio'
+  | 'file'
+  | 'pdf'
+  | 'bookmark'
+  | 'link_preview'
+  | 'equation'
+  | 'divider'
+  | 'column_list'
+  | 'column'
+  | 'table'
+  | 'table_row'
   | 'synced_block'
   | 'unsupported';
 
@@ -343,6 +372,7 @@ interface RichText {
 ### 状态管理策略
 
 **1. 展开状态管理**
+
 ```typescript
 // src/components/notion/hooks/useToggleState.ts
 interface ToggleState {
@@ -353,9 +383,9 @@ export const useToggleState = () => {
   const [openToggles, setOpenToggles] = useState<ToggleState>({});
 
   const toggle = (id: string) => {
-    setOpenToggles(prev => ({
+    setOpenToggles((prev) => ({
       ...prev,
-      [id]: !prev[id]
+      [id]: !prev[id],
     }));
   };
 
@@ -364,6 +394,7 @@ export const useToggleState = () => {
 ```
 
 **2. Todo 状态管理**
+
 ```typescript
 // src/components/notion/hooks/useTodoState.ts
 interface TodoState {
@@ -374,9 +405,9 @@ export const useTodoState = () => {
   const [checkedTodos, setCheckedTodos] = useState<TodoState>({});
 
   const toggleTodo = (id: string, initialChecked: boolean) => {
-    setCheckedTodos(prev => ({
+    setCheckedTodos((prev) => ({
       ...prev,
-      [id]: prev[id] !== undefined ? !prev[id] : !initialChecked
+      [id]: prev[id] !== undefined ? !prev[id] : !initialChecked,
     }));
   };
 
@@ -389,6 +420,7 @@ export const useTodoState = () => {
 ```
 
 **3. 渲染上下文**
+
 ```typescript
 // src/components/notion/BlockRenderContext.tsx
 interface BlockRenderContextValue {
@@ -452,32 +484,50 @@ export const renderBlockWithChildren = (
 ### 特殊处理场景
 
 **1. 列表分组（保持现有逻辑）**
+
 ```typescript
 const groupBlocks = (blocks: NotionBlock[]): GroupedBlock[] => {
   return blocks.reduce((acc, block) => {
-    const isListItem = ['bulleted_list_item', 'numbered_list_item'].includes(block.type);
+    const isListItem = ['bulleted_list_item', 'numbered_list_item'].includes(
+      block.type
+    );
     // ... 现有的分组逻辑
   }, []);
 };
 ```
 
 **2. 表格行收集**
+
 ```typescript
-const collectTableRows = (tableBlock: NotionBlock, allBlocks: NotionBlock[]): TableRowBlock[] => {
+const collectTableRows = (
+  tableBlock: NotionBlock,
+  allBlocks: NotionBlock[]
+): TableRowBlock[] => {
   // table 的 children 需要单独处理
   // 因为 table_row 是 table 的子 block
   return allBlocks
-    .filter(b => b.type === 'table_row' && b.parent?.type === 'block_id' && b.parent?.block_id === tableBlock.id)
+    .filter(
+      (b) =>
+        b.type === 'table_row' &&
+        b.parent?.type === 'block_id' &&
+        b.parent?.block_id === tableBlock.id
+    )
     .sort((a, b) => a.created_time.localeCompare(b.created_time));
 };
 ```
 
 **3. 分栏收集**
+
 ```typescript
-const collectColumns = (columnListBlock: NotionBlock, allBlocks: NotionBlock[]): ColumnBlock[] => {
+const collectColumns = (
+  columnListBlock: NotionBlock,
+  allBlocks: NotionBlock[]
+): ColumnBlock[] => {
   // column_list 的 children 是 column blocks
   return allBlocks
-    .filter(b => b.type === 'column' && b.parent?.block_id === columnListBlock.id)
+    .filter(
+      (b) => b.type === 'column' && b.parent?.block_id === columnListBlock.id
+    )
     .sort((a, b) => a.created_time.localeCompare(b.created_time));
 };
 ```
@@ -501,6 +551,7 @@ src/components/notion/blocks/
 ```
 
 主要样式类别：
+
 - `.callout` - 提示框样式，支持多种颜色变体
 - `.todo` - 复选框任务样式
 - `.toggle` - 可折叠内容样式
@@ -540,12 +591,14 @@ src/test/notion/
 ### 测试覆盖范围
 
 **单元测试**：每个组件独立测试
+
 - 渲染正确的内容
 - Props 传递正确
 - 交互行为正确
 - 边界情况处理
 
 **集成测试**：多个组件协作测试
+
 - BlockRenderer 整体功能
 - 嵌套 block 渲染
 - 状态管理正确性
@@ -556,15 +609,15 @@ src/test/notion/
 
 ### 阶段划分
 
-| 阶段 | 内容 | 预计时间 |
-|------|------|----------|
-| 1 | 基础文本类（Callout, Todo） | 1-2天 |
-| 2 | 列表类（Toggle） | 1天 |
-| 3 | 媒体文件类（Audio, File, PDF） | 1天 |
-| 4 | 嵌入内容类（Equation, LinkPreview） | 1天 |
-| 5 | 布局类（Divider, Column, Table） | 2天 |
-| 6 | 特殊类（SyncedBlock） | 0.5天 |
-| 7 | 测试和优化 | 1天 |
+| 阶段 | 内容                                | 预计时间 |
+| ---- | ----------------------------------- | -------- |
+| 1    | 基础文本类（Callout, Todo）         | 1-2天    |
+| 2    | 列表类（Toggle）                    | 1天      |
+| 3    | 媒体文件类（Audio, File, PDF）      | 1天      |
+| 4    | 嵌入内容类（Equation, LinkPreview） | 1天      |
+| 5    | 布局类（Divider, Column, Table）    | 2天      |
+| 6    | 特殊类（SyncedBlock）               | 0.5天    |
+| 7    | 测试和优化                          | 1天      |
 
 ### 依赖包需求
 

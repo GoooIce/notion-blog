@@ -1,6 +1,7 @@
 # Code Structure
 
 ## Directory Layout
+
 ```
 src/
 ├── components/           # React components
@@ -22,21 +23,25 @@ src/
 ## Key Files and Their Purpose
 
 ### Core Notion Integration
+
 - `src/lib/notion/client.ts`: Main Notion API client with `getPostsInfos()` and `getPageData()` functions
 - `src/lib/notion/renderers.ts`: Text rendering utilities for Notion rich text content
 - `src/lib/notion/utils.ts`: Shared utilities for API handling and error management
 - `src/lib/notion/server-constants.js`: Environment variable handling and ID normalization
 
 ### Content Rendering
+
 - `src/pages/blog/[slug].tsx`: Dynamic blog post pages with SSG
 - `src/components/*.tsx`: Components for different Notion block types
 - `src/pages/api/asset.ts`: Asset proxy for Notion images/files
 
 ### Build and Deployment
+
 - `next.config.js`: Next.js configuration with Notion validation and RSS build setup
 - `src/lib/build-rss.ts`: RSS feed generation during build process
 
 ## Content Flow
+
 1. Blog posts stored as pages in Notion database
 2. `getPostsInfos()` fetches metadata for all published posts
 3. `getPageData()` retrieves full content for individual posts
@@ -44,7 +49,9 @@ src/
 5. Images and assets proxied through `/api/asset` endpoint
 
 ## Notion Database Structure
+
 Posts in Notion should have these properties:
+
 - `Published`: Checkbox for publication status
 - `Slug`: Multi-select for URL slug generation
 - `Date`: Date for post publication

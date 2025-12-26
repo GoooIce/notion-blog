@@ -9,11 +9,13 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: {
     default: 'GoooIce的MiantuNet',
-    template: '%s | GoooIce的MiantuNet'
+    template: '%s | GoooIce的MiantuNet',
   },
   description: '一个关于技术、生活与思考的个人博客',
   language: 'zh-CN',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  ),
   openGraph: {
     type: 'website',
     locale: 'zh_CN',
@@ -54,9 +56,7 @@ export default function RootLayout({
         <CircuitBackground />
         <CurrentCanvas />
         <TerminalNav />
-        <main style={{ position: 'relative', zIndex: 2 }}>
-          {children}
-        </main>
+        <main style={{ position: 'relative', zIndex: 2 }}>{children}</main>
         <Footer />
       </body>
     </html>

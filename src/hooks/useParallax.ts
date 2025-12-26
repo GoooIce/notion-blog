@@ -19,7 +19,8 @@ export const useParallax = (options: ParallaxOptions = {}) => {
 
     // Check for mobile devices and reduce parallax
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    const isReducedMotion = typeof window !== 'undefined' &&
+    const isReducedMotion =
+      typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (isMobile || isReducedMotion) {
@@ -47,14 +48,16 @@ export const useParallax = (options: ParallaxOptions = {}) => {
     // Cleanup
     return () => {
       animation.kill();
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, [speed, direction, disabled]);
 
   return elementRef;
 };
 
-export const useRevealOnScroll = (options: { delay?: number; duration?: number } = {}) => {
+export const useRevealOnScroll = (
+  options: { delay?: number; duration?: number } = {}
+) => {
   const { delay = 0, duration = 1 } = options;
   const elementRef = useRef<HTMLElement>(null);
 
@@ -137,7 +140,9 @@ export const useStaggeredReveal = (childSelector = '.stagger-item') => {
 };
 
 // Mouse parallax effect
-export const useMouseParallax = (options: { intensity?: number; disabled?: boolean } = {}) => {
+export const useMouseParallax = (
+  options: { intensity?: number; disabled?: boolean } = {}
+) => {
   const { intensity = 0.5, disabled = false } = options;
   const elementRef = useRef<HTMLElement>(null);
 
@@ -146,7 +151,8 @@ export const useMouseParallax = (options: { intensity?: number; disabled?: boole
 
     const element = elementRef.current;
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    const isReducedMotion = typeof window !== 'undefined' &&
+    const isReducedMotion =
+      typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (isMobile || isReducedMotion) {
@@ -157,10 +163,10 @@ export const useMouseParallax = (options: { intensity?: number; disabled?: boole
       const rect = element.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
-      
+
       const deltaX = (e.clientX - centerX) * intensity;
       const deltaY = (e.clientY - centerY) * intensity;
-      
+
       gsap.to(element, {
         x: deltaX,
         y: deltaY,
@@ -191,7 +197,9 @@ export const useMouseParallax = (options: { intensity?: number; disabled?: boole
 };
 
 // 3D tilt effect
-export const use3DTilt = (options: { intensity?: number; disabled?: boolean } = {}) => {
+export const use3DTilt = (
+  options: { intensity?: number; disabled?: boolean } = {}
+) => {
   const { intensity = 0.1, disabled = false } = options;
   const elementRef = useRef<HTMLElement>(null);
 
@@ -200,7 +208,8 @@ export const use3DTilt = (options: { intensity?: number; disabled?: boolean } = 
 
     const element = elementRef.current;
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    const isReducedMotion = typeof window !== 'undefined' &&
+    const isReducedMotion =
+      typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (isMobile || isReducedMotion) {
@@ -211,13 +220,13 @@ export const use3DTilt = (options: { intensity?: number; disabled?: boolean } = 
       const rect = element.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
-      
+
       const deltaX = (e.clientX - centerX) / rect.width;
       const deltaY = (e.clientY - centerY) / rect.height;
-      
+
       const rotateX = deltaY * intensity * 20;
       const rotateY = deltaX * intensity * 20;
-      
+
       gsap.to(element, {
         rotateX: -rotateX,
         rotateY: rotateY,
@@ -249,7 +258,9 @@ export const use3DTilt = (options: { intensity?: number; disabled?: boolean } = 
 };
 
 // Magnetic effect
-export const useMagneticEffect = (options: { intensity?: number; disabled?: boolean } = {}) => {
+export const useMagneticEffect = (
+  options: { intensity?: number; disabled?: boolean } = {}
+) => {
   const { intensity = 0.3, disabled = false } = options;
   const elementRef = useRef<HTMLElement>(null);
 
@@ -258,7 +269,8 @@ export const useMagneticEffect = (options: { intensity?: number; disabled?: bool
 
     const element = elementRef.current;
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    const isReducedMotion = typeof window !== 'undefined' &&
+    const isReducedMotion =
+      typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (isMobile || isReducedMotion) {
@@ -269,10 +281,10 @@ export const useMagneticEffect = (options: { intensity?: number; disabled?: bool
       const rect = element.getBoundingClientRect();
       const centerX = rect.left + rect.width / 2;
       const centerY = rect.top + rect.height / 2;
-      
+
       const deltaX = (e.clientX - centerX) * intensity;
       const deltaY = (e.clientY - centerY) * intensity;
-      
+
       gsap.to(element, {
         x: deltaX,
         y: deltaY,
@@ -305,7 +317,9 @@ export const useMagneticEffect = (options: { intensity?: number; disabled?: bool
 };
 
 // Scroll rotation effect
-export const useScrollRotate = (options: { speed?: number; disabled?: boolean } = {}) => {
+export const useScrollRotate = (
+  options: { speed?: number; disabled?: boolean } = {}
+) => {
   const { speed = 0.5, disabled = false } = options;
   const elementRef = useRef<HTMLElement>(null);
 
@@ -313,7 +327,8 @@ export const useScrollRotate = (options: { speed?: number; disabled?: boolean } 
     if (!elementRef.current || disabled) return;
 
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    const isReducedMotion = typeof window !== 'undefined' &&
+    const isReducedMotion =
+      typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (isMobile || isReducedMotion) {
@@ -345,7 +360,9 @@ export const useScrollRotate = (options: { speed?: number; disabled?: boolean } 
 };
 
 // Scale on scroll effect
-export const useScaleOnScroll = (options: { scale?: number; disabled?: boolean } = {}) => {
+export const useScaleOnScroll = (
+  options: { scale?: number; disabled?: boolean } = {}
+) => {
   const { scale = 1.2, disabled = false } = options;
   const elementRef = useRef<HTMLElement>(null);
 
@@ -353,7 +370,8 @@ export const useScaleOnScroll = (options: { scale?: number; disabled?: boolean }
     if (!elementRef.current || disabled) return;
 
     const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    const isReducedMotion = typeof window !== 'undefined' &&
+    const isReducedMotion =
+      typeof window !== 'undefined' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (isMobile || isReducedMotion) {
@@ -364,19 +382,23 @@ export const useScaleOnScroll = (options: { scale?: number; disabled?: boolean }
 
     const element = elementRef.current;
 
-    const animation = gsap.fromTo(element, {
-      scale: 1,
-    }, {
-      scale: scale,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: element,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: true,
-        invalidateOnRefresh: true,
+    const animation = gsap.fromTo(
+      element,
+      {
+        scale: 1,
       },
-    });
+      {
+        scale: scale,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: element,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true,
+          invalidateOnRefresh: true,
+        },
+      }
+    );
 
     return () => {
       animation.kill();

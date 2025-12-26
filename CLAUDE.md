@@ -170,6 +170,7 @@ The project uses **Vitest v3** for testing with React Testing Library:
 - Run single test file: `npx vitest run path/to/test.test.ts`
 
 **Test mocks** (in `src/test/setup.ts`):
+
 - `next/router`: Mocked useRouter with push, pathname, query, asPath
 - `next/legacy/image`: Mocked Image component returning an img element
 - Environment variables: `NOTION_TOKEN` and `BLOG_INDEX_ID` set to test values
@@ -264,6 +265,7 @@ Blog posts use a hybrid server/client rendering pattern:
 ### ESLint Flat Config (v9)
 
 This project uses ESLint v9 **flat config** format (`eslint.config.js`), NOT the legacy `.eslintrc.json` format. When making ESLint changes:
+
 - Edit `eslint.config.js` (not `.eslintrc.json`)
 - Use `FlatCompat` for legacy plugin compatibility
 - Configuration is in ESM format (not CommonJS)
@@ -271,11 +273,13 @@ This project uses ESLint v9 **flat config** format (`eslint.config.js`), NOT the
 ### Slug Generation Pattern
 
 Blog post slugs are generated in `src/lib/notion/client.ts:146-164`:
+
 1. Primary: Uses `Slug` multi-select property + page ID (e.g., `my-post-abc123def456`)
 2. Fallback: Uses `Page`/`title` property (lowercased, URL-safe) + page ID
 3. Page ID is always appended (32-char string without hyphens) to ensure uniqueness
 
 When parsing slugs, extract the page ID from the end:
+
 ```typescript
 const post_id = slug.split('-').pop(); // Get last element (the ID)
 ```

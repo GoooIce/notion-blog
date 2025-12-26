@@ -14,12 +14,16 @@ export default function Footer() {
         {' & '}
         <a href="https://nextjs.org" target="_blank" rel="noopener noreferrer">
           Next.js
-        </a>
-        {' '}© 王雪
+        </a>{' '}
+        © 王雪
       </p>
       <p className={styles.links}>
         2021-{new Date().getFullYear()}{' '}
-        <a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">
+        <a
+          href="https://beian.miit.gov.cn/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           冀ICP备15007337号
         </a>
       </p>

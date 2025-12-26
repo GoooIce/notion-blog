@@ -23,6 +23,9 @@ export async function GET(req: NextRequest) {
     }
   } catch (error) {
     // handleError is not available in App Router, so we'll redirect to default image
-    return NextResponse.redirect('http://localhost:3000/goooice-and-notion.png', 307);
+    return NextResponse.redirect(
+      'http://localhost:3000/goooice-and-notion.png',
+      307
+    );
   }
 }

@@ -24,9 +24,17 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: 
-    radial-gradient(circle at 20% 80%, rgba(255, 107, 157, 0.2) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(192, 107, 255, 0.2) 0%, transparent 50%);
+  background:
+    radial-gradient(
+      circle at 20% 80%,
+      rgba(255, 107, 157, 0.2) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(192, 107, 255, 0.2) 0%,
+      transparent 50%
+    );
   pointer-events: none;
   z-index: 1;
 }
@@ -189,7 +197,7 @@
 
 .postPreview:hover {
   transform: translateY(-4px);
-  box-shadow: 
+  box-shadow:
     0 20px 40px rgba(0, 0, 0, 0.1),
     0 0 30px rgba(255, 107, 157, 0.2);
 }
@@ -265,9 +273,17 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: 
-    radial-gradient(circle at 20% 80%, rgba(0, 212, 255, 0.2) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(0, 153, 255, 0.2) 0%, transparent 50%);
+  background:
+    radial-gradient(
+      circle at 20% 80%,
+      rgba(0, 212, 255, 0.2) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      rgba(0, 153, 255, 0.2) 0%,
+      transparent 50%
+    );
   pointer-events: none;
   z-index: 1;
 }
@@ -318,9 +334,17 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: 
-    radial-gradient(circle at 20% 20%, rgba(255, 107, 157, 0.03) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.03) 0%, transparent 50%);
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(255, 107, 157, 0.03) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      rgba(0, 212, 255, 0.03) 0%,
+      transparent 50%
+    );
   border-radius: var(--radius-large);
   z-index: -1;
   pointer-events: none;
@@ -504,33 +528,33 @@
     padding: 4rem 1rem;
     min-height: 30vh;
   }
-  
+
   .blogHeroContent h1 {
     font-size: 2rem;
   }
-  
+
   .postsSection {
     padding: 2rem 1rem;
   }
-  
+
   .postsGrid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
-  
+
   .postHero {
     padding: 4rem 1rem;
     min-height: 30vh;
   }
-  
+
   .postHeroContent h1 {
     font-size: 2rem;
   }
-  
+
   .post {
     padding: 2rem 1rem;
   }
-  
+
   /* Disable complex decorations on mobile */
   .floating-shapes,
   .particle-field,
@@ -538,12 +562,12 @@
   .wave-background {
     display: none;
   }
-  
+
   /* Simplify artistic effects */
   .artistic-hover-lift:hover {
     transform: translateY(-2px);
   }
-  
+
   .artistic-glow {
     box-shadow: none;
   }
@@ -553,15 +577,15 @@
   .blogHeroContent h1 {
     font-size: 1.8rem;
   }
-  
+
   .postHeroContent h1 {
     font-size: 1.8rem;
   }
-  
+
   .postTitle {
     font-size: 1.3rem;
   }
-  
+
   .postsGrid {
     gap: 1rem;
   }

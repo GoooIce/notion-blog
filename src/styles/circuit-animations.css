@@ -11,7 +11,8 @@
 }
 
 @keyframes circuit-pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.1;
   }
   50% {
@@ -20,16 +21,19 @@
 }
 
 @keyframes blink {
-  0%, 50% {
+  0%,
+  50% {
     opacity: 1;
   }
-  51%, 100% {
+  51%,
+  100% {
     opacity: 0;
   }
 }
 
 @keyframes glow-pulse {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow:
       0 0 5px rgba(0, 255, 65, 0.1),
       0 0 10px rgba(0, 255, 65, 0.05);

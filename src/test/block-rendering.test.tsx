@@ -40,7 +40,11 @@ vi.mock('next/legacy/image', () => ({
 }));
 
 // Helper to create mock Notion blocks
-const createBlock = (type: string, content: any, id: string = 'test-block-id') => ({
+const createBlock = (
+  type: string,
+  content: any,
+  id: string = 'test-block-id'
+) => ({
   id,
   type,
   [type]: content,
@@ -95,7 +99,9 @@ describe('Notion Block Rendering Tests', () => {
 
       renderPostWithBlocks([block]);
 
-      expect(screen.getByText('This is a simple paragraph.')).toBeInTheDocument();
+      expect(
+        screen.getByText('This is a simple paragraph.')
+      ).toBeInTheDocument();
     });
 
     it('should render a paragraph with multiple text elements', () => {
@@ -115,12 +121,16 @@ describe('Notion Block Rendering Tests', () => {
 
     it('should render paragraph with Chinese text', () => {
       const block = createBlock('paragraph', {
-        rich_text: [createRichText('很久没有敲键盘写长文，站在电脑前脑子一片空白。')],
+        rich_text: [
+          createRichText('很久没有敲键盘写长文，站在电脑前脑子一片空白。'),
+        ],
       });
 
       renderPostWithBlocks([block]);
 
-      expect(screen.getByText('很久没有敲键盘写长文，站在电脑前脑子一片空白。')).toBeInTheDocument();
+      expect(
+        screen.getByText('很久没有敲键盘写长文，站在电脑前脑子一片空白。')
+      ).toBeInTheDocument();
     });
 
     it('should render paragraph with italic text', () => {
@@ -168,7 +178,10 @@ describe('Notion Block Rendering Tests', () => {
         rich_text: [
           {
             type: 'text',
-            text: { content: 'Link text', link: { url: 'https://example.com' } },
+            text: {
+              content: 'Link text',
+              link: { url: 'https://example.com' },
+            },
             annotations: {
               bold: false,
               italic: false,
@@ -288,7 +301,9 @@ describe('Notion Block Rendering Tests', () => {
 
       renderPostWithBlocks([block]);
 
-      expect(screen.getByText('椭圆机、平衡板、滑雪模拟板')).toBeInTheDocument();
+      expect(
+        screen.getByText('椭圆机、平衡板、滑雪模拟板')
+      ).toBeInTheDocument();
     });
   });
 
@@ -320,7 +335,9 @@ describe('Notion Block Rendering Tests', () => {
 
       renderPostWithBlocks([block]);
 
-      expect(screen.getByText('既要省钱又要屎山能跑，这种思想很危险。')).toBeInTheDocument();
+      expect(
+        screen.getByText('既要省钱又要屎山能跑，这种思想很危险。')
+      ).toBeInTheDocument();
     });
   });
 
@@ -383,7 +400,10 @@ describe('Notion Block Rendering Tests', () => {
 
       const images = container.querySelectorAll('img');
       expect(images.length).toBeGreaterThan(0);
-      expect(images[0]).toHaveAttribute('src', expect.stringContaining('api/asset'));
+      expect(images[0]).toHaveAttribute(
+        'src',
+        expect.stringContaining('api/asset')
+      );
     });
 
     it('should render video block', () => {
@@ -462,9 +482,15 @@ describe('Notion Block Rendering Tests', () => {
     it('should render multiple blocks in correct order', () => {
       const blocks = [
         createBlock('heading_1', { text: [createRichText('Title')] }),
-        createBlock('paragraph', { rich_text: [createRichText('First paragraph')] }),
-        createBlock('paragraph', { rich_text: [createRichText('Second paragraph')] }),
-        createBlock('bulleted_list_item', { rich_text: [createRichText('List item')] }),
+        createBlock('paragraph', {
+          rich_text: [createRichText('First paragraph')],
+        }),
+        createBlock('paragraph', {
+          rich_text: [createRichText('Second paragraph')],
+        }),
+        createBlock('bulleted_list_item', {
+          rich_text: [createRichText('List item')],
+        }),
       ];
 
       const { container } = renderPostWithBlocks(blocks);
@@ -480,16 +506,28 @@ describe('Notion Block Rendering Tests', () => {
     it('should render blog post from user example', () => {
       const blocks = [
         createBlock('paragraph', {
-          rich_text: [createRichText('很久没有敲键盘写长文，站在电脑前脑子一片空白。')],
+          rich_text: [
+            createRichText('很久没有敲键盘写长文，站在电脑前脑子一片空白。'),
+          ],
         }),
         createBlock('paragraph', {
-          rich_text: [createRichText('最近购买很多站立办公的物件：椭圆机、平衡板、滑雪模拟板。')],
+          rich_text: [
+            createRichText(
+              '最近购买很多站立办公的物件：椭圆机、平衡板、滑雪模拟板。'
+            ),
+          ],
         }),
         createBlock('paragraph', {
-          rich_text: [createRichText('又开始了新的一轮心理健身房，拖延训练营，目标回本。')],
+          rich_text: [
+            createRichText(
+              '又开始了新的一轮心理健身房，拖延训练营，目标回本。'
+            ),
+          ],
         }),
         createBlock('paragraph', {
-          rich_text: [createRichText('blog 更新ui， glm4.7 的审美真的是阔以。')],
+          rich_text: [
+            createRichText('blog 更新ui， glm4.7 的审美真的是阔以。'),
+          ],
         }),
         createBlock('paragraph', {
           rich_text: [createRichText('明天娃开家长会。')],
@@ -540,7 +578,9 @@ describe('Notion Block Rendering Tests', () => {
       const { container } = renderPostWithBlocks([]);
 
       // Use the CSS module class name
-      expect(container.querySelector(`.${postStyles.emptyContent}`)).toBeInTheDocument();
+      expect(
+        container.querySelector(`.${postStyles.emptyContent}`)
+      ).toBeInTheDocument();
     });
   });
 
@@ -605,7 +645,9 @@ describe('Notion Block Rendering Tests', () => {
       const codeHeader = container.querySelector(`.${postStyles.codeHeader}`);
       expect(codeHeader).toBeInTheDocument();
 
-      const codeLanguage = container.querySelector(`.${postStyles.codeLanguage}`);
+      const codeLanguage = container.querySelector(
+        `.${postStyles.codeLanguage}`
+      );
       expect(codeLanguage).toBeInTheDocument();
       expect(codeLanguage).toHaveTextContent('javascript');
     });

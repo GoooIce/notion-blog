@@ -29,7 +29,7 @@ export const Toggle: React.FC<ToggleProps> = ({
   id,
   rich_text = [],
   color = 'default',
-  children
+  children,
 }) => {
   const { isOpen, toggle } = useToggleState();
   const normalizedColor = normalizeColor(color);
@@ -49,10 +49,14 @@ export const Toggle: React.FC<ToggleProps> = ({
         aria-label={ariaLabel}
         aria-controls={`toggle-content-${id}`}
       >
-        <span className={`${styles.toggleArrow} ${open ? styles.toggleArrowOpen : ''}`}>
+        <span
+          className={`${styles.toggleArrow} ${open ? styles.toggleArrowOpen : ''}`}
+        >
           ▶
         </span>
-        <span className={`${styles.toggleText} ${styles[`toggleText--${normalizedColor}`]}`}>
+        <span
+          className={`${styles.toggleText} ${styles[`toggleText--${normalizedColor}`]}`}
+        >
           {textBlock(rich_text, false, id)}
         </span>
       </button>

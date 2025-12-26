@@ -16,15 +16,18 @@ export const useToggleState = (): UseToggleStateReturn => {
   const [openToggles, setOpenToggles] = useState<ToggleState>({});
 
   const toggle = useCallback((id: string) => {
-    setOpenToggles(prev => ({
+    setOpenToggles((prev) => ({
       ...prev,
-      [id]: prev[id] !== undefined ? !prev[id] : true
+      [id]: prev[id] !== undefined ? !prev[id] : true,
     }));
   }, []);
 
-  const isOpen = useCallback((id: string, defaultOpen = false) => {
-    return openToggles[id] !== undefined ? openToggles[id] : defaultOpen;
-  }, [openToggles]);
+  const isOpen = useCallback(
+    (id: string, defaultOpen = false) => {
+      return openToggles[id] !== undefined ? openToggles[id] : defaultOpen;
+    },
+    [openToggles]
+  );
 
   return { openToggles, toggle, isOpen };
 };

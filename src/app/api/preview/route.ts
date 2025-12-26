@@ -15,7 +15,10 @@ export async function GET(req: NextRequest) {
   const postsTable = await getPostsInfos();
 
   if (!postsTable) {
-    return NextResponse.json({ message: 'Failed to fetch posts' }, { status: 401 });
+    return NextResponse.json(
+      { message: 'Failed to fetch posts' },
+      { status: 401 }
+    );
   }
 
   const response = NextResponse.redirect(new URL('/blog', req.url), 307);

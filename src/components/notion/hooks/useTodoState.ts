@@ -15,15 +15,18 @@ export const useTodoState = (): UseTodoStateReturn => {
   const [checkedTodos, setCheckedTodos] = useState<TodoState>({});
 
   const toggleTodo = useCallback((id: string, initialChecked: boolean) => {
-    setCheckedTodos(prev => ({
+    setCheckedTodos((prev) => ({
       ...prev,
-      [id]: prev[id] !== undefined ? !prev[id] : !initialChecked
+      [id]: prev[id] !== undefined ? !prev[id] : !initialChecked,
     }));
   }, []);
 
-  const isChecked = useCallback((id: string, initialChecked: boolean) => {
-    return checkedTodos[id] !== undefined ? checkedTodos[id] : initialChecked;
-  }, [checkedTodos]);
+  const isChecked = useCallback(
+    (id: string, initialChecked: boolean) => {
+      return checkedTodos[id] !== undefined ? checkedTodos[id] : initialChecked;
+    },
+    [checkedTodos]
+  );
 
   return { toggleTodo, isChecked };
 };

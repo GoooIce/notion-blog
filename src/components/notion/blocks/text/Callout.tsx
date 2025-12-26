@@ -30,18 +30,20 @@ export const Callout: React.FC<CalloutProps> = ({
   id,
   rich_text = [],
   icon,
-  color = 'default'
+  color = 'default',
 }) => {
   const normalizedColor = normalizeColor(color);
 
-  const iconContent = icon?.emoji || (icon?.external?.url && (
-    <img
-      src={icon.external.url}
-      alt=""
-      className={styles.calloutIcon}
-      loading="lazy"
-    />
-  ));
+  const iconContent =
+    icon?.emoji ||
+    (icon?.external?.url && (
+      <img
+        src={icon.external.url}
+        alt=""
+        className={styles.calloutIcon}
+        loading="lazy"
+      />
+    ));
 
   return (
     <div
@@ -50,10 +52,7 @@ export const Callout: React.FC<CalloutProps> = ({
       aria-label="Callout"
     >
       {iconContent && (
-        <span
-          className={styles.calloutIconWrapper}
-          aria-hidden="true"
-        >
+        <span className={styles.calloutIconWrapper} aria-hidden="true">
           {iconContent}
         </span>
       )}

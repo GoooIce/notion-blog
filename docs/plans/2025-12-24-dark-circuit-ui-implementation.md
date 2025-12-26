@@ -5,6 +5,7 @@
 **Goal:** 将博客从艺术彩色风格重新设计为暗黑工业电路板风格
 
 **Architecture:**
+
 1. 创建独立的电路板主题 CSS 文件（circuit-theme.css）
 2. 创建新的电路板风格组件（ChipCard、TerminalNav、CurrentCanvas）
 3. 更新页面布局使用 CSS Grid 网格系统
@@ -17,6 +18,7 @@
 ## Task 1: 创建电路板主题核心样式
 
 **Files:**
+
 - Create: `src/styles/circuit-theme.css`
 
 **Step 1: 创建 CSS 变量定义**
@@ -34,7 +36,7 @@
   --circuit-active: #00ff41;
 
   /* Accent colors */
-  --accent-primary: #00ff41;  /* Terminal green */
+  --accent-primary: #00ff41; /* Terminal green */
   --accent-secondary: #00d4ff; /* Electric blue */
 
   /* Text colors */
@@ -178,6 +180,7 @@ git commit -m "feat: create circuit board theme base styles"
 ## Task 2: 创建网格布局样式
 
 **Files:**
+
 - Create: `src/styles/circuit-grid.css`
 
 **Step 1: 创建网格布局系统**
@@ -273,6 +276,7 @@ git commit -m "feat: add circuit grid layout system"
 ## Task 3: 创建动画定义
 
 **Files:**
+
 - Create: `src/styles/circuit-animations.css`
 
 **Step 1: 创建动画关键帧和工具类**
@@ -291,7 +295,8 @@ git commit -m "feat: add circuit grid layout system"
 }
 
 @keyframes circuit-pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.1;
   }
   50% {
@@ -300,16 +305,19 @@ git commit -m "feat: add circuit grid layout system"
 }
 
 @keyframes blink {
-  0%, 50% {
+  0%,
+  50% {
     opacity: 1;
   }
-  51%, 100% {
+  51%,
+  100% {
     opacity: 0;
   }
 }
 
 @keyframes glow-pulse {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow:
       0 0 5px rgba(0, 255, 65, 0.1),
       0 0 10px rgba(0, 255, 65, 0.05);
@@ -403,6 +411,7 @@ git commit -m "feat: add circuit animation keyframes and utilities"
 ## Task 4: 创建芯片卡片组件
 
 **Files:**
+
 - Create: `src/components/circuit/ChipCard.tsx`
 - Create: `src/styles/chip-card.module.css`
 
@@ -608,6 +617,7 @@ git commit -m "feat: add chip card component for circuit grid"
 ## Task 5: 创建终端导航组件
 
 **Files:**
+
 - Create: `src/components/circuit/TerminalNav.tsx`
 - Create: `src/styles/terminal-nav.module.css`
 
@@ -790,6 +800,7 @@ git commit -m "feat: add terminal-style navigation component"
 ## Task 6: 创建电流追踪 Canvas 组件
 
 **Files:**
+
 - Create: `src/components/circuit/CurrentCanvas.tsx`
 
 **Step 1: 创建电流 Canvas 组件**
@@ -872,7 +883,7 @@ export default function CurrentCanvas() {
       // Update and draw paths
       pathsRef.current = pathsRef.current.filter((path) => {
         // Update ages
-        path.points.forEach((p) => p.age += 1);
+        path.points.forEach((p) => (p.age += 1));
 
         // Draw path
         if (path.points.length >= 2) {
@@ -948,6 +959,7 @@ git commit -m "feat: add mouse current tracking canvas component"
 ## Task 7: 创建电路板背景组件
 
 **Files:**
+
 - Create: `src/components/circuit/CircuitBackground.tsx`
 
 **Step 1: 创建静态电路板背景**
@@ -1042,6 +1054,7 @@ git commit -m "feat: add static circuit board background component"
 ## Task 8: 更新根布局应用新主题
 
 **Files:**
+
 - Modify: `src/app/layout.tsx`
 
 **Step 1: 更新 layout.tsx**
@@ -1059,11 +1072,13 @@ import { Metadata } from 'next';
 export const metadata: Metadata = {
   title: {
     default: 'GoooIce的MiantuNet',
-    template: '%s | GoooIce的MiantuNet'
+    template: '%s | GoooIce的MiantuNet',
   },
   description: '一个关于技术、生活与思考的个人博客',
   language: 'zh-CN',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+  ),
   openGraph: {
     type: 'website',
     locale: 'zh_CN',
@@ -1097,9 +1112,7 @@ export default function RootLayout({
         <CircuitBackground />
         <CurrentCanvas />
         <TerminalNav />
-        <main style={{ position: 'relative', zIndex: 2 }}>
-          {children}
-        </main>
+        <main style={{ position: 'relative', zIndex: 2 }}>{children}</main>
         <Footer />
       </body>
     </html>
@@ -1120,6 +1133,7 @@ git commit -m "feat: apply circuit theme to root layout"
 ## Task 9: 更新首页使用网格布局
 
 **Files:**
+
 - Modify: `src/app/page.tsx`
 - Create: `src/app/components/CircuitHomePage.tsx`
 - Create: `src/styles/circuit-home.module.css`
@@ -1311,6 +1325,7 @@ git commit -m "feat: update homepage with circuit grid layout"
 ## Task 10: 更新博客列表页
 
 **Files:**
+
 - Modify: `src/app/blog/page.tsx`
 - Create: `src/app/blog/components/CircuitBlogPage.tsx`
 
@@ -1386,6 +1401,7 @@ git commit -m "feat: update blog listing page with circuit layout"
 ## Task 11: 更新单篇文章页面样式
 
 **Files:**
+
 - Create: `src/styles/circuit-post.module.css`
 - Modify: `src/app/blog/[slug]/BlogPostClient.tsx`
 
@@ -1528,6 +1544,7 @@ git commit -m "feat: add circuit board post page styles"
 ## Task 12: 移除旧的装饰组件
 
 **Files:**
+
 - Remove: `src/components/decorations/ParticleField.tsx`
 - Remove: `src/components/decorations/MorphingBlob.tsx`
 - Remove: `src/components/decorations/WaveBackground.tsx`
@@ -1565,6 +1582,7 @@ git commit -m "refactor: remove old decoration components"
 ## Task 13: 清理旧的颜色变量
 
 **Files:**
+
 - Modify: `src/styles/global.css`
 
 **Step 1: 简化 global.css**
@@ -1690,6 +1708,7 @@ git commit -m "refactor: simplify global.css for circuit theme"
 ## Task 14: 更新页脚样式
 
 **Files:**
+
 - Modify: `src/components/footer.tsx`
 
 **Step 1: 更新 Footer 组件使用终端风格**
@@ -1709,8 +1728,7 @@ export default function Footer() {
       <p className={styles.links}>
         <a href="https://github.com" target="_blank" rel="noopener">
           [github]
-        </a>
-        {' '}
+        </a>{' '}
         <a href="https://twitter.com" target="_blank" rel="noopener">
           [twitter]
         </a>
@@ -1784,6 +1802,7 @@ npm run dev
 ```
 
 在浏览器中打开 `http://localhost:3000` 并验证：
+
 - [ ] 首页显示网格布局的芯片卡片
 - [ ] 导航栏显示终端风格
 - [ ] 鼠标移动时有电流追踪效果
@@ -1858,6 +1877,7 @@ git push origin new-ui
 **预计时间:** 2-3 小时
 
 **风险提示:**
+
 - Canvas 动画可能影响性能，已通过帧率限制和条件渲染优化
 - 移动端可能需要额外的样式调整
 - 需要确保 Notion 内容渲染与暗色主题兼容
