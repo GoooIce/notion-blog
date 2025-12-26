@@ -7,8 +7,8 @@ export async function GET() {
     const blogPosts = await getPostsInfos();
 
     // Sort posts by date (newest first)
-    const sortedPosts = blogPosts.sort((a, b) =>
-      new Date(b.date).getTime() - new Date(a.date).getTime()
+    const sortedPosts = blogPosts.sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
 
     // Generate RSS XML
@@ -32,7 +32,8 @@ export async function GET() {
 
 function generateRSS(posts: any[]) {
   const NOW = new Date().toISOString();
-  const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://your-domain.com';
+  const SITE_URL =
+    process.env.NEXT_PUBLIC_SITE_URL || 'https://your-domain.com';
 
   function escapeXml(text: string): string {
     return text
@@ -43,7 +44,9 @@ function generateRSS(posts: any[]) {
       .replace(/'/g, '&apos;');
   }
 
-  const items = posts.map(post => `
+  const items = posts
+    .map(
+      (post) => `
     <item>
       <title>${escapeXml(post.title)}</title>
       <link>${SITE_URL}/blog/${post.slug}</link>
@@ -51,7 +54,9 @@ function generateRSS(posts: any[]) {
       <pubDate>${new Date(post.date).toUTCString()}</pubDate>
       <description>${escapeXml(post.preview || '')}</description>
     </item>
-  `).join('');
+  `
+    )
+    .join('');
 
   return `<?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0"

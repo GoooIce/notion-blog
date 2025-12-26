@@ -1,0 +1,15 @@
+.columnList {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  margin: 1rem 0;
+  width: 100%;
+}
+
+/* 响应式：小屏幕变为单列 */
+@media (max-width: 768px) {
+  .columnList {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}

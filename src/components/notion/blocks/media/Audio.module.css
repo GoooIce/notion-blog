@@ -1,0 +1,20 @@
+.audio {
+  margin: 1rem 0;
+}
+
+.audioPlayer {
+  width: 100%;
+  max-width: 600px;
+}
+
+.audioPlayer:focus {
+  outline: 2px solid var(--accent-color, #000);
+  outline-offset: 2px;
+}
+
+.audioCaption {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary, #787774);
+  line-height: 1.4;
+}

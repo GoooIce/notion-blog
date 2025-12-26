@@ -75,7 +75,7 @@ export default function CurrentCanvas() {
       // Update and draw paths
       pathsRef.current = pathsRef.current.filter((path) => {
         // Update ages
-        path.points.forEach((p) => p.age += 1);
+        path.points.forEach((p) => (p.age += 1));
 
         // Draw path
         if (path.points.length >= 2) {

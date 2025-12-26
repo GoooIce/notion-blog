@@ -1,6 +1,7 @@
 # Suggested Commands
 
 ## Development Commands
+
 ```bash
 # Start development server
 npm run dev
@@ -13,6 +14,7 @@ npm start
 ```
 
 ## Code Quality Commands
+
 ```bash
 # Format code with Prettier
 npm run format
@@ -28,6 +30,7 @@ npm run lint-staged
 ```
 
 ## Testing Commands
+
 ```bash
 # Run tests in watch mode
 npm run test
@@ -40,6 +43,7 @@ npm run test:ui
 ```
 
 ## Backup and Restore Commands
+
 ```bash
 # Create backup using scripts/backup.sh
 npm run backup
@@ -49,6 +53,7 @@ npm run restore
 ```
 
 ## System Commands (Darwin/macOS)
+
 ```bash
 # List files with details
 ls -la
@@ -79,6 +84,7 @@ mkdir -p new/directory/path
 ```
 
 ## Useful Project-Specific Commands
+
 ```bash
 # Clean cache files
 rm -f .blog_index_data .blog_index_data_previews

@@ -1,0 +1,28 @@
+.syncedBlock {
+  position: relative;
+  padding: 1rem;
+  margin: 1rem 0;
+  border: 1px dashed var(--circuit-idle, rgba(255, 255, 255, 0.2));
+  border-radius: 0.5rem;
+  background-color: var(--circuit-active, rgba(255, 255, 255, 0.02));
+}
+
+.syncedBlockIcon {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  font-size: 1rem;
+  opacity: 0.5;
+}
+
+.syncedBlockContent {
+  /* 内容区域 */
+}
+
+/* 响应式：小屏幕调整 */
+@media (max-width: 768px) {
+  .syncedBlock {
+    padding: 0.75rem;
+    margin: 0.75rem 0;
+  }
+}

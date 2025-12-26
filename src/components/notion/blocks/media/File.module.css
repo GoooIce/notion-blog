@@ -1,0 +1,48 @@
+.file {
+  margin: 1rem 0;
+}
+
+.fileLink {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  max-width: 400px;
+  background-color: var(--bg-secondary, #f7f6f3);
+  border-radius: 0.375rem;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+.fileLink:hover {
+  background-color: var(--bg-tertiary, #efefef);
+}
+
+.fileLink:focus {
+  outline: 2px solid var(--accent-color, #000);
+  outline-offset: 2px;
+}
+
+.fileIcon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.fileInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.fileName {
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: var(--text-primary, #37352f);
+}
+
+.fileCaption {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary, #787774);
+  line-height: 1.4;
+}

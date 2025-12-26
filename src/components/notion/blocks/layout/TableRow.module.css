@@ -1,0 +1,29 @@
+.tableRow {
+  border-bottom: 1px solid var(--circuit-idle, rgba(255, 255, 255, 0.1));
+}
+
+.tableRow:last-child {
+  border-bottom: none;
+}
+
+.tableCell {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.tableHeaderCell {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  background-color: var(--circuit-active, rgba(255, 255, 255, 0.05));
+}
+
+/* 响应式：小屏幕调整字体和内边距 */
+@media (max-width: 768px) {
+  .tableCell,
+  .tableHeaderCell {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9em;
+  }
+}

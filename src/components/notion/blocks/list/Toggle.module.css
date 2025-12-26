@@ -1,0 +1,78 @@
+.toggle {
+  margin: 0.5rem 0;
+}
+
+.toggleHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.25rem 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+}
+
+.toggleArrow {
+  flex-shrink: 0;
+  display: inline-block;
+  transition: transform 0.2s ease;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+}
+
+.toggleArrowOpen {
+  transform: rotate(90deg);
+}
+
+.toggleText {
+  flex: 1;
+  line-height: 1.5;
+}
+
+.toggleText--default {
+  color: inherit;
+}
+
+.toggleText--gray {
+  color: #9b9a97;
+}
+
+.toggleText--brown {
+  color: #64473a;
+}
+
+.toggleText--orange {
+  color: #d9730d;
+}
+
+.toggleText--yellow {
+  color: #dfab01;
+}
+
+.toggleText--green {
+  color: #0f7b6c;
+}
+
+.toggleText--blue {
+  color: #0f6cbd;
+}
+
+.toggleText--purple {
+  color: #6940a5;
+}
+
+.toggleText--pink {
+  color: #ad1a72;
+}
+
+.toggleText--red {
+  color: #e03e3e;
+}
+
+.toggleContent {
+  padding-left: 1.25rem;
+  margin-top: 0.25rem;
+}

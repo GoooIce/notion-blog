@@ -1,0 +1,30 @@
+.equationInline {
+  display: inline;
+  padding: 0 0.2em;
+}
+
+.equationBlock {
+  display: block;
+  margin: 1em 0;
+  overflow-x: auto;
+}
+
+/* KaTeX override for better integration */
+.equationBlock .katex {
+  font-size: 1.1em;
+}
+
+.equationInline .katex {
+  font-size: 1em;
+}
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+  .equationBlock .katex {
+    font-size: 1em;
+  }
+
+  .equationInline .katex {
+    font-size: 0.95em;
+  }
+}

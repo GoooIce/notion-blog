@@ -84,7 +84,7 @@ function richText(richText: {}, key): React.ReactNode {
   return child;
 }
 
-export function textBlock(text = [], noPTag = false, mainKey) {
+export function textBlock(text: any[] = [], noPTag = false, mainKey: any) {
   const children: React.ReactNode[] = [];
   let key = 0;
 
@@ -95,7 +95,6 @@ export function textBlock(text = [], noPTag = false, mainKey) {
   return React.createElement(
     noPTag ? React.Fragment : components.p,
     { key: mainKey },
-    ...children,
-    noPTag
+    ...children
   );
 }
