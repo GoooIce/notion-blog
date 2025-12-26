@@ -9,6 +9,7 @@ import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Callout } from '../../../components/notion/blocks/text/Callout';
 import { Todo } from '../../../components/notion/blocks/text/Todo';
+import { Toggle } from '../../../components/notion/blocks/list/Toggle';
 
 interface BlogPostClientProps {
   post: any;
@@ -468,6 +469,22 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview
                     if (!todoProps) return null;
                     const { rich_text = [], checked, color } = todoProps;
                     return <Todo key={id} id={id} rich_text={rich_text} checked={checked} color={color} />;
+                  },
+                  toggle: () => {
+                    const toggleProps = block.toggle;
+                    if (!toggleProps) return null;
+                    const { rich_text = [], color } = toggleProps;
+
+                    // Render children blocks if they exist
+                    const children = block.children && block.children.length > 0
+                      ? block.children.map((childBlock: any) => renderSingleBlock(childBlock))
+                      : null;
+
+                    return (
+                      <Toggle key={id} id={id} rich_text={rich_text} color={color}>
+                        {children}
+                      </Toggle>
+                    );
                   },
                 };
 
