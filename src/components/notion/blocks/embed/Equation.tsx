@@ -28,10 +28,11 @@ export const Equation: React.FC<EquationProps> = ({
   return (
     <span
       role="math"
+      id={id}
       className={inline ? styles.equationInline : styles.equationBlock}
       aria-label={ariaLabel}
     >
-      <MathComponent math={expression} />
+      <MathComponent math={expression} errorColor={'#cc0000'} />
     </span>
   );
 };

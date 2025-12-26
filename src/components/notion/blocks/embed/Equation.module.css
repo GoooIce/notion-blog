@@ -17,3 +17,14 @@
 .equationInline .katex {
   font-size: 1em;
 }
+
+/* Mobile responsive */
+@media (max-width: 640px) {
+  .equationBlock .katex {
+    font-size: 1em;
+  }
+
+  .equationInline .katex {
+    font-size: 0.95em;
+  }
+}
