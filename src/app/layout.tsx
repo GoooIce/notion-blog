@@ -1,6 +1,5 @@
 import '../styles/circuit-theme.css';
 import '../styles/circuit-animations.css';
-import 'katex/dist/katex.css';
 import CircuitBackground from '../components/circuit/CircuitBackground';
 import CurrentCanvas from '../components/circuit/CurrentCanvas';
 import TerminalNav from '../components/circuit/TerminalNav';
@@ -43,7 +42,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="zh-cmn-Hans">
-      <head />
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/katex@0.16.27/dist/katex.min.css"
+          integrity="sha384-Pu5+C18nP5dwykLJOhd2U4Xen7rjScHN/qusop27hdd2drI+lL5KvX7YntvT8yew"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body>
         <CircuitBackground />
         <CurrentCanvas />
