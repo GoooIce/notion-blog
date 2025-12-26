@@ -10,6 +10,9 @@ import { useRouter } from 'next/navigation';
 import { Callout } from '../../../components/notion/blocks/text/Callout';
 import { Todo } from '../../../components/notion/blocks/text/Todo';
 import { Toggle } from '../../../components/notion/blocks/list/Toggle';
+import { Audio } from '../../../components/notion/blocks/media/Audio';
+import { File } from '../../../components/notion/blocks/media/File';
+import { Pdf } from '../../../components/notion/blocks/media/Pdf';
 
 interface BlogPostClientProps {
   post: any;
@@ -612,6 +615,45 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({
                       >
                         {children}
                       </Toggle>
+                    );
+                  },
+                  audio: () => {
+                    const audioProps = block.audio;
+                    if (!audioProps) return null;
+                    const { caption = [], audio } = audioProps;
+                    return (
+                      <Audio
+                        key={id}
+                        id={id}
+                        caption={caption}
+                        audio={audio}
+                      />
+                    );
+                  },
+                  file: () => {
+                    const fileProps = block.file;
+                    if (!fileProps) return null;
+                    const { caption = [], file } = fileProps;
+                    return (
+                      <File
+                        key={id}
+                        id={id}
+                        caption={caption}
+                        file={file}
+                      />
+                    );
+                  },
+                  pdf: () => {
+                    const pdfProps = block.pdf;
+                    if (!pdfProps) return null;
+                    const { caption = [], pdf } = pdfProps;
+                    return (
+                      <Pdf
+                        key={id}
+                        id={id}
+                        caption={caption}
+                        pdf={pdf}
+                      />
                     );
                   },
                 };
