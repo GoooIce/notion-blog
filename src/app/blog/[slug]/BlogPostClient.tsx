@@ -7,6 +7,8 @@ import postStyles from '../../../styles/blog-post.module.css';
 import { textBlock } from '../../../lib/notion/renderers';
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { Callout } from '../../../components/notion/blocks/text/Callout';
+import { Todo } from '../../../components/notion/blocks/text/Todo';
 
 interface BlogPostClientProps {
   post: any;
@@ -454,6 +456,18 @@ const BlogPostClient: React.FC<BlogPostClientProps> = ({ post, redirect, preview
                         {cover && <img src={cover} alt="" className={postStyles.bookmarkCover} />}
                       </a>
                     );
+                  },
+                  callout: () => {
+                    const calloutProps = block.callout;
+                    if (!calloutProps) return null;
+                    const { rich_text = [], icon, color } = calloutProps;
+                    return <Callout key={id} id={id} rich_text={rich_text} icon={icon} color={color} />;
+                  },
+                  to_do: () => {
+                    const todoProps = block.to_do;
+                    if (!todoProps) return null;
+                    const { rich_text = [], checked, color } = todoProps;
+                    return <Todo key={id} id={id} rich_text={rich_text} checked={checked} color={color} />;
                   },
                 };
 
