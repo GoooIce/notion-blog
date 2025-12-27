@@ -8,7 +8,10 @@ interface FileProps {
   id: string;
   caption?: Array<any>;
   file?: {
-    type: 'file' | 'external';
+    url?: string;
+    expiry_time?: string;
+    // Notion API may also return nested structure
+    type?: 'file' | 'external';
     file?: {
       url: string;
       expiry_time: string;
@@ -16,7 +19,7 @@ interface FileProps {
     external?: {
       url: string;
     };
-    name: string;
+    name?: string;
   };
 }
 
@@ -40,14 +43,34 @@ const getFileIcon = (fileName: string): string => {
 };
 
 export const File: React.FC<FileProps> = ({ id, caption = [], file }) => {
-  // Get URL based on storage type
-  const fileUrl = file?.type === 'file' ? file?.file?.url : file?.external?.url;
+  // Get URL - handle both flat and nested structures
+  let fileUrl = file?.url;
+  if (!fileUrl && file?.type === 'file') {
+    fileUrl = file?.file?.url;
+  } else if (!fileUrl && file?.type === 'external') {
+    fileUrl = file?.external?.url;
+  }
 
   if (!fileUrl) {
     return null;
   }
 
-  const fileName = file?.name || '未知文件';
+  // Extract file name from URL or use provided name
+  let fileName = file?.name;
+  if (!fileName && fileUrl) {
+    try {
+      const urlObj = new URL(fileUrl);
+      const pathname = urlObj.pathname;
+      const fileNameWithParams = pathname.split('/').pop() || '';
+      fileName = fileNameWithParams.split('?')[0] || '未知文件';
+    } catch {
+      fileName = '未知文件';
+    }
+  }
+  if (!fileName) {
+    fileName = '未知文件';
+  }
+
   const fileIcon = getFileIcon(fileName);
 
   // Generate accessibility label
